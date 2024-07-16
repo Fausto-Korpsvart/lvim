@@ -707,6 +707,7 @@ config.mini_clue = function()
                 { mode = "x", keys = "y" },
                 { mode = "n", keys = "c" },
                 { mode = "x", keys = "c" },
+                { mode = "n", keys = "m" },
             },
             clues = {
                 mini_clue.gen_clues.builtin_completion(),

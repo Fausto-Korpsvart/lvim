@@ -580,6 +580,10 @@ modules["gennaro-tedesco/nvim-peekup"] = {
     config = editor_config.nvim_peekup,
 }
 
+modules["MattesGroeger/vim-bookmarks"] = {
+    config = editor_config.vim_bookmarks,
+}
+
 modules["kevinhwang91/nvim-hlslens"] = {
     commit = funcs.get_commit("nvim-hlslens", plugins_snapshot),
     event = {
