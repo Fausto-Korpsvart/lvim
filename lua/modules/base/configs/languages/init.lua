@@ -18,7 +18,7 @@ config.mason_nvim = function()
     )
     vim.api.nvim_create_user_command("LspHover", "lua vim.lsp.buf.hover()", {})
     vim.api.nvim_create_user_command("LspRename", "lua vim.lsp.buf.rename()", {})
-    vim.api.nvim_create_user_command("LspFormat", "lua vim.lsp.buf.format {async = true}", {})
+    vim.api.nvim_create_user_command("LspFormat", "lua vim.lsp.buf.format {async = false}", {})
     -- vim.api.nvim_create_user_command("LspFormatRange", function()
     --     local start_row, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
     --     local end_row, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
@@ -131,7 +131,6 @@ config.neotest = function()
                 args = { "--log-level", "DEBUG" },
                 runner = "pytest",
             }),
-            require("neotest-haskell"),
             require("neotest-elixir"),
             require("neotest-dart")({
                 command = "flutter",
@@ -493,21 +492,21 @@ config.nvim_treesitter = function()
             disable_virtual_text = true,
         },
     })
-    local offset_first_n = function(match, _, _, pred, metadata)
-        ---@cast pred integer[]
-        local capture_id = pred[2]
-        if not metadata[capture_id] then
-            metadata[capture_id] = {}
-        end
-
-        local range = metadata[capture_id].range or { match[capture_id]:range() }
-        local offset = pred[3] or 0
-
-        range[4] = range[2] + offset
-        metadata[capture_id].range = range
-    end
-
-    vim.treesitter.query.add_directive("offset-first-n!", offset_first_n, true)
+    -- local offset_first_n = function(match, _, _, pred, metadata)
+    --     ---@cast pred integer[]
+    --     local capture_id = pred[2]
+    --     if not metadata[capture_id] then
+    --         metadata[capture_id] = {}
+    --     end
+    --
+    --     local range = metadata[capture_id].range or { match[capture_id]:range() }
+    --     local offset = pred[3] or 0
+    --
+    --     range[4] = range[2] + offset
+    --     metadata[capture_id].range = range
+    -- end
+    --
+    -- vim.treesitter.query.add_directive("offset-first-n!", offset_first_n, true)
 end
 
 config.nvim_navic = function()
@@ -820,16 +819,107 @@ end
 
 config.markdown_preview_nvim = function()
     vim.keymap.set("n", "<S-m>", function()
-        vim.cmd("MarkdownPreviewToggle")
-    end, { noremap = true, silent = true, desc = "MarkdownPreviewToggle" })
+        vim.cmd("MarkdownPreview")
+    end, { noremap = true, silent = true, desc = "MarkdownPreview" })
 end
 
-config.lvim_md_utils = function()
-    local lvim_md_utils_status_ok, lvim_md_utils = pcall(require, "lvim-md-utils")
-    if not lvim_md_utils_status_ok then
+config.markdown_nvim = function()
+    local markdown_nvim_status_ok, markdown_nvim = pcall(require, "render-markdown")
+    if not markdown_nvim_status_ok then
         return
     end
-    lvim_md_utils.setup()
+    markdown_nvim.setup({
+        heading = {
+            icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+            signs = { "󰫎 " },
+            backgrounds = {
+                -- "RenderMarkdownH6Bg",
+                -- "RenderMarkdownH5Bg",
+                -- "RenderMarkdownH4Bg",
+                -- "RenderMarkdownH3Bg",
+                -- "RenderMarkdownH2Bg",
+                -- "RenderMarkdownH1Bg",
+                "MarkdownH6",
+                "MarkdownH5",
+                "MarkdownH4",
+                "MarkdownH3",
+                "MarkdownH2",
+                "MarkdownH1",
+            },
+            foregrounds = {
+                -- "RenderMarkdownH6",
+                -- "RenderMarkdownH5",
+                -- "RenderMarkdownH4",
+                -- "RenderMarkdownH3",
+                -- "RenderMarkdownH2",
+                -- "RenderMarkdownH1",
+                "MarkdownH6",
+                "MarkdownH5",
+                "MarkdownH4",
+                "MarkdownH3",
+                "MarkdownH2",
+                "MarkdownH1",
+            },
+        },
+        code = {
+            left_pad = 0,
+            -- highlight_inline = "MarkdownH1",
+            highlight = "MarkdownLine",
+            below = "▀",
+            above = "▄",
+            border = "thin",
+        },
+        dash = {
+            highlight = "MarkdownDash",
+        },
+        bullet = {
+            icons = { "●", "●", "●", "●" },
+            highlight = "MarkdownBullet",
+        },
+        checkbox = {
+            enabled = true,
+            unchecked = {
+                highlight = "MarkdownUnChecked",
+                icon = "s ",
+            },
+            checked = {
+                highlight = "MarkdownChecked",
+                icon = "d ",
+            },
+            custom = {
+                todo = { raw = "[-]", rendered = "󰥔 ", highlight = "RenderMarkdownTodo" },
+            },
+        },
+        quote = {
+            highlight = "MarkdownQuote",
+            icon = "▋",
+        },
+        pipe_table = {
+            row = "MarkdownTableRow",
+            head = "MarkdownTableHead",
+            filler = "MarkdownTableFill",
+        },
+        callout = {
+            quote = { raw = "[!QUOTE]", rendered = "󱆨 Quote ", highlight = "MarkdownQuote" },
+            example = { raw = "[!EXAMPLE]", rendered = "󰉹 Example ", highlight = "MarkdownHint" },
+            error = { raw = "[!ERROR]", rendered = "󰨰 Error ", highlight = "MarkdownError" },
+            bug = { raw = "[!BUG]", rendered = "󰨰 Bug ", highlight = "MarkdownError" },
+            danger = { raw = "[!DANGER]", rendered = "󱐌 Danger ", highlight = "MarkdownError" },
+            failure = { raw = "[!FAILURE]", rendered = "󰅖 Failure ", highlight = "MarkdownError" },
+            question = { raw = "[!QUESTION]", rendered = "󰘥 Question ", highlight = "MarkdownWarn" },
+            success = { raw = "[!SUCCESS]", rendered = "󰄬 Success ", highlight = "MarkdownSuccess" },
+            todo = { raw = "[!TODO]", rendered = "󰗡 Todo ", highlight = "MarkdownInfo" },
+            abstract = { raw = "[!ABSTRACT]", rendered = "󰨸 Abstract ", highlight = "MarkdownInfo" },
+            caution = { raw = "[!CAUTION]", rendered = "󰳦 Caution ", highlight = "MarkdownError" },
+            warning = { raw = "[!WARNING]", rendered = "󰀪 Warning ", highlight = "MarkdownWarn" },
+            important = { raw = "[!IMPORTANT]", rendered = "󰅾 Important ", highlight = "MarkdownHint" },
+            tip = { raw = "[!TIP]", rendered = "󰌶 Tip ", highlight = "MarkdownSuccess" },
+            note = { raw = "[!NOTE]", rendered = "󰋽 Note ", highlight = "MarkdownInfo" },
+        },
+        link = {
+            highlight = "MarkdownLink",
+        },
+    })
 end
 
 config.vimtex = function()

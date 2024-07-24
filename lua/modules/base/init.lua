@@ -96,36 +96,6 @@ modules["olimorris/neotest-phpunit"] = {
     lazy = true,
 }
 
-modules["rouge8/neotest-rust"] = {
-    commit = funcs.get_commit("neotest-rust", plugins_snapshot),
-    lazy = true,
-}
-
-modules["nvim-neotest/neotest-go"] = {
-    commit = funcs.get_commit("neotest-go", plugins_snapshot),
-    lazy = true,
-}
-
-modules["nvim-neotest/neotest-python"] = {
-    commit = funcs.get_commit("neotest-python", plugins_snapshot),
-    lazy = true,
-}
-
-modules["MrcJkb/neotest-haskell"] = {
-    commit = funcs.get_commit("neotest-haskell", plugins_snapshot),
-    lazy = true,
-}
-
-modules["jfpedroza/neotest-elixir"] = {
-    commit = funcs.get_commit("neotest-elixir", plugins_snapshot),
-    lazy = true,
-}
-
-modules["sidlatau/neotest-dart"] = {
-    commit = funcs.get_commit("neotest-dart", plugins_snapshot),
-    lazy = true,
-}
-
 modules["nvim-treesitter/playground"] = {
     commit = funcs.get_commit("playground", plugins_snapshot),
     lazy = true,
@@ -935,7 +905,7 @@ modules["nvim-neotest/neotest"] = {
         "rouge8/neotest-rust",
         "nvim-neotest/neotest-go",
         "nvim-neotest/neotest-python",
-        "MrcJkb/neotest-haskell",
+        -- "MrcJkb/neotest-haskell",
         "jfpedroza/neotest-elixir",
         "sidlatau/neotest-dart",
     },
@@ -1139,14 +1109,14 @@ modules["dhruvasagar/vim-table-mode"] = {
 modules["iamcco/markdown-preview.nvim"] = {
     commit = funcs.get_commit("markdown-preview.nvim", plugins_snapshot),
     build = "cd app && npm install",
-    ft = "markdown",
+    ft = { "md", "markdown" },
     config = languages_config.markdown_preview_nvim,
 }
 
-modules["lvim-tech/lvim-md-utils"] = {
-    commit = funcs.get_commit("lvim-md-utils", plugins_snapshot),
-    ft = { "md", "markdown" },
-    config = languages_config.lvim_md_utils,
+modules["MeanderingProgrammer/markdown.nvim"] = {
+    commit = funcs.get_commit("markdown-nvim", plugins_snapshot),
+    ft = { "md", "markdown", "latex" },
+    config = languages_config.markdown_nvim,
 }
 
 modules["lervag/vimtex"] = {

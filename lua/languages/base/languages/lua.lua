@@ -14,9 +14,9 @@ language_configs["lsp"] = function()
         ["language"] = "lua",
         ["ft"] = ft,
         ["lua-language-server"] = { "lua_ls", lua_lsp_config },
-        ["efm"] = {
-            "stylua",
-        },
+        -- ["efm"] = {
+        --     "stylua",
+        -- },
     })
 end
 
