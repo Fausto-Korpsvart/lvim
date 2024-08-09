@@ -988,8 +988,8 @@ modules["akinsho/flutter-tools.nvim"] = {
     config = languages_config.flutter_tools_nvim,
 }
 
-modules["kosayoda/nvim-lightbulb"] = {
-    -- modules["lvim-tech/nvim-lightbulb"] = {
+-- modules["kosayoda/nvim-lightbulb"] = {
+modules["lvim-tech/nvim-lightbulb"] = {
     commit = funcs.get_commit("nvim-lightbulb", plugins_snapshot),
     event = {
         "BufRead",
