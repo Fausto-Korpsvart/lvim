@@ -177,7 +177,7 @@ config.better_diagnostic_virtual_text = function()
             down_arrow = "  ",
             above = false,
         },
-        priority = 0,
+        priority = 2,
         inline = true,
     })
 end
