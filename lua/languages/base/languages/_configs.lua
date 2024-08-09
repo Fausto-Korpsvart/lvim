@@ -145,6 +145,52 @@ M.elixir_config = function(file_types)
     }
 end
 
+M.rust = function(file_types)
+    return {
+        flags = {
+            debounce_text_changes = default_debouce_time,
+        },
+        autostart = true,
+        filetypes = file_types,
+        on_attach = function(client, bufnr)
+            setup_diagnostics.keymaps(client, bufnr)
+            setup_diagnostics.omni(client, bufnr)
+            setup_diagnostics.tag(client, bufnr)
+            setup_diagnostics.document_highlight(client, bufnr)
+            setup_diagnostics.document_formatting(client, bufnr)
+            setup_diagnostics.inlay_hint(client, bufnr)
+            if client.server_capabilities.documentSymbolProvider then
+                navic.attach(client, bufnr)
+            end
+        end,
+        settings = {
+            ["rust-analyzer"] = {
+                assist = {
+                    importEnforceGranularity = true,
+                    importPrefix = "crate",
+                },
+                cargo = {
+                    allFeatures = true,
+                },
+                checkOnSave = {
+                    command = "clippy",
+                },
+                inlayHints = { locationLinks = false },
+                diagnostics = {
+                    enable = true,
+                    experimental = {
+                        enable = true,
+                    },
+                },
+            },
+        },
+        capabilities = setup_diagnostics.get_capabilities(),
+        root_dir = function(fname)
+            return nvim_lsp_util.find_git_ancestor(fname) or vim.fn.getcwd()
+        end,
+    }
+end
+
 M.go = function(file_types)
     return {
         flags = {
@@ -205,7 +251,7 @@ M.lua = function(file_types)
         settings = {
             Lua = {
                 format = {
-                    enable = false,
+                    enable = true,
                 },
                 hint = {
                     enable = true,

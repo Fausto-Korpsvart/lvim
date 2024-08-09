@@ -19,17 +19,6 @@ config.mason_nvim = function()
     vim.api.nvim_create_user_command("LspHover", "lua vim.lsp.buf.hover()", {})
     vim.api.nvim_create_user_command("LspRename", "lua vim.lsp.buf.rename()", {})
     vim.api.nvim_create_user_command("LspFormat", "lua vim.lsp.buf.format {async = false}", {})
-    -- vim.api.nvim_create_user_command("LspFormatRange", function()
-    --     local start_row, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
-    --     local end_row, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
-    --     vim.lsp.buf.format({
-    --         range = {
-    --             ["start"] = { start_row, 0 },
-    --             ["end"] = { end_row, 0 },
-    --         },
-    --         async = true,
-    --     })
-    -- end, {})
     vim.api.nvim_create_user_command("LspCodeAction", "lua vim.lsp.buf.code_action()", {})
     vim.api.nvim_create_user_command(
         "LspShowDiagnosticCurrent",
@@ -104,7 +93,6 @@ config.mason_nvim = function()
     require("languages.utils.setup_diagnostics").init_diagnostics()
     local efm_manager = require("languages.utils.efm_manager")
     efm_manager.setup_efm()
-    -- vim.schedule(function() end)
 end
 
 config.neotest = function()
@@ -159,27 +147,6 @@ config.neotest = function()
     vim.api.nvim_create_user_command("NeotestSummary", function()
         require("neotest").summary.toggle()
     end, {})
-end
-
-config.better_diagnostic_virtual_text = function()
-    local better_diagnostic_virtual_text_ok, better_diagnostic_virtual_text = pcall(require,
-        "better-diagnostic-virtual-text")
-    if not better_diagnostic_virtual_text_ok then
-        return
-    end
-    better_diagnostic_virtual_text.setup({
-        ui = {
-            wrap_line_after = true,
-            left_kept_space = 1,
-            right_kept_space = 1,
-            arrow = "    ",
-            up_arrow = "  ",
-            down_arrow = "  ",
-            above = false,
-        },
-        priority = 2,
-        inline = true,
-    })
 end
 
 config.nvim_lsp_file_operations = function()
@@ -260,7 +227,7 @@ config.glance_nvim = function()
                 ["t"] = actions.jump_tab,
                 ["<CR>"] = actions.jump,
                 ["o"] = actions.jump,
-                ["<C-h>"] = actions.enter_win("preview"), -- Focus preview window
+                ["<C-h>"] = actions.enter_win("preview"),
                 ["<Esc>"] = actions.close,
                 ["q"] = actions.close,
             },
@@ -268,7 +235,7 @@ config.glance_nvim = function()
                 ["q"] = actions.close,
                 ["<Tab>"] = actions.next_location,
                 ["<S-Tab>"] = actions.previous_location,
-                ["<C-l>"] = actions.enter_win("list"), -- Focus list window
+                ["<C-l>"] = actions.enter_win("list"),
             },
         },
         hooks = {
@@ -322,40 +289,6 @@ config.neodev_nvim = function()
             types = true,
         },
     })
-end
-
-config.rustaceanvim = function()
-    local nvim_lsp_util = require("lspconfig/util")
-    local setup_diagnostics = require("languages.utils.setup_diagnostics")
-    local navic = require("nvim-navic")
-    local default_debouce_time = 150
-    local ft = {
-        "rust",
-    }
-    vim.g.rustaceanvim = {
-        server = {
-            flags = {
-                debounce_text_changes = default_debouce_time,
-            },
-            autostart = true,
-            filetypes = ft,
-            on_attach = function(client, bufnr)
-                setup_diagnostics.keymaps(client, bufnr)
-                setup_diagnostics.omni(client, bufnr)
-                setup_diagnostics.tag(client, bufnr)
-                setup_diagnostics.document_highlight(client, bufnr)
-                setup_diagnostics.document_formatting(client, bufnr)
-                setup_diagnostics.inlay_hint(client, bufnr)
-                if client.server_capabilities.documentSymbolProvider then
-                    navic.attach(client, bufnr)
-                end
-            end,
-            capabilities = setup_diagnostics.get_capabilities(),
-            root_dir = function(fname)
-                return nvim_lsp_util.find_git_ancestor(fname) or vim.fn.getcwd()
-            end,
-        },
-    }
 end
 
 config.flutter_tools_nvim = function()
@@ -513,21 +446,6 @@ config.nvim_treesitter = function()
             disable_virtual_text = true,
         },
     })
-    -- local offset_first_n = function(match, _, _, pred, metadata)
-    --     ---@cast pred integer[]
-    --     local capture_id = pred[2]
-    --     if not metadata[capture_id] then
-    --         metadata[capture_id] = {}
-    --     end
-    --
-    --     local range = metadata[capture_id].range or { match[capture_id]:range() }
-    --     local offset = pred[3] or 0
-    --
-    --     range[4] = range[2] + offset
-    --     metadata[capture_id].range = range
-    -- end
-    --
-    -- vim.treesitter.query.add_directive("offset-first-n!", offset_first_n, true)
 end
 
 config.nvim_navic = function()
@@ -854,12 +772,6 @@ config.markdown_nvim = function()
             icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
             signs = { "󰫎 " },
             backgrounds = {
-                -- "RenderMarkdownH6Bg",
-                -- "RenderMarkdownH5Bg",
-                -- "RenderMarkdownH4Bg",
-                -- "RenderMarkdownH3Bg",
-                -- "RenderMarkdownH2Bg",
-                -- "RenderMarkdownH1Bg",
                 "MarkdownH6",
                 "MarkdownH5",
                 "MarkdownH4",
@@ -868,12 +780,6 @@ config.markdown_nvim = function()
                 "MarkdownH1",
             },
             foregrounds = {
-                -- "RenderMarkdownH6",
-                -- "RenderMarkdownH5",
-                -- "RenderMarkdownH4",
-                -- "RenderMarkdownH3",
-                -- "RenderMarkdownH2",
-                -- "RenderMarkdownH1",
                 "MarkdownH6",
                 "MarkdownH5",
                 "MarkdownH4",
@@ -884,7 +790,6 @@ config.markdown_nvim = function()
         },
         code = {
             left_pad = 0,
-            -- highlight_inline = "MarkdownH1",
             highlight = "MarkdownLine",
             below = "▀",
             above = "▄",

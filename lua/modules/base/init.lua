@@ -915,11 +915,6 @@ modules["nvim-neotest/neotest"] = {
     config = languages_config.neotest,
 }
 
-modules["sontungexpt/better-diagnostic-virtual-text"] = {
-    event = "LspAttach",
-    config = languages_config.better_diagnostic_virtual_text
-}
-
 modules["antosha417/nvim-lsp-file-operations"] = {
     commit = funcs.get_commit("nvim-lsp-file-operations", plugins_snapshot),
     dependencies = {
@@ -984,17 +979,6 @@ modules["scalameta/nvim-metals"] = {
     ft = { "scala", "sbt" },
 }
 
-modules["mrcjkb/rustaceanvim"] = {
-    commit = funcs.get_commit("rustaceanvim", plugins_snapshot),
-    ft = "rust",
-    dependencies = {
-        "neovim/nvim-lspconfig",
-        "nvim-lua/plenary.nvim",
-        "mfussenegger/nvim-dap",
-    },
-    config = languages_config.rustaceanvim,
-}
-
 modules["akinsho/flutter-tools.nvim"] = {
     commit = funcs.get_commit("flutter-tools.nvim", plugins_snapshot),
     ft = "dart",
@@ -1004,8 +988,8 @@ modules["akinsho/flutter-tools.nvim"] = {
     config = languages_config.flutter_tools_nvim,
 }
 
--- modules["kosayoda/nvim-lightbulb"] = {
-modules["lvim-tech/nvim-lightbulb"] = {
+modules["kosayoda/nvim-lightbulb"] = {
+    -- modules["lvim-tech/nvim-lightbulb"] = {
     commit = funcs.get_commit("nvim-lightbulb", plugins_snapshot),
     event = {
         "BufRead",
