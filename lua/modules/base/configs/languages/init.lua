@@ -178,7 +178,7 @@ config.better_diagnostic_virtual_text = function()
             above = false,
         },
         priority = 0,
-        inline = false,
+        inline = true,
     })
 end
 
