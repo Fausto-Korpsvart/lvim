@@ -219,11 +219,11 @@ modules["nvim-neo-tree/neo-tree.nvim"] = {
     commit = funcs.get_commit("neo-tree.nvim", plugins_snapshot),
     cmd = "Neotree",
     keys = {
-        { "<S-x>", "<cmd>Neotree toggle filesystem left<CR>", desc = "NeoTree filesystem" },
+        { "<S-x>",      "<cmd>Neotree toggle filesystem left<CR>", desc = "NeoTree filesystem" },
         { "<C-c><C-f>", "<cmd>Neotree toggle filesystem left<CR>", desc = "NeoTree filesystem" },
-        { "<C-c><C-b>", "<cmd>Neotree toggle buffers left<CR>", desc = "NeoTree buffers" },
+        { "<C-c><C-b>", "<cmd>Neotree toggle buffers left<CR>",    desc = "NeoTree buffers" },
         { "<C-c><C-g>", "<cmd>Neotree toggle git_status left<CR>", desc = "NeoTree git status" },
-        { "<S-q>", "<cmd>Neotree toggle close<CR>", desc = "NeoTree close" },
+        { "<S-q>",      "<cmd>Neotree toggle close<CR>",           desc = "NeoTree close" },
     },
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -304,7 +304,7 @@ modules["lvim-tech/lvim-helper"] = {
     commit = funcs.get_commit("lvim-helper", plugins_snapshot),
     cmd = "LvimHelper",
     keys = {
-        { "<F11>", "<Cmd>LvimHelper<CR>", desc = "LvimHelper" },
+        { "<F11>",  "<Cmd>LvimHelper<CR>", desc = "LvimHelper" },
         { "<C-c>h", "<Cmd>LvimHelper<CR>", desc = "LvimHelper" },
     },
     config = ui_config.lvim_helper,
@@ -333,10 +333,10 @@ modules["nvim-telescope/telescope.nvim"] = {
     commit = funcs.get_commit("telescope.nvim", plugins_snapshot),
     cmd = "Telescope",
     keys = {
-        { "<A-,>", "<Cmd>Telescope find_files<CR>", desc = "Telescope find files" },
-        { "<A-.>", "<Cmd>Telescope live_grep<CR>", desc = "Telescope live grep" },
-        { "<A-/>", "<Cmd>Telescope file_browser<CR>", desc = "Telescope file browser" },
-        { "<A-b>", "<Cmd>Telescope buffers<CR>", desc = "Telescope buffers" },
+        { "<A-,>",  "<Cmd>Telescope find_files<CR>",   desc = "Telescope find files" },
+        { "<A-.>",  "<Cmd>Telescope live_grep<CR>",    desc = "Telescope live grep" },
+        { "<A-/>",  "<Cmd>Telescope file_browser<CR>", desc = "Telescope file browser" },
+        { "<A-b>",  "<Cmd>Telescope buffers<CR>",      desc = "Telescope buffers" },
         { "<C-c>t", "<Cmd>Telescope tmux session<CR>", desc = "Telescope tmux session" },
     },
     dependencies = {
@@ -550,8 +550,11 @@ modules["gennaro-tedesco/nvim-peekup"] = {
     config = editor_config.nvim_peekup,
 }
 
-modules["MattesGroeger/vim-bookmarks"] = {
-    config = editor_config.vim_bookmarks,
+modules["LintaoAmons/bookmarks.nvim"] = {
+    dependencies = {
+        { "nvim-telescope/telescope.nvim" },
+    },
+    config = editor_config.bookmarks_nvim,
 }
 
 modules["kevinhwang91/nvim-hlslens"] = {
@@ -910,6 +913,11 @@ modules["nvim-neotest/neotest"] = {
         "sidlatau/neotest-dart",
     },
     config = languages_config.neotest,
+}
+
+modules["sontungexpt/better-diagnostic-virtual-text"] = {
+    event = "LspAttach",
+    config = languages_config.better_diagnostic_virtual_text
 }
 
 modules["antosha417/nvim-lsp-file-operations"] = {

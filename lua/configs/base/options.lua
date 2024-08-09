@@ -20,7 +20,7 @@ M.global = function()
     vim.opt.clipboard = "unnamedplus"
     vim.opt.wildignorecase = true
     vim.opt.wildignore =
-        ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**"
+    ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**"
     vim.opt.backup = false
     vim.opt.writebackup = false
     vim.opt.swapfile = false
@@ -94,7 +94,7 @@ M.global = function()
     vim.opt.foldenable = true
     vim.opt.signcolumn = "no"
     vim.opt.conceallevel = 2
-    vim.opt.foldmethod = "expr"
+    vim.opt.foldmethod = "indent"
     vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     vim.opt.foldtext = "v:lua.fold_text()"
     vim.opt.cursorline = true

@@ -50,7 +50,7 @@ config.noice_nvim = function()
                         { error = true },
                         { warning = true },
                         { event = "msg_show", kind = { "" } },
-                        { event = "lsp", kind = "message" },
+                        { event = "lsp",      kind = "message" },
                     },
                 },
             },
@@ -63,7 +63,7 @@ config.noice_nvim = function()
                         { error = true },
                         { warning = true },
                         { event = "msg_show", kind = { "" } },
-                        { event = "lsp", kind = "message" },
+                        { event = "lsp",      kind = "message" },
                     },
                 },
                 filter_opts = { count = 1 },
@@ -492,11 +492,11 @@ config.alpha_nvim = function()
         end
         return string.format(
             icons.common.plugins
-                .. " %d plugins  "
-                .. icons.common.time
-                .. "%d ms  "
-                .. icons.common.vim
-                .. "v%d.%d.%d  %s  %s",
+            .. " %d plugins  "
+            .. icons.common.time
+            .. "%d ms  "
+            .. icons.common.vim
+            .. "v%d.%d.%d  %s  %s",
             plugins,
             startup_time,
             v.major,
@@ -719,6 +719,7 @@ config.mini_clue = function()
             },
         })
     end
+
     clue_setup()
     function clue_enable_disable(status)
         if status == true then
@@ -736,6 +737,7 @@ config.mini_clue = function()
             end, 10)
         end
     end
+
     if _G.LVIM_SETTINGS.keyshelper == true then
         clue_enable_disable(true)
     else
@@ -968,10 +970,10 @@ config.lvim_shell = function()
         if executable(vim.fn.tolower(fm)) == 1 then
             vim.cmd(
                 "command! -nargs=? -complete=dir "
-                    .. fm
-                    .. " :lua require('modules.base.configs.ui.shell')."
-                    .. fm
-                    .. "(<f-args>)"
+                .. fm
+                .. " :lua require('modules.base.configs.ui.shell')."
+                .. fm
+                .. "(<f-args>)"
             )
         end
     end

@@ -199,6 +199,7 @@ return {
         TypeParameter = "󰊄 ",
     },
     diagnostics = {
+        global = " ",
         error = " ",
         warn = " ",
         hint = "󰌵 ",

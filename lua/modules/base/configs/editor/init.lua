@@ -222,37 +222,53 @@ config.nvim_peekup = function()
         group = "LvimIDE",
     })
 end
-config.vim_bookmarks = function()
+
+config.bookmarks_nvim = function()
+    local bookmarks_status_ok, bookmarks = pcall(require, "bookmarks")
+    if not bookmarks_status_ok then
+        return
+    end
+    local colors = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme]
+    bookmarks.setup({
+        json_db_path = vim.fs.normalize(vim.fn.stdpath("config") .. "/bookmarks.db.json"),
+        signs = {
+            mark = { icon = "󰸖 ", color = colors.green_01, line_bg = "NONE" },
+        },
+    })
+    local function call_bookmark_command()
+        local commands = require("bookmarks.adapter.commands").commands
+        local command
+        for _, c in ipairs(commands) do
+            if c.name == "[Mark] Bookmarks of current project" then -- change it to one of the command above
+                command = c
+            end
+        end
+
+        if command then
+            command.callback()
+        end
+    end
+    vim.keymap.set("n", "ml", call_bookmark_command, {
+        noremap = true, silent = true, desc = "BookmarksList",
+    })
     vim.keymap.set("n", "mm", function()
-        vim.cmd("BookmarkToggle")
+        vim.cmd("BookmarksMark")
     end, { noremap = true, silent = true, desc = "BookmarkToggle" })
-    vim.keymap.set("n", "mi", function()
-        vim.cmd("BookmarkAnnotate")
-    end, { noremap = true, silent = true, desc = "BookmarkAnnotate" })
-    vim.keymap.set("n", "mn", function()
-        vim.cmd("BookmarkNext")
-    end, { noremap = true, silent = true, desc = "BookmarkNext" })
-    vim.keymap.set("n", "mp", function()
-        vim.cmd("BookmarkPrev")
-    end, { noremap = true, silent = true, desc = "BookmarkPrev" })
-    vim.keymap.set("n", "ma", function()
-        vim.cmd("BookmarkShowAll")
-    end, { noremap = true, silent = true, desc = "BookmarkShowAll" })
+    vim.keymap.set("n", "mr", function()
+        vim.cmd("BookmarksReload")
+    end, { noremap = true, silent = true, desc = "BookmarksReload" })
+    vim.keymap.set("n", "mt", function()
+        vim.cmd("BookmarksTree")
+    end, { noremap = true, silent = true, desc = "BookmarksTree" })
     vim.keymap.set("n", "mc", function()
-        vim.cmd("BookmarkClear")
-    end, { noremap = true, silent = true, desc = "BookmarkClear" })
-    vim.keymap.set("n", "mx", function()
-        vim.cmd("BookmarkClearAll")
-    end, { noremap = true, silent = true, desc = "BookmarkClearAll" })
-    vim.keymap.set("n", "mjj", function()
-        vim.cmd("BookmarkMoveDown")
-    end, { noremap = true, silent = true, desc = "BookmarkMoveDown" })
-    vim.keymap.set("n", "mkk", function()
-        vim.cmd("BookmarkMoveUp")
-    end, { noremap = true, silent = true, desc = "BookmarkMoveUp" })
+        vim.cmd("BookmarksCommands")
+    end, { noremap = true, silent = true, desc = "BookmarksCommands" })
     vim.keymap.set("n", "mg", function()
-        vim.cmd("BookmarkMoveToLine")
-    end, { noremap = true, silent = true, desc = "BookmarkMoveToLine" })
+        vim.cmd("BookmarksGotoRecent")
+    end, { noremap = true, silent = true, desc = "BookmarksGoToRecent" })
+    vim.keymap.set("n", "me", function()
+        vim.cmd("BookmarksEditJsonFile")
+    end, { noremap = true, silent = true, desc = "BookmarksEditJsonFile" })
 end
 
 config.nvim_hlslens = function()

@@ -6,20 +6,8 @@ local icons = require("configs.base.ui.icons")
 
 local M = {}
 
-local function get_vt()
-    local vt
-    if _G.LVIM_SETTINGS.virtualdiagnostic then
-        vt = {
-            prefix = icons.common.dot,
-        }
-    else
-        vt = false
-    end
-    return vt
-end
-
 local config_diagnostic = {
-    virtual_text = get_vt(),
+    virtual_text = false,
     update_in_insert = true,
     underline = true,
     severity_sort = true,
@@ -27,8 +15,8 @@ local config_diagnostic = {
         text = {
             [vim.diagnostic.severity.ERROR] = icons.diagnostics.error,
             [vim.diagnostic.severity.WARN] = icons.diagnostics.warn,
-            [vim.diagnostic.severity.HINT] = icons.diagnostics.hint,
             [vim.diagnostic.severity.INFO] = icons.diagnostics.info,
+            [vim.diagnostic.severity.HINT] = icons.diagnostics.hint,
         },
     },
 }
@@ -93,33 +81,6 @@ M.init_diagnostics = function()
     end
     vim.api.nvim_create_user_command("LvimInlayHint", lvim_inlay_hint, {})
     vim.diagnostic.config(config_diagnostic)
-    local function lvim_virtual_diagnostic()
-        local status
-        if _G.LVIM_SETTINGS.virtualdiagnostic == true then
-            status = "Enabled"
-        else
-            status = "Disabled"
-        end
-        local opts = ui_config.select({
-            "Enable",
-            "Disable",
-            "Cancel",
-        }, { prompt = "VirtualDiagnostic (" .. status .. ")" }, {})
-        select(opts, function(choice)
-            if choice == "Enable" then
-                _G.LVIM_SETTINGS["virtualdiagnostic"] = true
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-            elseif choice == "Disable" then
-                _G.LVIM_SETTINGS["virtualdiagnostic"] = false
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-            end
-            local config = vim.diagnostic.config
-            config({
-                virtual_text = get_vt(),
-            })
-        end)
-    end
-    vim.api.nvim_create_user_command("LvimVirtualDiagnostic", lvim_virtual_diagnostic, {})
     vim.fn.sign_define("DiagnosticSignError", {
         text = icons.diagnostics.error,
         texthl = "DiagnosticError",

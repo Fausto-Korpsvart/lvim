@@ -161,6 +161,27 @@ config.neotest = function()
     end, {})
 end
 
+config.better_diagnostic_virtual_text = function()
+    local better_diagnostic_virtual_text_ok, better_diagnostic_virtual_text = pcall(require,
+        "better-diagnostic-virtual-text")
+    if not better_diagnostic_virtual_text_ok then
+        return
+    end
+    better_diagnostic_virtual_text.setup({
+        ui = {
+            wrap_line_after = true,
+            left_kept_space = 1,
+            right_kept_space = 1,
+            arrow = "    ",
+            up_arrow = "  ",
+            down_arrow = "  ",
+            above = false,
+        },
+        priority = 0,
+        inline = false,
+    })
+end
+
 config.nvim_lsp_file_operations = function()
     local lsp_file_operations_status_ok, lsp_file_operations = pcall(require, "lsp-file-operations")
     if not lsp_file_operations_status_ok then
@@ -602,17 +623,17 @@ config.nvim_dap_ui = function()
         layouts = {
             {
                 elements = {
-                    { id = "scopes", size = 0.33 },
+                    { id = "scopes",      size = 0.33 },
                     { id = "breakpoints", size = 0.17 },
-                    { id = "stacks", size = 0.25 },
-                    { id = "watches", size = 0.25 },
+                    { id = "stacks",      size = 0.25 },
+                    { id = "watches",     size = 0.25 },
                 },
                 size = 0.33,
                 position = "left",
             },
             {
                 elements = {
-                    { id = "repl", size = 0.45 },
+                    { id = "repl",    size = 0.45 },
                     { id = "console", size = 0.55 },
                 },
                 size = 0.27,
