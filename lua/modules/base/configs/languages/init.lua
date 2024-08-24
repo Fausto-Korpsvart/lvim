@@ -302,47 +302,6 @@ config.flutter_tools_nvim = function()
         ui = {
             notification_style = "plugin",
         },
-        debugger = {
-            enabled = true,
-            exception_breakpoints = {},
-            register_configurations = function(paths)
-                local dap = require("dap")
-                dap.adapters.dart = {
-                    type = "executable",
-                    command = "dart",
-                    args = { "debug_adapter" },
-                }
-                dap.adapters.flutter = {
-                    type = "executable",
-                    command = "flutter",
-                    args = { "debug_adapter" },
-                }
-                dap.configurations.dart = {
-                    {
-                        type = "dart",
-                        name = "Launch Dart",
-                        request = "launch",
-                        dartSdkPath = paths["dart_sdk"],
-                        flutterSdkPath = paths["flutter_sdk"],
-                        program = function()
-                            return vim.fn.input("Path to executable: ", "./", "file")
-                        end,
-                        cwd = "${workspaceFolder}",
-                    },
-                    {
-                        type = "flutter",
-                        name = "Launch Flutter",
-                        request = "launch",
-                        dartSdkPath = paths["dart_sdk"],
-                        flutterSdkPath = paths["flutter_sdk"],
-                        program = function()
-                            return vim.fn.input("Path to executable: ", "./", "file")
-                        end,
-                        cwd = "${workspaceFolder}",
-                    },
-                }
-            end,
-        },
         closing_tags = {
             prefix = " " .. icons.common.separator .. " ",
             highlight = "LspInlayHint",
