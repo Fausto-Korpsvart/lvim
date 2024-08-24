@@ -304,7 +304,6 @@ config.flutter_tools_nvim = function()
         },
         debugger = {
             enabled = true,
-            run_via_dap = false,
             exception_breakpoints = {},
             register_configurations = function(paths)
                 local dap = require("dap")
@@ -326,7 +325,7 @@ config.flutter_tools_nvim = function()
                         dartSdkPath = paths["dart_sdk"],
                         flutterSdkPath = paths["flutter_sdk"],
                         program = function()
-                            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                            return vim.fn.input("Path to executable: ", "./", "file")
                         end,
                         cwd = "${workspaceFolder}",
                     },
@@ -337,7 +336,7 @@ config.flutter_tools_nvim = function()
                         dartSdkPath = paths["dart_sdk"],
                         flutterSdkPath = paths["flutter_sdk"],
                         program = function()
-                            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                            return vim.fn.input("Path to executable: ", "./", "file")
                         end,
                         cwd = "${workspaceFolder}",
                     },
@@ -806,11 +805,11 @@ config.markdown_nvim = function()
             enabled = true,
             unchecked = {
                 highlight = "MarkdownUnChecked",
-                icon = "s ",
+                icon = "",
             },
             checked = {
                 highlight = "MarkdownChecked",
-                icon = "d ",
+                icon = "",
             },
             custom = {
                 todo = { raw = "[-]", rendered = "󰥔 ", highlight = "RenderMarkdownTodo" },
@@ -844,6 +843,22 @@ config.markdown_nvim = function()
         },
         link = {
             highlight = "MarkdownLink",
+        },
+    })
+end
+
+config.mkdnflow_nvim = function()
+    local mkdnflow_nvim_status_ok, mkdnflow_nvim = pcall(require, "mkdnflow")
+    if not mkdnflow_nvim_status_ok then
+        return
+    end
+    mkdnflow_nvim.setup({
+        to_do = {
+            symbols = { '', '󱑁', '' },
+            update_parents = true,
+            not_started = '',
+            in_progress = '󱑁',
+            complete = ''
         },
     })
 end

@@ -34,7 +34,7 @@ language_configs["dap"] = function()
             program = function()
                 return vim.fn.input(
                     global.mason_path .. "/packages/netcoredbg/build/ManagedPart.dll",
-                    vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                    vim.fn.input("Path to executable: ", "./", "file")
                 )
             end,
         },

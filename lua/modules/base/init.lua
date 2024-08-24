@@ -1111,6 +1111,12 @@ modules["MeanderingProgrammer/markdown.nvim"] = {
     config = languages_config.markdown_nvim,
 }
 
+modules["jakewvincent/mkdnflow.nvim"] = {
+    commit = funcs.get_commit("mkdnflow-nvim", plugins_snapshot),
+    ft = { "md", "markdown" },
+    config = languages_config.mkdnflow_nvim,
+}
+
 modules["lervag/vimtex"] = {
     commit = funcs.get_commit("vimtex", plugins_snapshot),
     config = languages_config.vimtex,

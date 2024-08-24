@@ -80,6 +80,11 @@ config.diffview_nvim = function()
         return
     end
     diffview.setup({
+        keymaps = {
+            view = {
+                q = "<cmd>DiffviewClose<CR>",
+            },
+        },
         hooks = {
             diff_buf_read = function(bufnr)
                 vim.schedule(function()

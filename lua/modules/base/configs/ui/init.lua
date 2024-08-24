@@ -18,12 +18,12 @@ config.noice_nvim = function()
             view = "cmdline",
             format = {
                 cmdline = { pattern = "^:", icon = "" },
-                search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
-                search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
+                search_down = { pattern = "^/", icon = " ", lang = "regex" },
+                search_up = { pattern = "^%?", icon = " ", lang = "regex" },
                 filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
                 lua = { pattern = "^:%s*lua%s+", icon = "", lang = "lua" },
                 help = { pattern = "^:%s*h%s+", icon = "󰋖" },
-                calculator = { pattern = "^:=", icon = "󰃬", lang = "vimnormal" },
+                calculator = { pattern = "^:=", icon = "󰃬", lang = "regex" },
                 input = {},
             },
         },
@@ -168,6 +168,7 @@ config.noice_nvim = function()
                     },
                 },
                 border = {
+                    style = { " ", " ", " ", " ", " ", " ", " ", " " },
                     padding = { 0, 1 },
                 },
             },
@@ -212,7 +213,7 @@ config.noice_nvim = function()
                 },
                 enter = true,
                 border = {
-                    style = "rounded",
+                    style = { " ", " ", " ", " ", " ", " ", " ", " " },
                 },
                 position = "50%",
                 size = {
@@ -253,7 +254,7 @@ config.noice_nvim = function()
                     width = "100%",
                 },
                 border = {
-                    style = "none",
+                    style = { "", "", "", "", "", "", "", "" },
                 },
                 win_options = {
                     winhighlight = {
@@ -321,6 +322,9 @@ config.noice_nvim = function()
             cmdline_input = {
                 border = {
                     style = { " ", " ", " ", " ", " ", " ", " ", " " },
+                    text = {
+                        top = " CONFIRM: ",
+                    },
                     padding = { 0, 1 },
                 },
                 win_options = {

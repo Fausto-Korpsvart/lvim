@@ -58,10 +58,10 @@ config.nvim_notify = function()
         for _, m in ipairs(notify.history()) do
             vim.api.nvim_echo({
                 { vim.fn.strftime("%FT%T", m.time), "Identifier" },
-                { " ", "Normal" },
-                { m.level, color[m.level] or "Title" },
-                { " ", "Normal" },
-                { table.concat(m.message, " "), "Normal" },
+                { " ",                              "Normal" },
+                { m.level,                          color[m.level] or "Title" },
+                { " ",                              "Normal" },
+                { table.concat(m.message, " "),     "Normal" },
             }, false, {})
         end
     end
@@ -140,6 +140,7 @@ config.nui_nvim = function()
                 on_done(nil)
             end, { noremap = true, nowait = true })
         end
+
         local input_ui
         ---@diagnostic disable-next-line: duplicate-set-field
         vim.ui.input = function(opts, on_confirm)
@@ -224,6 +225,7 @@ config.nui_nvim = function()
                 on_done(nil, nil)
             end, { once = true })
         end
+
         local select_ui = nil
         ---@diagnostic disable-next-line: duplicate-set-field
         vim.ui.select = function(items, opts, on_choice)

@@ -42,7 +42,7 @@ language_configs["dap"] = function()
             name = "Launch",
             request = "launch",
             program = function()
-                return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                return vim.fn.input("Path to executable: ", "./", "file")
             end,
         },
         {
@@ -51,7 +51,7 @@ language_configs["dap"] = function()
             request = "launch",
             mode = "test",
             program = function()
-                return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                return vim.fn.input("Path to executable: ", "./", "file")
             end,
         },
     }

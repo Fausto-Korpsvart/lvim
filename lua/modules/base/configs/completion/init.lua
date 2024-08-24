@@ -71,6 +71,8 @@ config.nvim_cmp = function()
                     path = "[Path]",
                     crates = "[Crates]",
                     latex_symbols = "[LaTex]",
+                    orgmode = "[ORG]",
+                    mkdnflow = "[Markdown]",
                 })[entry.source.name]
                 return item
             end,
@@ -97,6 +99,9 @@ config.nvim_cmp = function()
             {
                 name = "orgmode",
             },
+            {
+                name = "mkdnflow",
+            },
         },
         view = {
             entries = {
@@ -104,7 +109,7 @@ config.nvim_cmp = function()
             },
         },
     })
-    cmp.setup.cmdline({ ":", "/", "?" }, {
+    cmp.setup.cmdline({ ":", "/", "?", "Path to:" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
             {
@@ -118,7 +123,7 @@ config.nvim_cmp = function()
             },
         },
     })
-    cmp.setup.cmdline({ "@" }, {
+    cmp.setup.cmdline({ "@", "Path to" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
             {

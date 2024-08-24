@@ -31,7 +31,7 @@ language_configs["dap"] = function()
             type = "cppdbg",
             request = "launch",
             program = function()
-                return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                return vim.fn.input("Path to executable: ", "./", "file")
             end,
             cwd = "${workspaceFolder}",
             stopOnEntry = true,
