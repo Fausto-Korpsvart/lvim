@@ -16,7 +16,7 @@ language_configs["lsp"] = function()
     lsp_manager.setup_languages({
         ["language"] = "jsts",
         ["ft"] = ft,
-        ["typescript-language-server"] = { "tsserver", typescript_config },
+        ["typescript-language-server"] = { "ts_ls", typescript_config },
         ["dap"] = { "js-debug-adapter" },
     })
 end
