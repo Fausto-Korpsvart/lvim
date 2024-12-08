@@ -148,10 +148,6 @@ config.fzf_lua = function()
     })
 end
 
-config.lvim_file_browser = function()
-    vim.api.nvim_create_user_command("LvimFileBrowser", "lua require('lvim-file-browser').browse()", {})
-end
-
 config.lvim_linguistics = function()
     local lvim_linguistics_status_ok, lvim_linguistics = pcall(require, "lvim-linguistics")
     if not lvim_linguistics_status_ok then

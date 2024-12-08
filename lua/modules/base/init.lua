@@ -301,16 +301,6 @@ modules["lukas-reineke/indent-blankline.nvim"] = {
     config = ui_config.indent_blankline_nvim,
 }
 
-modules["lvim-tech/lvim-helper"] = {
-    commit = funcs.get_commit("lvim-helper", plugins_snapshot),
-    cmd = "LvimHelper",
-    keys = {
-        { "<F11>",  "<Cmd>LvimHelper<CR>", desc = "LvimHelper" },
-        { "<C-c>h", "<Cmd>LvimHelper<CR>", desc = "LvimHelper" },
-    },
-    config = ui_config.lvim_helper,
-}
-
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -- EDITOR -------------------------------------------------------
 -- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -452,21 +442,6 @@ modules["ibhagwan/fzf-lua"] = {
         },
     },
     config = editor_config.fzf_lua,
-}
-
-modules["lvim-tech/lvim-file-browser"] = {
-    commit = funcs.get_commit("lvim-file-browser", plugins_snapshot),
-    keys = {
-        {
-            "<Leader>=",
-            function()
-                require("lvim-file-browser").browse()
-            end,
-            desc = "LvimFileBrowser",
-        },
-    },
-    cmd = "LvimFileBrowser",
-    config = editor_config.lvim_file_browser,
 }
 
 modules["lvim-tech/lvim-linguistics"] = {
