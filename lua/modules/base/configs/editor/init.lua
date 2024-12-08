@@ -672,17 +672,19 @@ config.nvim_various_textobjs = function()
         return
     end
     nvim_various_textobjs.setup({
-        useDefaultKeymaps = true,
-        disabledKeymaps = {
-            "i/",
-            "a/",
-            "in",
-            "an",
-            "ii",
-            "ai",
-            "iI",
-            "aI",
-            "gc",
+        keymaps = {
+            useDefaults = true,
+            disabledKeymaps = {
+                "i/",
+                "a/",
+                "in",
+                "an",
+                "ii",
+                "ai",
+                "iI",
+                "aI",
+                "gc",
+            },
         },
     })
     vim.keymap.set(
