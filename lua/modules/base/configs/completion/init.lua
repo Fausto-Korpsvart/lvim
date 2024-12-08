@@ -133,6 +133,11 @@ config.nvim_cmp = function()
     })
 end
 
+config.lua_snippets = function()
+    local config_path = vim.fn.stdpath("config")
+    require("luasnip.loaders.from_vscode").lazy_load({ paths = { config_path .. "/vscode" } })
+end
+
 config.nvim_autopairs = function()
     local nvim_autopairs_status_ok, nvim_autopairs = pcall(require, "nvim-autopairs")
     if not nvim_autopairs_status_ok then

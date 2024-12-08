@@ -67,6 +67,32 @@ M.without_winbar_config = function(file_types)
     }
 end
 
+M.astro_config = function(file_types)
+    return {
+        autostart = true,
+        filetypes = file_types,
+        init_options = {
+            typescript = {
+                tsdk = vim.fs.normalize "~/.local/share/nvim/mason/packages/astro-language-server/node_modules/typescript/lib"
+            },
+        },
+        on_attach = function(client, bufnr)
+            setup_diagnostics.keymaps(client, bufnr)
+            setup_diagnostics.omni(client, bufnr)
+            setup_diagnostics.tag(client, bufnr)
+            -- setup_diagnostics.document_formatting(client, bufnr)
+            setup_diagnostics.inlay_hint(client, bufnr)
+            if client.server_capabilities.documentSymbolProvider then
+                navic.attach(client, bufnr)
+            end
+        end,
+        capabilities = setup_diagnostics.get_capabilities(),
+        root_dir = function(fname)
+            return nvim_lsp_util.find_git_ancestor(fname) or vim.fn.getcwd()
+        end,
+    }
+end
+
 M.cpp_config = function(file_types)
     return {
         flags = {
@@ -75,7 +101,6 @@ M.cpp_config = function(file_types)
         autostart = true,
         filetypes = file_types,
         on_attach = function(client, bufnr)
-            client.offset_encoding = "utf-16"
             setup_diagnostics.keymaps(client, bufnr)
             setup_diagnostics.omni(client, bufnr)
             setup_diagnostics.tag(client, bufnr)

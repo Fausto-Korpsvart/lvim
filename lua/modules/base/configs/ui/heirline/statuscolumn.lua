@@ -14,7 +14,6 @@ M.get_statuscolumn = function()
         file_types_statuscolumn[i] = v
     end
     table.insert(file_types_statuscolumn, "fzf")
-    table.insert(file_types_statuscolumn, "markdown")
     table.insert(file_types_statuscolumn, "org")
 
     local static = {
@@ -212,7 +211,7 @@ M.get_statuscolumn = function()
 
     local line_numbers = {
         provider = function()
-            if vim.bo.filetype == "qf" or vim.bo.filetype == "replacer" or vim.v.virtnum ~= 0 then
+            if vim.bo.filetype == "qf" or vim.bo.filetype == "replacer" or vim.bo.filetype == "org" or vim.v.virtnum ~= 0 then
                 return ""
             end
             if vim.v.relnum == 0 then
@@ -239,7 +238,8 @@ M.get_statuscolumn = function()
                 self.sign = diag_sign[1]
             end,
             hl = function(self)
-                return self.sign and "DiagnosticSignError"
+                -- return self.sign and "DiagnosticSignError"
+                return self.sign and self.sign.sign_hl_group
             end,
             on_click = {
                 name = "sc_diagnostics_click",

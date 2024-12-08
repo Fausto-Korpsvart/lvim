@@ -223,52 +223,42 @@ config.nvim_peekup = function()
     })
 end
 
-config.bookmarks_nvim = function()
-    local bookmarks_status_ok, bookmarks = pcall(require, "bookmarks")
-    if not bookmarks_status_ok then
+config.vessel_nvim = function()
+    local vessel_status_ok, vessel = pcall(require, "vessel")
+    if not vessel_status_ok then
         return
     end
-    local colors = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme]
-    bookmarks.setup({
-        json_db_path = vim.fs.normalize(vim.fn.stdpath("config") .. "/bookmarks.db.json"),
-        signs = {
-            mark = { icon = "󰸖 ", color = colors.green_01, line_bg = "NONE" },
-        },
+    vessel.opt.marks.highlights.path = "Title"
+    vessel.opt.marks.highlights.not_loaded = "Folded"
+    vessel.opt.marks.highlights.decorations = "Folded"
+    vessel.opt.marks.highlights.mark = "Title"
+    vessel.opt.marks.highlights.lnum = "Error"
+    vessel.opt.marks.highlights.col = "CursorLineNr"
+    vessel.opt.marks.highlights.line = "Folded"
+    vessel.setup({
+        create_commands = true,
+        commands = {
+            view_marks = "Marks",
+            view_jumps = "Jumps"
+        }
     })
-    local function call_bookmark_command()
-        local commands = require("bookmarks.adapter.commands").commands
-        local command
-        for _, c in ipairs(commands) do
-            if c.name == "[Mark] Bookmarks of current project" then -- change it to one of the command above
-                command = c
-            end
-        end
-
-        if command then
-            command.callback()
-        end
-    end
-    vim.keymap.set("n", "ml", call_bookmark_command, {
-        noremap = true, silent = true, desc = "BookmarksList",
-    })
-    vim.keymap.set("n", "mm", function()
-        vim.cmd("BookmarksMark")
-    end, { noremap = true, silent = true, desc = "BookmarkToggle" })
-    vim.keymap.set("n", "mr", function()
-        vim.cmd("BookmarksReload")
-    end, { noremap = true, silent = true, desc = "BookmarksReload" })
-    vim.keymap.set("n", "mt", function()
-        vim.cmd("BookmarksTree")
-    end, { noremap = true, silent = true, desc = "BookmarksTree" })
-    vim.keymap.set("n", "mc", function()
-        vim.cmd("BookmarksCommands")
-    end, { noremap = true, silent = true, desc = "BookmarksCommands" })
-    vim.keymap.set("n", "mg", function()
-        vim.cmd("BookmarksGotoRecent")
-    end, { noremap = true, silent = true, desc = "BookmarksGoToRecent" })
-    vim.keymap.set("n", "me", function()
-        vim.cmd("BookmarksEditJsonFile")
-    end, { noremap = true, silent = true, desc = "BookmarksEditJsonFile" })
+    vim.keymap.set("n", "ml", "<Plug>(VesselViewLocalMarks)", { desc = "Marks view local" })
+    vim.keymap.set("n", "mg", "<Plug>(VesselViewGlobalMarks)", { desc = "Marks view global" })
+    vim.keymap.set("n", "mb", "<Plug>(VesselViewBufferMarks)", { desc = "Marks view buffer" })
+    vim.keymap.set("n", "me", "<Plug>(VesselViewExternalMarks)", { desc = "Marks view external" })
+    -- Marks set
+    vim.keymap.set("n", "mm", "<Plug>(VesselSetLocalMark)", { desc = "Marks set local" })
+    vim.keymap.set("n", "mM", "<Plug>(VesselSetGlobalMark)", { desc = "Marks set global" })
+    -- Jumps
+    vim.keymap.set("n", "mjj", function()
+        vessel.view_jumps()
+    end, { desc = "Jumps all" })
+    vim.keymap.set("n", "mjl", function()
+        vessel.view_local_jumps()
+    end, { desc = "Jumps local" })
+    vim.keymap.set("n", "mje", function()
+        vessel.view_external_jumps()
+    end, { desc = "Jumps External" })
 end
 
 config.nvim_hlslens = function()
@@ -338,33 +328,12 @@ config.nvim_bqf = function()
     })
 end
 
-config.nvim_pqf = function()
-    local pqf_status_ok, pqf = pcall(require, "pqf")
-    if not pqf_status_ok then
+config.quicker_nvim = function()
+    local quicker_status_ok, quicker = pcall(require, "quicker")
+    if not quicker_status_ok then
         return
     end
-    pqf.setup({
-        signs = {
-            error = {
-                text = icons.diagnostics.error,
-                hl = "DiagnosticSignError",
-            },
-            warning = {
-                text = icons.diagnostics.warn,
-                hl = "DiagnosticSignWarn",
-            },
-            info = {
-                text = icons.diagnostics.info,
-                hl = "DiagnosticSignInfo",
-            },
-            hint = {
-                text = icons.diagnostics.hint,
-                hl = "DiagnosticSignHint",
-            },
-        },
-        show_multiple_lines = true,
-        max_filename_length = 0,
-    })
+    quicker.setup()
 end
 
 config.lvim_qf_loc = function()

@@ -185,8 +185,6 @@ M.inlay_hint = function(client, bufnr)
         and client.server_capabilities.inlayHintProvider
         and _G.LVIM_SETTINGS.inlayhint == true
     then
-        -- vim.lsp.inlay_hint(bufnr, true)
-        -- vim.lsp.inlay_hint.enable(bufnr, true)
         vim.lsp.inlay_hint.enable(true, { bufnr })
     end
 end
@@ -205,6 +203,7 @@ M.get_capabilities = function()
     if status_ok then
         capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
     end
+    capabilities["offsetEncoding"] = "utf-8"
     capabilities.experimental = {
         workspaceWillRename = true,
     }

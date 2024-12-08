@@ -4,6 +4,7 @@ return {
         "css",
         "typescriptreact",
         "javascriptreact",
+        "astro",
     },
     ["_stylelint"] = {
         "css",
@@ -27,6 +28,9 @@ return {
         "html",
         "typescriptreact",
         "typescript.tsx",
+    },
+    ["astro"] = {
+        "astro",
     },
     ["clojure"] = {
         "clojure",

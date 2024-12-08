@@ -1,6 +1,5 @@
 local api = vim.api
 local util = vim.lsp.util
-local diagnostics = vim.lsp.diagnostic
 local protocol = vim.lsp.protocol
 local DiagnosticSeverity = protocol.DiagnosticSeverity
 
@@ -98,8 +97,8 @@ local function open_floating_preview(contents, syntax)
     vim.defer_fn(function()
         api.nvim_command(
             "autocmd CursorMoved,CursorMovedI,BufHidden,InsertCharPre <buffer> lua pcall(vim.api.nvim_win_close, "
-                .. floating_winnr
-                .. ", true)"
+            .. floating_winnr
+            .. ", true)"
         )
     end, 60)
     return floating_bufnr, floating_winnr
@@ -112,12 +111,12 @@ local floating_severity_highlight_name = {
     [DiagnosticSeverity.Hint] = "DiagnosticHint",
 }
 
-M.show_line_diagnostics = function(bufnr, line_nr, client_id)
+M.show_line_diagnostics = function()
     bufnr = bufnr or 0
     line_nr = line_nr or (api.nvim_win_get_cursor(0)[1] - 1)
     local lines = {}
     local highlights = {}
-    local line_diagnostics = diagnostics.get_line_diagnostics(bufnr, line_nr, {}, client_id)
+    local line_diagnostics = vim.diagnostic.get(bufnr, { lnum = line_nr })
     if vim.tbl_isempty(line_diagnostics) then
         return
     end
@@ -157,9 +156,8 @@ M.goto_next = function(opts)
         },
     }, opts or {})
     vim.diagnostic.goto_next(opts)
-    local win_id = opts.win_id or vim.api.nvim_get_current_win()
     vim.schedule(function()
-        M.show_line_diagnostics(vim.api.nvim_win_get_buf(win_id))
+        M.show_line_diagnostics()
     end)
 end
 
@@ -170,9 +168,8 @@ M.goto_prev = function(opts)
         },
     }, opts or {})
     vim.diagnostic.goto_prev(opts)
-    local win_id = opts.win_id or vim.api.nvim_get_current_win()
     vim.schedule(function()
-        M.show_line_diagnostics(vim.api.nvim_win_get_buf(win_id))
+        M.show_line_diagnostics()
     end)
 end
 
@@ -181,8 +178,7 @@ M.line = function(opts)
         pos = -1000,
     }, opts or {})
     vim.diagnostic.open_float(opts)
-    local win_id = opts.win_id or vim.api.nvim_get_current_win()
-    M.show_line_diagnostics(vim.api.nvim_win_get_buf(win_id))
+    M.show_line_diagnostics()
 end
 
 return M

@@ -30,7 +30,8 @@ M.get_winbar = function()
                 bg = colors.bg,
                 bold = true,
             })
-            local filename = tabby_filename.unique(0)
+            local win_id = vim.api.nvim_get_current_win()
+            local filename = tabby_filename.unique(win_id)
             local extension = vim.fn.expand("%:e")
             if not isempty(filename) then
                 local f_icon, f_icon_color =

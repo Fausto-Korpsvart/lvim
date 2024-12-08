@@ -4,6 +4,7 @@ local ft = {
     "css",
     "typescriptreact",
     "javascriptreact",
+    "astro",
 }
 local emmet_ls_config = require("languages.base.languages._configs").without_winbar_config(ft, "_emmet")
 

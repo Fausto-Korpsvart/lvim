@@ -3,7 +3,13 @@ local lspconfig = require("lspconfig")
 local nvim_lsp_util = require("lspconfig/util")
 local setup_diagnostics = require("languages.utils.setup_diagnostics")
 
+local funcs = require("core.funcs")
+local efm_base = require("languages.base.languages._efm")
+local efm_user = require("languages.user.languages._efm")
+
 local M = {}
+
+local efm = funcs.merge(efm_base, efm_user)
 
 if global.efm == false then
     global.efm = {
@@ -12,7 +18,7 @@ if global.efm == false then
         end,
         init_options = { documentFormatting = true },
         settings = {
-            languages = {},
+            languages = efm,
         },
         filetypes = {},
         on_attach = function(client, bufnr)

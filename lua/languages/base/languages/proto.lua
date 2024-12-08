@@ -12,7 +12,7 @@ language_configs["lsp"] = function()
     lsp_manager.setup_languages({
         ["language"] = "proto",
         ["ft"] = ft,
-        ["buf-language-server"] = { "bufls", bufls_config },
+        ["buf-language-server"] = { "buf_ls", bufls_config },
         ["efm"] = {
             "buf",
             "clang-format",

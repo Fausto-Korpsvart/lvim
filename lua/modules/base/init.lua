@@ -239,10 +239,10 @@ modules["elihunter173/dirbuf.nvim"] = {
     config = ui_config.dirbuf_nvim,
 }
 
-modules["nvimtools/hydra.nvim"] = {
-    commit = funcs.get_commit("hydra.nvim", plugins_snapshot),
-    config = ui_config.hydra_nvim,
-}
+-- modules["nvimtools/hydra.nvim"] = {
+--     commit = funcs.get_commit("hydra.nvim", plugins_snapshot),
+--     config = ui_config.hydra_nvim,
+-- }
 
 modules["rebelot/heirline.nvim"] = {
     commit = funcs.get_commit("heirline.nvim", plugins_snapshot),
@@ -550,11 +550,11 @@ modules["gennaro-tedesco/nvim-peekup"] = {
     config = editor_config.nvim_peekup,
 }
 
-modules["LintaoAmons/bookmarks.nvim"] = {
+modules["gcmt/vessel.nvim"] = {
     dependencies = {
         { "nvim-telescope/telescope.nvim" },
     },
-    config = editor_config.bookmarks_nvim,
+    config = editor_config.vessel_nvim,
 }
 
 modules["kevinhwang91/nvim-hlslens"] = {
@@ -573,9 +573,9 @@ modules["kevinhwang91/nvim-bqf"] = {
     config = editor_config.nvim_bqf,
 }
 
-modules["yorickpeterse/nvim-pqf"] = {
-    commit = funcs.get_commit("nvim-pqf", plugins_snapshot),
-    config = editor_config.nvim_pqf,
+modules["stevearc/quicker.nvim"] = {
+    event = "FileType qf",
+    config = editor_config.quicker_nvim,
 }
 
 modules["lvim-tech/lvim-qf-loc"] = {
@@ -989,13 +989,13 @@ modules["akinsho/flutter-tools.nvim"] = {
 }
 
 -- modules["kosayoda/nvim-lightbulb"] = {
-modules["lvim-tech/nvim-lightbulb"] = {
-    commit = funcs.get_commit("nvim-lightbulb", plugins_snapshot),
-    event = {
-        "BufRead",
-    },
-    config = languages_config.nvim_lightbulb,
-}
+-- modules["lvim-tech/nvim-lightbulb"] = {
+--     commit = funcs.get_commit("nvim-lightbulb", plugins_snapshot),
+--     event = {
+--         "BufRead",
+--     },
+--     config = languages_config.nvim_lightbulb,
+-- }
 
 modules["nvim-treesitter/nvim-treesitter"] = {
     commit = funcs.get_commit("nvim-treesitter", plugins_snapshot),
@@ -1105,10 +1105,10 @@ modules["iamcco/markdown-preview.nvim"] = {
     config = languages_config.markdown_preview_nvim,
 }
 
-modules["MeanderingProgrammer/markdown.nvim"] = {
-    commit = funcs.get_commit("markdown-nvim", plugins_snapshot),
-    ft = { "md", "markdown", "latex" },
-    config = languages_config.markdown_nvim,
+modules["OXY2DEV/markview.nvim"] = {
+    commit = funcs.get_commit("markview-nvim", plugins_snapshot),
+    -- ft = { "md", "markdown", "latex" },
+    config = languages_config.markview_nvim,
 }
 
 modules["jakewvincent/mkdnflow.nvim"] = {
@@ -1161,6 +1161,8 @@ modules["L3MON4D3/LuaSnip"] = {
     dependencies = {
         "rafamadriz/friendly-snippets",
     },
+    build = "make install_jsregexp",
+    config = completion_config.lua_snippets,
 }
 
 modules["windwp/nvim-autopairs"] = {
