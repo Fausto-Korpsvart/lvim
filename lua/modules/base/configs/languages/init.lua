@@ -730,6 +730,8 @@ config.markview_nvim = function()
         block_quotes = require("modules.base.configs.languages.markview.block_quotes"),
         tables = require("modules.base.configs.languages.markview.tables"),
         headings = require("modules.base.configs.languages.markview.headings"),
+        code_blocks = require("modules.base.configs.languages.markview.code_blocks"),
+        checkboxes = require("modules.base.configs.languages.markview.checkboxes"),
     })
     require("markview.extras.editor").setup({
         width = { 10, 0.75 },

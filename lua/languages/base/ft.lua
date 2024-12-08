@@ -170,6 +170,10 @@ return {
         "csh",
         "ksh",
     },
+    ["tailwindcss"] = {
+        "html", "astro", "css", "sass", "less", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact",
+        "vue", "svelte",
+    },
     ["sql"] = {
         "sql",
         "mysql",

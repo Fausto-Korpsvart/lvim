@@ -248,6 +248,14 @@ config.nui_nvim = function()
     override_ui_select()
 end
 
+config.nvim_web_devicons = function()
+    local web_devicons_status_ok, web_devicons = pcall(require, "nvim-web-devicons")
+    if not web_devicons_status_ok then
+        return
+    end
+    web_devicons.setup()
+end
+
 config.twilight_nvim = function()
     local twilight_status_ok, twilight = pcall(require, "twilight")
     if not twilight_status_ok then
@@ -258,14 +266,6 @@ config.twilight_nvim = function()
             alpha = 0.5,
         },
     })
-end
-
-config.luarocks_nvim = function()
-    local luarocks_status_ok, luarocks = pcall(require, "luarocks")
-    if not luarocks_status_ok then
-        return
-    end
-    luarocks.setup()
 end
 
 return config

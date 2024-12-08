@@ -58,6 +58,7 @@ modules["lvim-tech/lvim-ui-config"] = {
 
 modules["nvim-tree/nvim-web-devicons"] = {
     commit = funcs.get_commit("nvim-web-devicons", plugins_snapshot),
+    config = dependencies_config.nvim_web_devicons,
     lazy = true,
 }
 
