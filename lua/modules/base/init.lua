@@ -30,6 +30,11 @@ modules["nvim-lua/popup.nvim"] = {
     lazy = true,
 }
 
+modules["onsails/lspkind.nvim"] = {
+    commit = funcs.get_commit("lspkind", plugins_snapshot),
+    lazy = true,
+}
+
 modules["nvim-neotest/nvim-nio"] = {
     commit = funcs.get_commit("nvim-nio", plugins_snapshot),
     lazy = true,
@@ -936,10 +941,10 @@ modules["folke/trouble.nvim"] = {
     config = languages_config.trouble_nvim,
 }
 
-modules["folke/neodev.nvim"] = {
-    commit = funcs.get_commit("neodev.nvim", plugins_snapshot),
+modules["folke/lazydev.nvim"] = {
+    commit = funcs.get_commit("lazydev.nvim", plugins_snapshot),
     ft = "lua",
-    config = languages_config.neodev_nvim,
+    config = languages_config.lazydev_nvim,
 }
 
 modules["mfussenegger/nvim-jdtls"] = {
@@ -962,6 +967,16 @@ modules["akinsho/flutter-tools.nvim"] = {
         "nvim-lua/plenary.nvim",
     },
     config = languages_config.flutter_tools_nvim,
+}
+modules["luckasRanarison/tailwind-tools.nvim"] = {
+    commit = funcs.get_commit("tailwind-tools.nvim", plugins_snapshot),
+    dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-telescope/telescope.nvim",
+        "folke/neoconf.nvim",
+        "neovim/nvim-lspconfig",
+    },
+    config = languages_config.tailwind_tools_nvim
 }
 
 -- modules["kosayoda/nvim-lightbulb"] = {
@@ -1125,6 +1140,7 @@ modules["hrsh7th/nvim-cmp"] = {
         "hrsh7th/cmp-path",
         "kdheepak/cmp-latex-symbols",
         "hrsh7th/cmp-cmdline",
+        "luckasRanarison/tailwind-tools.nvim",
     },
     event = {
         "InsertEnter",

@@ -276,19 +276,12 @@ config.trouble_nvim = function()
     })
 end
 
-config.neodev_nvim = function()
-    local neodev_status_ok, neodev = pcall(require, "neodev")
-    if not neodev_status_ok then
+config.lazydev_nvim = function()
+    local lazydev_status_ok, lazydev = pcall(require, "lazydev")
+    if not lazydev_status_ok then
         return
     end
-    neodev.setup({
-        library = {
-            enabled = true,
-            runtime = true,
-            plugins = { "nvim-dap-ui" },
-            types = true,
-        },
-    })
+    lazydev.setup()
 end
 
 config.flutter_tools_nvim = function()
@@ -323,6 +316,15 @@ config.flutter_tools_nvim = function()
                 renameFilesWithClasses = "prompt",
             },
         },
+    })
+end
+
+config.tailwind_tools_nvim = function()
+    local tailwind_tools_status_ok, tailwind_tools = pcall(require, "tailwind-tools")
+    if not tailwind_tools_status_ok then
+        return
+    end
+    tailwind_tools.setup({
     })
 end
 
