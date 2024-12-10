@@ -97,6 +97,7 @@ config.nvim_cmp = function()
         },
         formatting = {
             fields = { "kind", "abbr", "menu" },
+            expandable_indicator = true,
             format = function(entry, item)
                 -- item.kind = lsp_symbols[item.kind]
                 -- item.menu = ({
@@ -161,6 +162,7 @@ config.nvim_cmp = function()
         },
         view = {
             entries = {
+                name = "custom",
                 follow_cursor = true,
             },
         },
