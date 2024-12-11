@@ -7,13 +7,16 @@ local astro_config = require("languages.base.languages._configs").astro_config(f
 
 local language_configs = {}
 
-language_configs["dependencies"] = { "astro-language-server" }
+language_configs["dependencies"] = { "astro-language-server", "prettierd" }
 
 language_configs["lsp"] = function()
     lsp_manager.setup_languages({
         ["language"] = "astro",
         ["ft"] = ft,
         ["astro-language-server"] = { "astro", astro_config },
+        ["efm"] = {
+            "prettierd",
+        },
     })
 end
 

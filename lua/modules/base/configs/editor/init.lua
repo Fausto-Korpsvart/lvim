@@ -840,6 +840,8 @@ config.ccc_nvim = function()
     local bt_exclude = require("modules.base.configs.ui.heirline.buf_types")
     ccc.setup({
         alpha_show = "show",
+        highlight_mode = "virtual",
+        virtual_symbol = " ● ",
     })
     vim.keymap.set("n", "<C-c>r", function()
         vim.cmd("CccPick")
