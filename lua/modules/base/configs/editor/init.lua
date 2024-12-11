@@ -842,22 +842,21 @@ config.ccc_nvim = function()
         alpha_show = "show",
         highlight_mode = "virtual",
         virtual_symbol = " ● ",
+
     })
     vim.keymap.set("n", "<C-c>r", function()
         vim.cmd("CccPick")
     end, { noremap = true, silent = true, desc = "ColorPicker" })
-    vim.api.nvim_create_autocmd("Filetype", {
-        callback = function()
-            if
-                not funcs.buffer_matches({
-                    buftype = bt_exclude,
-                    filetype = ft_exclude,
-                })
-            then
-                vim.cmd("CccHighlighterEnable")
-            end
-        end,
-        -- command = "CccHighlighterEnable",
+end
+
+config.nvim_highlight_colors = function()
+    local highlight_colors_status_ok, highlight_colors = pcall(require, "nvim-highlight-colors")
+    if not highlight_colors_status_ok then
+        return
+    end
+    highlight_colors.setup({
+        render = 'virtual',
+        virtual_symbol = '●',
     })
 end
 
