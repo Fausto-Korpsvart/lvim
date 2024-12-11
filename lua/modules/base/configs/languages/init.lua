@@ -326,7 +326,7 @@ config.tailwind_tools_nvim = function()
     end
     tailwind_tools.setup({
         document_color = {
-            enabled = true,
+            enabled = false,
             kind = "inline",
             inline_symbol = " ● ",
             debounce = 200,

@@ -743,6 +743,7 @@ modules["uga-rosa/ccc.nvim"] = {
     },
     config = editor_config.ccc_nvim,
 }
+
 modules["brenoprata10/nvim-highlight-colors"] = {
     commit = funcs.get_commit("brenoprata10/nvim-highlight-colors", plugins_snapshot),
     event = {
