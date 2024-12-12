@@ -43,10 +43,12 @@ config.nvim_notify = function()
                     border = { " ", " ", " ", " ", " ", " ", " ", " " },
                     zindex = 200,
                 })
-                vim.api.nvim_win_set_option(win, "wrap", true)
+                vim.api.nvim_win_set_var(win, "wrap", true)
             end
         end,
     })
+    ---@class notify
+    ---@field print_history fun()
     notify.print_history = function()
         local color = {
             DEBUG = "NotifyDEBUGTitle",

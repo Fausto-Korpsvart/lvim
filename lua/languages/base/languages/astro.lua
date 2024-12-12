@@ -3,7 +3,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "astro",
 }
-local astro_config = require("languages.base.languages._configs").astro_config(ft, "astro")
+local astro_config = require("languages.base.languages._configs").astro_config(ft)
 
 local language_configs = {}
 

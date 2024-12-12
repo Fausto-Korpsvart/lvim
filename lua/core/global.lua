@@ -1,10 +1,20 @@
 local home = os.getenv("HOME")
-local os_name = vim.loop.os_uname().sysname
+local function getOS()
+    if jit then
+        return jit.os
+    end
+    local fh, _ = assert(io.popen("uname -o 1>/dev/null", "r"))
+    if fh then
+        Osname = fh:read()
+    end
+    return Osname or "Windows"
+end
+local os_name = getOS()
 
 local global = {}
 
 local os
-if os_name == "Darwin" then
+if os_name == "OSX" then
     os = "mac"
 elseif os_name == "Linux" then
     os = "linux"

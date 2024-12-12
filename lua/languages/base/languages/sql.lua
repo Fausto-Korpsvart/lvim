@@ -3,7 +3,7 @@ local ft = {
     "sql",
     "mysql",
 }
-local sqls_config = require("languages.base.languages._configs").default_config(ft, "sql")
+local sqls_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

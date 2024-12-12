@@ -679,7 +679,7 @@ config.crates_nvim = function()
     if not crates_status_ok then
         return
     end
-    crates.setup()
+    crates.setup({})
     vim.api.nvim_create_user_command("CratesUpdate", "lua require('crates').update()", {})
     vim.api.nvim_create_user_command("CratesReload", "lua require('crates').reload()", {})
     vim.api.nvim_create_user_command("CratesHide", "lua require('crates').hide()", {})

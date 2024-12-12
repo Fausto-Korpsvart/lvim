@@ -1,7 +1,7 @@
 local config = {}
 
 config.nvim_cmp = function()
-    local icons = require("configs.base.ui.icons")
+    -- local icons = require("configs.base.ui.icons")
     local cmp_status_ok, cmp = pcall(require, "cmp")
     if not cmp_status_ok then
         return
@@ -12,13 +12,13 @@ config.nvim_cmp = function()
     end
     require("luasnip.loaders.from_lua").lazy_load()
     require("luasnip.loaders.from_vscode").lazy_load()
-    require("luasnip.loaders.from_vscode").lazy_load({ paths = vim.fn.stdpath("config") .. "/snippets/vscode" })
-    require("luasnip.loaders.from_lua").lazy_load({ paths = vim.fn.stdpath("config") .. "/snippets/lua" })
+    require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets/vscode" } })
+    require("luasnip.loaders.from_lua").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets/lua" } })
     local check_backspace = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
     end
-    local lsp_symbols = icons.cmp
+    -- local lsp_symbols = icons.cmp
 
     local extract_color = function(s)
         local base, _, _, r, g, b = 10, s:find("rgba?%((%d+).%s*(%d+).%s*(%d+)")

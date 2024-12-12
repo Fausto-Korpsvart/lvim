@@ -6,7 +6,7 @@ local ft = {
     "objc",
     "objcpp",
 }
-local clangd_config = require("languages.base.languages._configs").cpp_config(ft, "cpp")
+local clangd_config = require("languages.base.languages._configs").cpp_config(ft)
 local dap = require("dap")
 
 local language_configs = {}

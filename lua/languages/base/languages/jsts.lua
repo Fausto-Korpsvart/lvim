@@ -5,7 +5,7 @@ local ft = {
     "typescript",
     "typescriptreact",
 }
-local typescript_config = require("languages.base.languages._configs").jsts_config(ft, "jsts")
+local typescript_config = require("languages.base.languages._configs").jsts_config(ft)
 local dap = require("dap")
 
 local language_configs = {}

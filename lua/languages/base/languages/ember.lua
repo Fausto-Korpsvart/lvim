@@ -4,7 +4,7 @@ local ft = {
     "typescript",
     "javascript",
 }
-local ember_config = require("languages.base.languages._configs").ember_config(ft, "ember")
+local ember_config = require("languages.base.languages._configs").ember_config(ft)
 
 local language_configs = {}
 

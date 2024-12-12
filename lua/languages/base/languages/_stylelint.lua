@@ -4,7 +4,7 @@ local ft = {
     "scss",
     "less",
 }
-local stylelint_lsp_config = require("languages.base.languages._configs").without_winbar_config(ft, "_stylelint")
+local stylelint_lsp_config = require("languages.base.languages._configs").without_winbar_config(ft)
 
 local language_configs = {}
 

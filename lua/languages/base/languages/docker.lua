@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "dockerfile",
 }
-local docker_config = require("languages.base.languages._configs").default_config(ft, "docker-langserver")
+local docker_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "yaml",
 }
-local yamlls_config = require("languages.base.languages._configs").yaml_config(ft, "yaml")
+local yamlls_config = require("languages.base.languages._configs").yaml_config(ft)
 
 local language_configs = {}
 

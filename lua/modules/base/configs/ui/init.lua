@@ -671,7 +671,7 @@ config.mini_clue = function()
     if not mini_clue_status_ok then
         return
     end
-    function clue_setup()
+    local function clue_setup()
         mini_clue.setup({
             window = {
                 config = {
@@ -723,7 +723,7 @@ config.mini_clue = function()
     end
 
     clue_setup()
-    function clue_enable_disable(status)
+    local function clue_enable_disable(status)
         if status == true then
             funcs.tm_autocmd("start")
             vim.defer_fn(function()

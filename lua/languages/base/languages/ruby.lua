@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "ruby",
 }
-local solargraph_config = require("languages.base.languages._configs").default_config(ft, "ruby")
+local solargraph_config = require("languages.base.languages._configs").default_config(ft)
 local dap = require("dap")
 
 local language_configs = {}

@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "julia",
 }
-local julials_config = require("languages.base.languages._configs").default_config(ft, "julia")
+local julials_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

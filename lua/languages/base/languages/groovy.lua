@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "groovy",
 }
-local groovy_lsp_config = require("languages.base.languages._configs").groovy_config(ft, "groovy")
+local groovy_lsp_config = require("languages.base.languages._configs").groovy_config(ft)
 
 local language_configs = {}
 

@@ -3,7 +3,7 @@ local ft = {
     "r",
     "rmd",
 }
-local r_language_server_config = require("languages.base.languages._configs").default_config(ft, "r")
+local r_language_server_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

@@ -1,10 +1,13 @@
-local funcs = require("core.funcs")
 local icons = require("configs.base.ui.icons")
 
 local config = {}
 
 config.navigator_nvim = function()
-    require("Navigator").setup()
+    local navigator_status_ok, navigator = pcall(require, "Navigator")
+    if not navigator_status_ok then
+        return
+    end
+    navigator.setup({})
     vim.keymap.set("n", "<C-h>", "<CMD>NavigatorLeft<CR>")
     vim.keymap.set("n", "<C-l>", "<CMD>NavigatorRight<CR>")
     vim.keymap.set("n", "<C-k>", "<CMD>NavigatorUp<CR>")
@@ -27,7 +30,7 @@ config.telescope_nvim = function()
             layout_strategy = "bottom_pane",
             layout_config = {
                 height = function()
-                    return math.ceil((vim.api.nvim_get_option("lines") + 5) * _G.LVIM_SETTINGS.floatheight)
+                    return math.ceil((vim.api.nvim_get_option_value("lines", {}) + 5) * _G.LVIM_SETTINGS.floatheight)
                 end,
             },
             vimgrep_arguments = {
@@ -125,10 +128,10 @@ config.fzf_lua = function()
             ["gutter"] = { "bg", "FzfLuaNormal" },
         },
         winopts_fn = function()
-            local win_height = math.ceil(vim.api.nvim_get_option("lines") * _G.LVIM_SETTINGS.floatheight)
-            local win_width = math.ceil(vim.api.nvim_get_option("columns") * 1)
-            local col = math.ceil((vim.api.nvim_get_option("columns") - win_width) * 1)
-            local row = math.ceil((vim.api.nvim_get_option("lines") - win_height) * 1 - 3)
+            local win_height = math.ceil(vim.api.nvim_get_option_value("lines", {}) * _G.LVIM_SETTINGS.floatheight)
+            local win_width = math.ceil(vim.api.nvim_get_option_value("columns", {}) * 1)
+            local col = math.ceil((vim.api.nvim_get_option_valuen("columns", {}) - win_width) * 1)
+            local row = math.ceil((vim.api.nvim_get_option_valuen("lines", {}) - win_height) * 1 - 3)
             return {
                 title = "FZF LUA",
                 title_pos = "center",
@@ -398,12 +401,12 @@ config.tabby_nvim = function()
     if not tabby_status_ok then
         return
     end
-    local tabby_util_status_ok, tabby_util = pcall(require, "tabby.util")
-    if not tabby_util_status_ok then
+    local tabby_module_api_status_ok, tabby_module_api = pcall(require, "tabby.module.api")
+    if not tabby_module_api_status_ok then
         return
     end
-    local tabby_filename_status_ok, tabby_filename = pcall(require, "tabby.filename")
-    if not tabby_filename_status_ok then
+    local tabby_module_filename_status_ok, tabby_module_filename = pcall(require, "tabby.module.filename")
+    if not tabby_module_filename_status_ok then
         return
     end
     local theme = _G.LVIM_SETTINGS.theme
@@ -473,13 +476,18 @@ config.tabby_nvim = function()
         local tabs = vim.api.nvim_list_tabpages()
         local current_tab = vim.api.nvim_get_current_tabpage()
         local name_of_buf
-        local wins = tabby_util.tabpage_list_wins(current_tab)
+        local wins = tabby_module_api.get_tab_wins(current_tab)
+        -- 1. (Lua Diagnostics.) Deprecated.(use require('tabby.module.api').get_tab_wins)
+        -- local wins = tabby_util.tabpage_list_wins(current_tab)
         local top_win = vim.api.nvim_tabpage_get_win(current_tab)
         local hl
         local win_name
         for _, win_id in ipairs(wins) do
-            local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_id), "filetype")
-            win_name = tabby_filename.unique(win_id)
+            -- local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_id), "filetype")
+            local ft = vim.api.nvim_get_option_value("filetype", { buf = vim.api.nvim_win_get_buf(win_id) })
+            win_name = tabby_module_filename.unique(win_id)
+            -- 1. (Lua Diagnostics.) Deprecated.(use require('tabby.module.filename').unique)
+            -- win_name = tabby_filename.unique(win_id)
             if not vim.tbl_contains(exclude, ft) then
                 if win_id == top_win then
                     hl = { bg = hl_tabline.color_03, fg = hl_tabline.color_02, style = "bold" }
@@ -654,6 +662,7 @@ config.nvim_treesitter_context = function()
             if vim.bo[bufnr].filetype == "markdown" or vim.bo[bufnr].filetype == "org" then
                 return false
             end
+            return true
         end,
         exact_patterns = {},
         zindex = 20,
@@ -702,7 +711,7 @@ config.rest_nvim = function()
     if not rest_nvim_status_ok then
         return
     end
-    rest_nvim.setup()
+    vim.g.rest_nvim.setup()
     vim.api.nvim_create_user_command("Rest", "lua require('rest-nvim').run()", {})
     vim.api.nvim_create_user_command("RestPreview", "lua require('rest-nvim').run(true)", {})
     vim.api.nvim_create_user_command("RestLast", "lua require('rest-nvim').last()", {})
@@ -836,8 +845,6 @@ config.ccc_nvim = function()
     if not ccc_status_ok then
         return
     end
-    local ft_exclude = require("modules.base.configs.ui.heirline.file_types")
-    local bt_exclude = require("modules.base.configs.ui.heirline.buf_types")
     ccc.setup({
         alpha_show = "show",
         highlight_mode = "virtual",

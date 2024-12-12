@@ -7,7 +7,7 @@ local ft = {
     "reason",
     "dune",
 }
-local ocaml_config = require("languages.base.languages._configs").default_config(ft, "ocaml")
+local ocaml_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

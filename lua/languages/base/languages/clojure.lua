@@ -3,7 +3,7 @@ local ft = {
     "clojure",
     "edn",
 }
-local clojure_lsp_config = require("languages.base.languages._configs").default_config(ft, "clojure")
+local clojure_lsp_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

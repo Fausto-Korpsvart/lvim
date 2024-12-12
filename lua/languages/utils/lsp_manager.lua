@@ -56,7 +56,7 @@ M.install_all_packages = function()
         elseif funcs.file_exists(global.lvim_path .. "/lua/languages/base/languages/" .. k .. ".lua") then
             file = require("languages.base.languages." .. k)
         end
-        if file["dependencies"] ~= nil then
+        if file ~= nil and file["dependencies"] ~= nil then
             for _, dependency in pairs(file["dependencies"]) do
                 if not has_value(dependency) then
                     table.insert(packages, dependency)

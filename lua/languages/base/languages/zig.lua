@@ -3,7 +3,7 @@ local ft = {
     "zig",
     "zir",
 }
-local zls_config = require("languages.base.languages._configs").default_config(ft, "zig")
+local zls_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

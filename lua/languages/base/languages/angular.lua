@@ -6,7 +6,7 @@ local ft = {
     "typescriptreact",
     "typescript.tsx",
 }
-local angularls_config = require("languages.base.languages._configs").angular_config(ft, "angular")
+local angularls_config = require("languages.base.languages._configs").angular_config(ft)
 
 local language_configs = {}
 

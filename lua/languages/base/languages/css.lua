@@ -4,7 +4,7 @@ local ft = {
     "scss",
     "less",
 }
-local cssls_config = require("languages.base.languages._configs").without_formatting(ft, "css")
+local cssls_config = require("languages.base.languages._configs").without_formatting(ft)
 
 local language_configs = {}
 

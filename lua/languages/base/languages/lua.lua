@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "lua",
 }
-local lua_lsp_config = require("languages.base.languages._configs").lua(ft, "lua")
+local lua_lsp_config = require("languages.base.languages._configs").lua(ft)
 local dap = require("dap")
 
 local language_configs = {}

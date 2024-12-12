@@ -6,7 +6,7 @@ local ft = {
     "xslt",
     "svg",
 }
-local lemminx_config = require("languages.base.languages._configs").default_config(ft, "xml")
+local lemminx_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

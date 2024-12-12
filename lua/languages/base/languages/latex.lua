@@ -3,7 +3,7 @@ local ft = {
     "bib",
     "tex",
 }
-local texlab_config = require("languages.base.languages._configs").default_config(ft, "latex")
+local texlab_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 

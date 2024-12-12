@@ -140,13 +140,14 @@ end
 
 M.omni = function(client, bufnr)
     if client.server_capabilities.completionProvider then
-        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+        -- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+        vim.api.nvim_set_option_value("omnifunc", "v:lua.lsp.omnifunc", { buf = bufnr })
     end
 end
 
 M.tag = function(client, bufnr)
     if client.server_capabilities.definitionProvider then
-        vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
+        vim.api.nvim_set_option_value("tagfunc", "v:lua.vim.lsp.tagfunc", { buf = bufnr })
     end
 end
 

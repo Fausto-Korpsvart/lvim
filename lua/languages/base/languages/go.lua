@@ -3,7 +3,7 @@ local ft = {
     "go",
     "gomod",
 }
-local gopls_config = require("languages.base.languages._configs").go(ft, "go")
+local gopls_config = require("languages.base.languages._configs").go(ft)
 local dap = require("dap")
 
 local language_configs = {}

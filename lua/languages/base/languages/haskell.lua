@@ -3,7 +3,7 @@ local ft = {
     "haskell",
     "lhaskell",
 }
-local hls_config = require("languages.base.languages._configs").default_config(ft, "haskell")
+local hls_config = require("languages.base.languages._configs").default_config(ft)
 local dap = require("dap")
 
 local language_configs = {}

@@ -16,8 +16,6 @@ local function trim_and_pad(contents, opts)
     opts = opts or {}
     local left_padding = (" "):rep(opts.pad_left or 1)
     local right_padding = (" "):rep(opts.pad_right or 1)
-    -- contents = util.trim_empty_lines(contents)
-    -- contents = vim.split(contents, { trimempty = true })
     for i, line in ipairs(contents) do
         contents[i] = string.format("%s%s%s", left_padding, line:gsub("\r", ""), right_padding)
     end
@@ -82,18 +80,18 @@ local function open_floating_preview(contents, syntax)
     })
     local floating_bufnr = api.nvim_create_buf(false, true)
     if syntax then
-        api.nvim_buf_set_option(floating_bufnr, "syntax", syntax)
+        api.nvim_set_option_value('filetype', syntax, { buf = floating_bufnr })
     end
     local float_option = util.make_floating_popup_options(width, height)
     local floating_winnr = api.nvim_open_win(floating_bufnr, true, float_option)
     api.nvim_command("noautocmd wincmd p")
     if syntax == "markdown" then
-        api.nvim_win_set_option(floating_winnr, "conceallevel", 2)
+        api.nvim_win_set_var(floating_winnr, "conceallevel", 2)
     end
-    api.nvim_win_set_option(floating_winnr, "winblend", 0)
+    api.nvim_win_set_var(floating_winnr, "winblend", 0)
     api.nvim_buf_set_lines(floating_bufnr, 0, -1, true, contents)
-    api.nvim_buf_set_option(floating_bufnr, "modifiable", false)
-    api.nvim_buf_set_option(floating_bufnr, "bufhidden", "wipe")
+    api.nvim_buf_set_var(floating_bufnr, "modifiable", false)
+    api.nvim_buf_set_var(floating_bufnr, "bufhidden", "wipe")
     vim.defer_fn(function()
         api.nvim_command(
             "autocmd CursorMoved,CursorMovedI,BufHidden,InsertCharPre <buffer> lua pcall(vim.api.nvim_win_close, "
@@ -112,8 +110,8 @@ local floating_severity_highlight_name = {
 }
 
 M.show_line_diagnostics = function()
-    bufnr = bufnr or 0
-    line_nr = line_nr or (api.nvim_win_get_cursor(0)[1] - 1)
+    local bufnr = 0;
+    local line_nr = api.nvim_win_get_cursor(0)[1] - 1
     local lines = {}
     local highlights = {}
     local line_diagnostics = vim.diagnostic.get(bufnr, { lnum = line_nr })
@@ -124,7 +122,7 @@ M.show_line_diagnostics = function()
         local prefix = string.format("%d. (%s) ", i, diagnostic.source or "unknown")
         local hiname = floating_severity_highlight_name[diagnostic.severity]
         assert(hiname, "unknown severity: " .. tostring(diagnostic.severity))
-        local message_lines = vim.split(diagnostic.message, "\n", true)
+        local message_lines = vim.split(diagnostic.message, "\n", { trimempty = true })
         table.insert(lines, prefix .. message_lines[1])
         table.insert(highlights, { #prefix, hiname })
         for j = 2, #message_lines do
@@ -133,7 +131,7 @@ M.show_line_diagnostics = function()
         end
     end
     local popup_bufnr, winnr = open_floating_preview(lines, "plaintext")
-    api.nvim_buf_set_option(popup_bufnr, "buftype", "prompt")
+    api.nvim_buf_set_var(popup_bufnr, "buftype", "prompt")
     for i, hi in ipairs(highlights) do
         local prefixlen, hiname = unpack(hi)
         api.nvim_buf_add_highlight(
@@ -149,25 +147,21 @@ M.show_line_diagnostics = function()
     return popup_bufnr, winnr
 end
 
-M.goto_next = function(opts)
-    opts = vim.tbl_deep_extend("error", {
-        float = {
-            pos = -1000,
-        },
-    }, opts or {})
-    vim.diagnostic.goto_next(opts)
+M.goto_next = function()
+    vim.diagnostic.jump({
+        count = 1,
+        float = false
+    })
     vim.schedule(function()
         M.show_line_diagnostics()
     end)
 end
 
-M.goto_prev = function(opts)
-    opts = vim.tbl_deep_extend("error", {
-        float = {
-            pos = -1000,
-        },
-    }, opts or {})
-    vim.diagnostic.goto_prev(opts)
+M.goto_prev = function()
+    vim.diagnostic.jump({
+        count = -1,
+        float = false,
+    })
     vim.schedule(function()
         M.show_line_diagnostics()
     end)

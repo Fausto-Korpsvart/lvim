@@ -3,7 +3,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "php",
 }
-local intelephense_config = require("languages.base.languages._configs").default_config(ft, "php")
+local intelephense_config = require("languages.base.languages._configs").default_config(ft)
 local dap = require("dap")
 
 local language_configs = {}

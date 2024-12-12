@@ -4,7 +4,7 @@ local ft = {
     "cs",
     "vb",
 }
-local omnisharp_config = require("languages.base.languages._configs").omnisharp_config(ft, "cs")
+local omnisharp_config = require("languages.base.languages._configs").omnisharp_config(ft)
 local dap = require("dap")
 
 local language_configs = {}

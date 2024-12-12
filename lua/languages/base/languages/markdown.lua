@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "markdown",
 }
-local marksman_config = require("languages.base.languages._configs").without_formatting(ft, "markdown")
+local marksman_config = require("languages.base.languages._configs").without_formatting(ft)
 
 local language_configs = {}
 

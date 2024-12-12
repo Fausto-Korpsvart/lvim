@@ -8,7 +8,7 @@ local ft = {
     "typescript.tsx",
     "vue",
 }
-local eslint_config = require("languages.base.languages._configs").without_winbar_config(ft, "_eslint")
+local eslint_config = require("languages.base.languages._configs").without_winbar_config(ft)
 
 local language_configs = {}
 

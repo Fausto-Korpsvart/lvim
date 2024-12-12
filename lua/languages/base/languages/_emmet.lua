@@ -6,7 +6,7 @@ local ft = {
     "javascriptreact",
     "astro",
 }
-local emmet_ls_config = require("languages.base.languages._configs").without_winbar_config(ft, "_emmet")
+local emmet_ls_config = require("languages.base.languages._configs").without_winbar_config(ft)
 
 local language_configs = {}
 

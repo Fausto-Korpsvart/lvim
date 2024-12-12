@@ -2,7 +2,7 @@ local lsp_manager = require("languages.utils.lsp_manager")
 local ft = {
     "elm",
 }
-local elmls_config = require("languages.base.languages._configs").default_config(ft, "elm")
+local elmls_config = require("languages.base.languages._configs").default_config(ft)
 
 local language_configs = {}
 
