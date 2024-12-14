@@ -212,23 +212,7 @@ M.get_capabilities = function()
 end
 
 M.get_cpp_capabilities = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem["snippetSupport"] = true
-    capabilities.textDocument.completion.completionItem["resolveSupport"] = {
-        properties = {
-            "documentation",
-            "detail",
-            "additionalTextEdits",
-        },
-    }
-    local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-    if status_ok then
-        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-    end
-    capabilities["offsetEncoding"] = "utf-16"
-    capabilities.experimental = {
-        workspaceWillRename = true,
-    }
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
     return capabilities
 end
 

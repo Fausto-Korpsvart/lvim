@@ -30,11 +30,6 @@ modules["nvim-lua/popup.nvim"] = {
     lazy = true,
 }
 
-modules["onsails/lspkind.nvim"] = {
-    commit = funcs.get_commit("lspkind", plugins_snapshot),
-    lazy = true,
-}
-
 modules["nvim-neotest/nvim-nio"] = {
     commit = funcs.get_commit("nvim-nio", plugins_snapshot),
     lazy = true,
@@ -94,6 +89,7 @@ modules["junegunn/fzf"] = {
 
 modules["neovim/nvim-lspconfig"] = {
     commit = funcs.get_commit("nvim-lspconfig", plugins_snapshot),
+    dependencies = { "saghen/blink.cmp" },
     lazy = true,
 }
 
@@ -122,32 +118,6 @@ modules["jbyuki/one-small-step-for-vimkind"] = {
     lazy = true,
 }
 
-modules["hrsh7th/cmp-nvim-lsp"] = {
-    commit = funcs.get_commit("cmp-nvim-lsp", plugins_snapshot),
-    lazy = true,
-}
-
-modules["saadparwaiz1/cmp_luasnip"] = {
-    commit = funcs.get_commit("cmp_luasnip", plugins_snapshot),
-    lazy = true,
-}
-
-modules["hrsh7th/cmp-buffer"] = {
-    commit = funcs.get_commit("cmp-buffer", plugins_snapshot),
-    lazy = true,
-}
-
-modules["hrsh7th/cmp-path"] = {
-    commit = funcs.get_commit("cmp-path", plugins_snapshot),
-    lazy = true,
-}
-
-modules["kdheepak/cmp-latex-symbols"] = {
-    commit = funcs.get_commit("cmp-latex-symbols", plugins_snapshot),
-    ft = "latex",
-    lazy = true,
-}
-
 modules["rafamadriz/friendly-snippets"] = {
     commit = funcs.get_commit("friendly-snippets", plugins_snapshot),
     lazy = true,
@@ -164,7 +134,7 @@ modules["folke/noice.nvim"] = {
     dependencies = {
         "MunifTanjim/nui.nvim",
         "rcarriga/nvim-notify",
-        "hrsh7th/nvim-cmp",
+        -- "hrsh7th/nvim-cmp",
     },
     config = ui_config.noice_nvim,
 }
@@ -1139,21 +1109,18 @@ modules["lvim-tech/lvim-org-utils"] = {
 
 local completion_config = require("modules.base.configs.completion")
 
-modules["hrsh7th/nvim-cmp"] = {
-    commit = funcs.get_commit("nvim-cmp", plugins_snapshot),
+modules["Saghen/blink.cmp"] = {
+    commit = funcs.get_commit("blink.cmp", plugins_snapshot),
     dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
-        "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "kdheepak/cmp-latex-symbols",
-        "hrsh7th/cmp-cmdline",
-        "luckasRanarison/tailwind-tools.nvim",
+        "L3MON4D3/LuaSnip",
+        "rafamadriz/friendly-snippets",
+        "niuiic/blink-cmp-rg.nvim",
     },
     event = {
         "InsertEnter",
     },
-    config = completion_config.nvim_cmp,
+    build = "cargo build --release",
+    config = completion_config.blink_cmp,
 }
 
 modules["L3MON4D3/LuaSnip"] = {
@@ -1169,7 +1136,6 @@ modules["windwp/nvim-autopairs"] = {
     commit = funcs.get_commit("nvim-autopairs", plugins_snapshot),
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "hrsh7th/nvim-cmp",
     },
     config = completion_config.nvim_autopairs,
 }
