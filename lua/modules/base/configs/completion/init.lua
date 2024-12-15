@@ -19,7 +19,7 @@ config.blink_cmp = function()
             jump = function(direction) require("luasnip").jump(direction) end,
         },
         sources = {
-            default = { "lsp", "lazydev", "path", "snippets", "buffer", "ripgrep" },
+            default = { "lsp", "lazydev", "path", "snippets", "ripgrep" },
             providers = {
                 lsp = { fallbacks = { "lazydev" } },
                 lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
@@ -56,7 +56,11 @@ config.blink_cmp = function()
                     padding = 2,
                     gap = 1,
                     treesitter = { "lsp" },
-                    columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind" } },
+                    columns = {
+                        { "kind_icon" },
+                        { "label",    "label_description", gap = 1 },
+                        { "kind" }
+                    },
                 },
             },
             documentation = {
