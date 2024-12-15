@@ -523,7 +523,7 @@ config.alpha_nvim = function()
         button("SPC SPC b", icons.common.project .. " Projects", ":CtrlSpace b<CR>"),
         button("<Leader>f", icons.common.file .. " Search file", ":FzfLua files<CR>"),
         button("<Leader>s", icons.common.search_in_files .. " Search in files", ":FzfLua live_grep<CR>"),
-        button("q", icons.common.quit .. "Quit", "<Cmd>qa<CR>"),
+        button("q", icons.common.quit .. " Quit", "<Cmd>qa<CR>"),
     }
     alpha_themes_dashboard.section.footer.val = footer()
     alpha_themes_dashboard.section.footer.opts.hl = "AlphaFooter"
