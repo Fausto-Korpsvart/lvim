@@ -130,8 +130,8 @@ config.fzf_lua = function()
         winopts_fn = function()
             local win_height = math.ceil(vim.api.nvim_get_option_value("lines", {}) * _G.LVIM_SETTINGS.floatheight)
             local win_width = math.ceil(vim.api.nvim_get_option_value("columns", {}) * 1)
-            local col = math.ceil((vim.api.nvim_get_option_valuen("columns", {}) - win_width) * 1)
-            local row = math.ceil((vim.api.nvim_get_option_valuen("lines", {}) - win_height) * 1 - 3)
+            local col = math.ceil((vim.api.nvim_get_option_value("columns", {}) - win_width) * 1)
+            local row = math.ceil((vim.api.nvim_get_option_value("lines", {}) - win_height) * 1 - 3)
             return {
                 title = "FZF LUA",
                 title_pos = "center",
