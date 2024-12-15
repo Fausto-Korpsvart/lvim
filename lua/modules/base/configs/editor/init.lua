@@ -396,17 +396,22 @@ config.lvim_qf_loc = function()
     end, { noremap = true, silent = true, desc = "LocMenuSave" })
 end
 
+-- local ft = vim.api.nvim_get_option_value("filetype", { buf = vim.api.nvim_win_get_buf(win_id) })
 config.tabby_nvim = function()
     local tabby_status_ok, tabby = pcall(require, "tabby")
     if not tabby_status_ok then
+        return
+    end
+    local tabby_util_status_ok, tabby_util = pcall(require, "tabby.util")
+    if not tabby_util_status_ok then
         return
     end
     local tabby_module_api_status_ok, tabby_module_api = pcall(require, "tabby.module.api")
     if not tabby_module_api_status_ok then
         return
     end
-    local tabby_module_filename_status_ok, tabby_module_filename = pcall(require, "tabby.module.filename")
-    if not tabby_module_filename_status_ok then
+    local tabby_filename_status_ok, tabby_filename = pcall(require, "tabby.filename")
+    if not tabby_filename_status_ok then
         return
     end
     local theme = _G.LVIM_SETTINGS.theme
@@ -477,17 +482,13 @@ config.tabby_nvim = function()
         local current_tab = vim.api.nvim_get_current_tabpage()
         local name_of_buf
         local wins = tabby_module_api.get_tab_wins(current_tab)
-        -- 1. (Lua Diagnostics.) Deprecated.(use require('tabby.module.api').get_tab_wins)
-        -- local wins = tabby_util.tabpage_list_wins(current_tab)
         local top_win = vim.api.nvim_tabpage_get_win(current_tab)
         local hl
         local win_name
         for _, win_id in ipairs(wins) do
-            -- local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_id), "filetype")
             local ft = vim.api.nvim_get_option_value("filetype", { buf = vim.api.nvim_win_get_buf(win_id) })
-            win_name = tabby_module_filename.unique(win_id)
-            -- 1. (Lua Diagnostics.) Deprecated.(use require('tabby.module.filename').unique)
-            -- win_name = tabby_filename.unique(win_id)
+            ---@diagnostic disable-next-line: deprecated
+            win_name = tabby_filename.unique(win_id)
             if not vim.tbl_contains(exclude, ft) then
                 if win_id == top_win then
                     hl = { bg = hl_tabline.color_03, fg = hl_tabline.color_02, style = "bold" }
