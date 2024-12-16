@@ -182,6 +182,15 @@ modules["echasnovski/mini.clue"] = {
     config = ui_config.mini_clue,
 }
 
+modules["echasnovski/mini.cursorword"] = {
+    commit = funcs.get_commit("mini.cursorword", plugins_snapshot),
+    event = {
+        "BufEnter",
+    },
+    config = ui_config.mini_cursorword,
+
+}
+
 modules["prichrd/netrw.nvim"] = {
     commit = funcs.get_commit("netrw.nvim", plugins_snapshot),
     dependencies = {

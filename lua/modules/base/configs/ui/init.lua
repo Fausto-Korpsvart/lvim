@@ -806,6 +806,16 @@ config.mini_clue = function()
     vim.api.nvim_create_user_command("LvimKeysHelperDelay", lvim_keys_helper_delay, {})
 end
 
+config.mini_cursorword = function()
+    local mini_cursorword_status_ok, mini_cursorword = pcall(require, "mini.cursorword")
+    if not mini_cursorword_status_ok then
+        return
+    end
+    mini_cursorword.setup({
+        delay = 10
+    })
+end
+
 config.netrw_nvim = function()
     local netrw_nvim_status_ok, netrw_nvim = pcall(require, "netrw")
     if not netrw_nvim_status_ok then
