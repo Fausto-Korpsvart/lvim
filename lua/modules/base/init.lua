@@ -93,11 +93,6 @@ modules["neovim/nvim-lspconfig"] = {
     lazy = true,
 }
 
-modules["olimorris/neotest-phpunit"] = {
-    commit = funcs.get_commit("neotest-phpunit", plugins_snapshot),
-    lazy = true,
-}
-
 modules["nvim-treesitter/playground"] = {
     commit = funcs.get_commit("playground", plugins_snapshot),
     lazy = true,
