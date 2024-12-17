@@ -87,6 +87,19 @@ config.blink_cmp = function()
             ["<C-k>"] = { "select_prev", "fallback" },
             ["<C-h>"] = { "scroll_documentation_down", "fallback" },
             ["<C-l>"] = { "scroll_documentation_up", "fallback" },
+            cmdline = {
+                ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+                ["<C-e>"] = { "hide", "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+                ["<Down>"] = { "select_next", "fallback" },
+                ["<Up>"] = { "select_prev", "fallback" },
+                ["<C-j>"] = { "select_next", "fallback" },
+                ["<C-k>"] = { "select_prev", "fallback" },
+                ["<C-h>"] = { "scroll_documentation_down", "fallback" },
+                ["<C-l>"] = { "scroll_documentation_up", "fallback" },
+            }
         },
     })
 end
