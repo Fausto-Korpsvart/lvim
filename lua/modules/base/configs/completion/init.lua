@@ -19,7 +19,7 @@ config.blink_cmp = function()
             jump = function(direction) require("luasnip").jump(direction) end,
         },
         sources = {
-            default = { "lsp", "path", "snippets", "buffer", "ripgrep", "lazydev" },
+            default = { "lsp", "path", "snippets", "ripgrep", "lazydev" },
             providers = {
                 lsp = { fallbacks = { "lazydev" } },
                 lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
