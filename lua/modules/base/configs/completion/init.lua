@@ -19,7 +19,7 @@ config.blink_cmp = function()
             jump = function(direction) require("luasnip").jump(direction) end,
         },
         sources = {
-            default = { "lsp", "lazydev", "path", "snippets", "ripgrep" },
+            default = { "lsp", "path", "snippets", "buffer", "ripgrep", "lazydev" },
             providers = {
                 lsp = { fallbacks = { "lazydev" } },
                 lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
@@ -51,6 +51,10 @@ config.blink_cmp = function()
             kind_icons = lsp_symbols,
         },
         completion = {
+            accept = { auto_brackets = { enabled = true } },
+            trigger = {
+                show_on_insert_on_trigger_character = false,
+            },
             menu = {
                 draw = {
                     padding = 2,
@@ -75,15 +79,15 @@ config.blink_cmp = function()
             ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
             ["<C-e>"] = { "hide", "fallback" },
             ["<CR>"] = { "accept", "fallback" },
-            ["<Tab>"] = { "snippet_forward", "fallback" },
-            ["<S-Tab>"] = { "snippet_backward", "fallback" },
+            ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+            ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
             ["<Down>"] = { "select_next", "fallback" },
             ["<Up>"] = { "select_prev", "fallback" },
             ["<C-j>"] = { "select_next", "fallback" },
             ["<C-k>"] = { "select_prev", "fallback" },
             ["<C-h>"] = { "scroll_documentation_down", "fallback" },
             ["<C-l>"] = { "scroll_documentation_up", "fallback" },
-        }
+        },
     })
 end
 
