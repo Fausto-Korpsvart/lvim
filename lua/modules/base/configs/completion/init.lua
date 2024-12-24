@@ -19,9 +19,20 @@ config.blink_cmp = function()
             jump = function(direction) require("luasnip").jump(direction) end,
         },
         sources = {
-            default = { "lsp", "path", "snippets", "ripgrep", "lazydev" },
+            default = {
+                "nvim-px-to-rem",
+                "lsp",
+                "path",
+                "snippets",
+                "ripgrep",
+                "lazydev",
+            },
             providers = {
                 lsp = { fallbacks = { "lazydev" } },
+                ["nvim-px-to-rem"] = {
+                    module = "nvim-px-to-rem.integrations.blink",
+                    name = "nvim-px-to-rem",
+                },
                 lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
                 ripgrep = {
                     module = "blink-cmp-rg",
@@ -87,6 +98,8 @@ config.blink_cmp = function()
             ["<C-k>"] = { "select_prev", "fallback" },
             ["<C-h>"] = { "scroll_documentation_down", "fallback" },
             ["<C-l>"] = { "scroll_documentation_up", "fallback" },
+            ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+            ["<C-u>"] = { "scroll_documentation_up", "fallback" },
             cmdline = {
                 ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
                 ["<C-e>"] = { "hide", "fallback" },

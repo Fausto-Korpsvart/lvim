@@ -961,14 +961,36 @@ modules["luckasRanarison/tailwind-tools.nvim"] = {
     config = languages_config.tailwind_tools_nvim
 }
 
--- modules["kosayoda/nvim-lightbulb"] = {
--- modules["lvim-tech/nvim-lightbulb"] = {
---     commit = funcs.get_commit("nvim-lightbulb", plugins_snapshot),
---     event = {
---         "BufRead",
---     },
---     config = languages_config.nvim_lightbulb,
--- }
+modules["jsongerber/nvim-px-to-rem"] = {
+    commit = funcs.get_commit("nvim-px-to-rem", plugins_snapshot),
+    ft = {
+        "css",
+        "scss",
+        "less",
+        "astro",
+    },
+    keys = {
+        {
+            "<Leader>pxx",
+            "<cmd>PxToRemCursor<cr>",
+            desc = "Px to Rem cursor",
+        },
+        {
+            "<Leader>pxl",
+            "<cmd>PxToRemLine<cr>",
+            desc = "Px to Rem line",
+        },
+    },
+    config = languages_config.nvim_px_to_rem
+}
+
+modules["kosayoda/nvim-lightbulb"] = {
+    commit = funcs.get_commit("nvim-lightbulb", plugins_snapshot),
+    event = {
+        "BufRead",
+    },
+    config = languages_config.nvim_lightbulb,
+}
 
 modules["nvim-treesitter/nvim-treesitter"] = {
     commit = funcs.get_commit("nvim-treesitter", plugins_snapshot),
@@ -1119,6 +1141,7 @@ modules["Saghen/blink.cmp"] = {
         "L3MON4D3/LuaSnip",
         "rafamadriz/friendly-snippets",
         "niuiic/blink-cmp-rg.nvim",
+        "jsongerber/nvim-px-to-rem",
     },
     event = {
         "InsertEnter",
@@ -1156,5 +1179,88 @@ modules["kylechui/nvim-surround"] = {
     },
     config = completion_config.nvim_surround,
 }
+
+-- modules["folke/snacks.nvim"] = {
+--     config = function()
+--         local snacks_status_ok, snacks = pcall(require, "snacks")
+--         if not snacks_status_ok then
+--             return
+--         end
+--         snacks.setup({
+--             indent = { enabled = true },
+--             -- input = { enabled = true },
+--             dim = {
+--                 enabled = true,
+--             },
+--             profiler = {
+--                 enabled = true,
+--             },
+--             health = {
+--                 enabled = true,
+--             },
+--             toggle = {
+--                 enabled = true,
+--             },
+--             input = {
+--                 prompt_pos = "left",
+--                 icon_pos = "left",
+--                 expand = false,
+--             },
+--             lazygit = {
+--                 enabled = true,
+--             },
+--             gitbrowse = {
+--                 enabled = true,
+--             },
+--             notifier = { enabled = true },
+--             quickfile = { enabled = true },
+--             scroll = { enabled = true },
+--             statuscolumn = { enabled = true },
+--             words = { enabled = true },
+--             bigfile = { enabled = true },
+--             --          dashboard = {
+--             --              enabled = true,
+--             --              preset = {
+--             --                  header = [[
+--             --        ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
+--             --        ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z
+--             --        ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z
+--             --        ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z
+--             --        ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║
+--             --        ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝
+--             -- ]],
+--             --                  -- stylua: ignore
+--             --                  ---@type snacks.dashboard.Item[]
+--             --                  keys = {
+--             --                      { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+--             --                      { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+--             --                      { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+--             --                      { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+--             --                      { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+--             --                      { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+--             --                      { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
+--             --                      { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+--             --                      { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+--             --                  },
+--             --              },
+--             --              indent = { enabled = true },
+--             --              input = { enabled = true },
+--             --              notifier = {
+--             --                  enabled = true,
+--             --                  timeout = 3000,
+--             --              },
+--             --              quickfile = { enabled = true },
+--             --              scroll = { enabled = true },
+--             --              statuscolumn = { enabled = true },
+--             --              words = { enabled = true },
+--             --              styles = {
+--             --                  notification = {
+--             --                      -- wo = { wrap = true } -- Wrap notifications
+--             --                  }
+--             --              }
+--             --          }
+--         })
+--     end
+-- }
 
 return modules

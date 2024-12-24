@@ -334,6 +334,25 @@ config.tailwind_tools_nvim = function()
     })
 end
 
+config.nvim_px_to_rem = function()
+    local nvim_px_to_rem_status_ok, nvim_px_to_rem = pcall(require, "nvim-px-to-rem")
+    if not nvim_px_to_rem_status_ok then
+        return
+    end
+    nvim_px_to_rem.setup({
+        root_font_size = 16,
+        decimal_count = 4,
+        show_virtual_text = true,
+        add_cmp_source = true,
+        filetypes = {
+            "css",
+            "scss",
+            "less",
+            "astro",
+        },
+    })
+end
+
 config.nvim_lightbulb = function()
     local nvim_lightbulb_status_ok, nvim_lightbulb = pcall(require, "nvim-lightbulb")
     if not nvim_lightbulb_status_ok then
