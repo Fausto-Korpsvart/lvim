@@ -100,6 +100,7 @@ return {
     },
     ["json"] = {
         "json",
+        "jsonc",
     },
     ["jsts"] = {
         "javascript",
