@@ -27,13 +27,28 @@ config.blink_cmp = function()
                 "ripgrep",
                 "lazydev",
             },
+            cmdline = function()
+                local type = vim.fn.getcmdtype()
+                if type == "/" or type == "?" then
+                    return { "buffer" }
+                end
+                if type == ":" then
+                    return { "cmdline" }
+                end
+                return {}
+            end,
             providers = {
-                lsp = { fallbacks = { "lazydev" } },
+                lsp = {
+                    fallbacks = { "lazydev" },
+                },
                 ["nvim-px-to-rem"] = {
                     module = "nvim-px-to-rem.integrations.blink",
                     name = "nvim-px-to-rem",
                 },
-                lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+                lazydev = {
+                    name = "LazyDev",
+                    module = "lazydev.integrations.blink",
+                },
                 ripgrep = {
                     module = "blink-cmp-rg",
                     name = "Ripgrep",
@@ -77,10 +92,19 @@ config.blink_cmp = function()
                         { "kind" }
                     },
                 },
+                cmdline_position = function()
+                    if vim.g.ui_cmdline_pos ~= nil then
+                        local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+                        return { pos[1] - 1, pos[2] }
+                    end
+                    local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+                    return { vim.o.lines - height, 0 }
+                end,
             },
             documentation = {
                 auto_show = true,
                 auto_show_delay_ms = 10,
+                treesitter_highlighting = true,
             },
             ghost_text = {
                 enabled = true,

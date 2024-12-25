@@ -506,10 +506,20 @@ modules["gennaro-tedesco/nvim-peekup"] = {
 }
 
 modules["gcmt/vessel.nvim"] = {
+    commit = funcs.get_commit("vessel.nvim", plugins_snapshot),
     dependencies = {
         { "nvim-telescope/telescope.nvim" },
     },
     config = editor_config.vessel_nvim,
+}
+
+modules["OscarCreator/rsync.nvim"] = {
+    commit = funcs.get_commit("rsync.nvim", plugins_snapshot),
+    build = "make",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+        require("rsync").setup()
+    end
 }
 
 modules["kevinhwang91/nvim-hlslens"] = {
