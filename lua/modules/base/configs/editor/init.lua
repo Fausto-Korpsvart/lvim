@@ -745,6 +745,16 @@ config.flow_nvim = function()
     })
 end
 
+
+config.transfer_nvim = function()
+    local transfer_status_ok, transfer = pcall(require, "transfer")
+    if not transfer_status_ok then
+        return
+    end
+    transfer.setup()
+end
+
+
 config.code_runner_nvim = function()
     local global = require("core.global")
     local code_runner_status_ok, code_runner = pcall(require, "code_runner")

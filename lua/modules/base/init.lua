@@ -598,21 +598,9 @@ modules["chrisgrieser/nvim-various-textobjs"] = {
     config = editor_config.nvim_various_textobjs,
 }
 
-modules["NTBBloodbath/rest.nvim"] = {
+modules["rest-nvim/rest.nvim"] = {
     commit = funcs.get_commit("rest.nvim", plugins_snapshot),
     ft = "http",
-    keys = {
-        {
-            "<Leader>tr",
-            "<cmd>Rest run<cr>",
-            desc = "RestNvim Run",
-        },
-        {
-            "<Leader>tl",
-            "<cmd>Rest last<cr>",
-            desc = "RestNvim Run Last",
-        },
-    },
     config = editor_config.rest_nvim,
 }
 
@@ -637,6 +625,51 @@ modules["arjunmahishi/flow.nvim"] = {
         },
     },
     config = editor_config.flow_nvim,
+}
+
+modules["coffebar/transfer.nvim"] = {
+    commit = funcs.get_commit("transfer.nvim", plugins_snapshot),
+    dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+        {
+            "<Leader>ti",
+            "<cmd>TransferInit<cr>",
+            desc = "Transfer Init",
+        },
+        {
+            "<Leader>tf",
+            "<cmd>DiffRemote<cr>",
+            desc = "Diff Remote",
+        },
+        {
+            "<Leader>tF",
+            "<cmd>TransferDirDiff<cr>",
+            desc = "Transfer Dir Diff",
+        },
+        {
+            "<Leader>tu",
+            "<cmd>TransferUpload<cr>",
+            desc = "Transfer Upload",
+        },
+        {
+            "<Leader>td",
+            "<cmd>TransferDownload<cr>",
+            desc = "Transfer Download",
+        },
+        {
+            "<Leader>tr",
+            "<cmd>TransferDownload<cr>",
+            desc = "Transfer Download",
+        },
+    },
+    cmd = {
+        "TransferInit",
+        "DiffRemote",
+        "TransferUpload",
+        "TransferDownload",
+        "TransferDirDiff",
+        "TransferRepeat" },
+    config = editor_config.transfer_nvim
 }
 
 modules["CRAG666/code_runner.nvim"] = {
