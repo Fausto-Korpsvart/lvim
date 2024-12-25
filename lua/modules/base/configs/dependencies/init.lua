@@ -69,6 +69,21 @@ config.nvim_notify = function()
     end
     vim.cmd("command! Message :lua require('notify').print_history()<CR>")
     vim.notify = notify
+    vim.notify = function(msg, level, opts)
+        local skip_messages = {
+            "method .+ is not supported",
+            "warning: multiple different client offset_encodings",
+            "No information available",
+            "not supported",
+            "No signature help available",
+        }
+        for _, pattern in ipairs(skip_messages) do
+            if msg:match(pattern) then
+                return
+            end
+        end
+        notify(msg, level, opts)
+    end
 end
 
 config.nui_nvim = function()
