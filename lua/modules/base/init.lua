@@ -513,15 +513,6 @@ modules["gcmt/vessel.nvim"] = {
     config = editor_config.vessel_nvim,
 }
 
-modules["OscarCreator/rsync.nvim"] = {
-    commit = funcs.get_commit("rsync.nvim", plugins_snapshot),
-    build = "make",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-        require("rsync").setup()
-    end
-}
-
 modules["kevinhwang91/nvim-hlslens"] = {
     commit = funcs.get_commit("nvim-hlslens", plugins_snapshot),
     event = {
