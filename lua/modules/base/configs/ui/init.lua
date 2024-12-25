@@ -88,17 +88,21 @@ config.noice_nvim = function()
                 view = "mini",
             },
             override = {
-                ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                ["vim.lsp.util.stylize_markdown"] = true,
+                -- ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+                -- ["vim.lsp.util.stylize_markdown"] = true,
+                ["vim.lsp.util.stylize_markdown"] = false,
                 ["cmp.entry.get_documentation"] = true,
             },
             hover = {
-                enabled = true,
+                -- enabled = true,
+                enabled = false,
                 view = nil,
                 opts = {},
             },
             signature = {
-                enabled = true,
+                -- enabled = true,
+                enabled = false,
                 auto_open = {
                     enabled = true,
                     trigger = true,
@@ -897,6 +901,32 @@ config.neo_tree_nvim = function()
             mappings = {
                 ["Z"] = "expand_all_nodes",
                 ["<Leader>"] = false,
+                uu = {
+                    function(state)
+                        vim.cmd("TransferUpload " .. state.tree:get_node().path)
+                    end,
+                    desc = "upload file or directory",
+                    nowait = true,
+                },
+                ud = {
+                    function(state)
+                        vim.cmd("TransferDownload" .. state.tree:get_node().path)
+                    end,
+                    desc = "download file or directory",
+                    nowait = true,
+                },
+                uf = {
+                    function(state)
+                        local node = state.tree:get_node()
+                        local context_dir = node.path
+                        if node.type ~= "directory" then
+                            context_dir = context_dir:gsub("/[^/]*$", "")
+                        end
+                        vim.cmd("TransferDirDiff " .. context_dir)
+                        vim.cmd("Neotree close")
+                    end,
+                    desc = "diff with remote",
+                },
             },
         },
         filesystem = {
