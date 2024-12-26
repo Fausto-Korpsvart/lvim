@@ -706,7 +706,6 @@ config.rest_nvim = function()
     if not rest_nvim_status_ok then
         return
     end
-    vim.g.rest_nvim.setup()
     vim.api.nvim_create_user_command("Rest", "lua require('rest-nvim').run()", {})
     vim.api.nvim_create_user_command("RestPreview", "lua require('rest-nvim').run(true)", {})
     vim.api.nvim_create_user_command("RestLast", "lua require('rest-nvim').last()", {})

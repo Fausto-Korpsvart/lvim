@@ -303,8 +303,6 @@ config.flutter_tools_nvim = function()
             auto_attach = true,
             on_attach = function(client, bufnr)
                 setup_diagnostics.keymaps(client, bufnr)
-                setup_diagnostics.omni(client, bufnr)
-                setup_diagnostics.tag(client, bufnr)
                 setup_diagnostics.document_highlight(client, bufnr)
                 setup_diagnostics.document_auto_format(client, bufnr)
                 setup_diagnostics.inlay_hint(client, bufnr)
