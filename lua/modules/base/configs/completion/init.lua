@@ -7,6 +7,9 @@ config.blink_cmp = function()
     end
     local icons = require("configs.base.ui.icons")
     local lsp_symbols = icons.cmp
+    local ext = { "lazydev", "ripgrep", "nvim-px-to-rem" }
+    local default_sources =
+        vim.list_extend({ "lsp", "path", "snippets", "buffer" }, ext)
     blink_cmp.setup({
         snippets = {
             expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
@@ -19,14 +22,7 @@ config.blink_cmp = function()
             jump = function(direction) require("luasnip").jump(direction) end,
         },
         sources = {
-            default = {
-                "nvim-px-to-rem",
-                "lsp",
-                "path",
-                "snippets",
-                "ripgrep",
-                "lazydev",
-            },
+            default = default_sources,
             cmdline = function()
                 local type = vim.fn.getcmdtype()
                 if type == "/" or type == "?" then
