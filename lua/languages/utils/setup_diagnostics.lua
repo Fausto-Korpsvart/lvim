@@ -138,19 +138,6 @@ M.init_diagnostics = function()
     })
 end
 
-M.omni = function(client, bufnr)
-    if client.server_capabilities.completionProvider then
-        -- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-        vim.api.nvim_set_option_value("omnifunc", "v:lua.lsp.omnifunc", { buf = bufnr })
-    end
-end
-
-M.tag = function(client, bufnr)
-    if client.server_capabilities.definitionProvider then
-        vim.api.nvim_set_option_value("tagfunc", "v:lua.vim.lsp.tagfunc", { buf = bufnr })
-    end
-end
-
 M.document_highlight = function(client, bufnr)
     if client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_create_autocmd("CursorHold", {
@@ -166,7 +153,7 @@ M.document_highlight = function(client, bufnr)
     end
 end
 
-M.document_formatting = function(client, bufnr)
+M.document_auto_format = function(client, bufnr)
     if client.server_capabilities.documentFormattingProvider then
         vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
@@ -202,48 +189,136 @@ M.get_cpp_capabilities = function()
 end
 
 M.keymaps = function(_, bufnr)
-    vim.keymap.set("n", "gd", function()
-        vim.lsp.buf.definition()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspDefinition" })
-    vim.keymap.set("n", "gD", function()
-        vim.lsp.buf.declaration()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspDeclaration" })
-    vim.keymap.set("n", "gt", function()
-        vim.lsp.buf.type_definition()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspTypeDefinition" })
-    vim.keymap.set("n", "gr", function()
-        vim.lsp.buf.references()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspReferences" })
-    vim.keymap.set("n", "gi", function()
-        vim.lsp.buf.implementation()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspImplementation" })
-    vim.keymap.set("n", "ge", function()
-        vim.lsp.buf.rename()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspRename" })
-    vim.keymap.set("n", "gf", function()
-        vim.cmd("LspFormat")
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspFormat" })
-    -- vim.keymap.set("x", "g;", function()
-    --     vim.cmd("LspFormatRange")
-    -- end, { noremap = true, silent = true, buffer = bufnr, desc = "LspFormatRange" })
-    vim.keymap.set("n", "ga", function()
-        vim.lsp.buf.code_action()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspCodeAction" })
-    vim.keymap.set("n", "gs", function()
-        vim.lsp.buf.signature_help()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspSignatureHelp" })
-    vim.keymap.set("n", "gL", function()
-        vim.lsp.codelens.refresh()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspCodeLensRefresh" })
-    vim.keymap.set("n", "gl", function()
-        vim.lsp.codelens.run()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspCodeLensRun" })
-    vim.keymap.set("n", "gh", function()
-        vim.lsp.buf.hover()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspHover" })
-    vim.keymap.set("n", "K", function()
-        vim.lsp.buf.hover()
-    end, { noremap = true, silent = true, buffer = bufnr, desc = "LspHover" })
+    local function create_safe_command(capability_name, command)
+        return function()
+            local clients = vim.lsp.get_clients({ bufnr = bufnr })
+            local has_capability = false
+            for _, client in ipairs(clients) do
+                if client.server_capabilities and client.server_capabilities[capability_name] then
+                    has_capability = true
+                    break
+                end
+            end
+            if has_capability then
+                pcall(command)
+            end
+        end
+    end
+    local mappings = {
+        {
+            mode = "n",
+            lhs = "gd",
+            capability = "definitionProvider",
+            command = vim.lsp.buf.definition,
+            desc = "LspDefinition"
+        },
+        {
+            mode = "n",
+            lhs = "gD",
+            capability = "declarationProvider",
+            command = vim.lsp.buf.declaration,
+            desc = "LspDeclaration"
+        },
+        {
+            mode = "n",
+            lhs = "gt",
+            capability = "typeDefinitionProvider",
+            command = vim.lsp.buf.type_definition,
+            desc = "LspTypeDefinition"
+        },
+        {
+            mode = "n",
+            lhs = "gr",
+            capability = "referencesProvider",
+            command = vim.lsp.buf.references,
+            desc = "LspReferences"
+        },
+        {
+            mode = "n",
+            lhs = "gi",
+            capability = "implementationProvider",
+            command = vim.lsp.buf.implementation,
+            desc = "LspImplementation"
+        },
+        {
+            mode = "n",
+            lhs = "ge",
+            capability = "renameProvider",
+            command = vim.lsp.buf.rename,
+            desc = "LspRename"
+        },
+        {
+            mode = "n",
+            lhs = "ga",
+            capability = "codeActionProvider",
+            command = vim.lsp.buf.code_action,
+            desc = "LspCodeAction"
+        },
+        {
+            mode = "n",
+            lhs = "gs",
+            capability = "signatureHelpProvider",
+            command = vim.lsp.buf.signature_help,
+            desc = "LspSignatureHelp"
+        },
+        {
+            mode = "n",
+            lhs = "gL",
+            capability = "codeLensProvider",
+            command = vim.lsp.codelens.refresh,
+            desc = "LspCodeLensRefresh"
+        },
+        {
+            mode = "n",
+            lhs = "gl",
+            capability = "codeLensProvider",
+            command = vim.lsp.codelens.run,
+            desc = "LspCodeLensRun"
+        },
+        {
+            mode = "n",
+            lhs = "gh",
+            capability = "hoverProvider",
+            command = vim.lsp.buf.hover,
+            desc = "LspHover"
+        },
+        {
+            mode = "n",
+            lhs = "K",
+            capability = "hoverProvider",
+            command = vim.lsp.buf.hover,
+            desc = "LspHover"
+        }
+    }
+    local function setup_format_mappings()
+        local has_format_capability = false
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        for _, client in ipairs(clients) do
+            if client.server_capabilities and client.server_capabilities.documentFormattingProvider then
+                has_format_capability = true
+                break
+            end
+        end
+        if has_format_capability then
+            vim.keymap.set("n", "gf", function()
+                vim.cmd("LspFormat")
+            end, { noremap = true, silent = true, buffer = bufnr, desc = "LspFormat" })
+        end
+    end
+    for _, mapping in ipairs(mappings) do
+        vim.keymap.set(
+            mapping.mode,
+            mapping.lhs,
+            create_safe_command(mapping.capability, mapping.command),
+            {
+                noremap = true,
+                silent = true,
+                buffer = bufnr,
+                desc = mapping.desc
+            }
+        )
+    end
+    setup_format_mappings()
 end
 
 return M

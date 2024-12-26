@@ -13,9 +13,6 @@ local efm = funcs.merge(efm_base, efm_user)
 
 if global.efm == false then
     global.efm = {
-        root_dir = function(fname)
-            return nvim_lsp_util.find_git_ancestor(fname) or vim.fn.getcwd()
-        end,
         init_options = { documentFormatting = true },
         settings = {
             languages = efm,
@@ -23,10 +20,11 @@ if global.efm == false then
         filetypes = {},
         on_attach = function(client, bufnr)
             setup_diagnostics.keymaps(client, bufnr)
-            setup_diagnostics.omni(client, bufnr)
-            setup_diagnostics.tag(client, bufnr)
             setup_diagnostics.document_highlight(client, bufnr)
-            setup_diagnostics.document_formatting(client, bufnr)
+            setup_diagnostics.document_auto_format(client, bufnr)
+        end,
+        root_dir = function(fname)
+            return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
         end,
     }
 end

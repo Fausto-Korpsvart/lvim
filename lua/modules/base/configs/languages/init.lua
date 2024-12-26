@@ -306,7 +306,7 @@ config.flutter_tools_nvim = function()
                 setup_diagnostics.omni(client, bufnr)
                 setup_diagnostics.tag(client, bufnr)
                 setup_diagnostics.document_highlight(client, bufnr)
-                setup_diagnostics.document_formatting(client, bufnr)
+                setup_diagnostics.document_auto_format(client, bufnr)
                 setup_diagnostics.inlay_hint(client, bufnr)
                 navic.attach(client, bufnr)
             end,
