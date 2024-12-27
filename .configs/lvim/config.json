@@ -1,9 +1,1 @@
-{
-    "theme": "lvim-dark",
-    "autoformat": true,
-    "inlayhint": true,
-    "virtualdiagnostic": false,
-    "floatheight": 0.4,
-    "keyshelper": true,
-    "keyshelperdelay": 200
-}
+{"keyshelper": true, "theme": "lvim-dark", "virtualdiagnostic": false, "autoformat": false, "keyshelperdelay": 200, "inlayhint": true, "floatheight": 0.4}
