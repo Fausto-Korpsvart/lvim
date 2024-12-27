@@ -35,12 +35,6 @@ modules["nvim-neotest/nvim-nio"] = {
     lazy = true,
 }
 
-modules["rcarriga/nvim-notify"] = {
-    commit = funcs.get_commit("nvim-notify", plugins_snapshot),
-    lazy = true,
-    config = dependencies_config.nvim_notify,
-}
-
 modules["MunifTanjim/nui.nvim"] = {
     commit = funcs.get_commit("nui.nvim", plugins_snapshot),
     lazy = true,
@@ -50,7 +44,6 @@ modules["MunifTanjim/nui.nvim"] = {
 modules["lvim-tech/lvim-ui-config"] = {
     commit = funcs.get_commit("lvim-ui-config", plugins_snapshot),
     dependencies = {
-        "rcarriga/nvim-notify",
         "MunifTanjim/nui.nvim",
     },
     lazy = true,
@@ -128,16 +121,13 @@ modules["folke/noice.nvim"] = {
     commit = funcs.get_commit("noice.nvim", plugins_snapshot),
     dependencies = {
         "MunifTanjim/nui.nvim",
-        "rcarriga/nvim-notify",
-        -- "hrsh7th/nvim-cmp",
     },
     config = ui_config.noice_nvim,
 }
 
-modules["goolord/alpha-nvim"] = {
-    commit = funcs.get_commit("alpha-nvim", plugins_snapshot),
-    event = "VimEnter",
-    config = ui_config.alpha_nvim,
+modules["folke/snacks.nvim"] = {
+    commit = funcs.get_commit("snacks.nvim", plugins_snapshot),
+    config = ui_config.snacks_nvim
 }
 
 modules["s1n7ax/nvim-window-picker"] = {
@@ -426,7 +416,6 @@ modules["ibhagwan/fzf-lua"] = {
 modules["lvim-tech/lvim-linguistics"] = {
     commit = funcs.get_commit("lvim-linguistics", plugins_snapshot),
     dependencies = {
-        "rcarriga/nvim-notify",
         "MunifTanjim/nui.nvim",
         "lvim-tech/lvim-ui-config",
     },
@@ -538,7 +527,6 @@ modules["lvim-tech/lvim-qf-loc"] = {
     commit = funcs.get_commit("lvim-qf-loc", plugins_snapshot),
     dependencies = {
         "MunifTanjim/nui.nvim",
-        "rcarriga/nvim-notify",
         "lvim-tech/lvim-ui-config",
     },
     config = editor_config.lvim_qf_loc,
@@ -627,9 +615,11 @@ modules["arjunmahishi/flow.nvim"] = {
     config = editor_config.flow_nvim,
 }
 
-modules["coffebar/transfer.nvim"] = {
+modules["lvim-tech/transfer.nvim"] = {
     commit = funcs.get_commit("transfer.nvim", plugins_snapshot),
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+    },
     keys = {
         {
             "<Leader>ti",

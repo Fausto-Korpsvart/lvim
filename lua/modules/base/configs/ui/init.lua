@@ -1,3 +1,4 @@
+local global = require("core.global")
 local funcs = require("core.funcs")
 local icons = require("configs.base.ui.icons")
 
@@ -468,86 +469,162 @@ config.noice_nvim = function()
     end, { silent = true, expr = true, desc = "Scroll Up" })
 end
 
-config.alpha_nvim = function()
-    local alpha_status_ok, alpha = pcall(require, "alpha")
-    if not alpha_status_ok then
-        return
-    end
-    local alpha_themes_dashboard_status_ok, alpha_themes_dashboard = pcall(require, "alpha.themes.dashboard")
-    if not alpha_themes_dashboard_status_ok then
-        return
-    end
-    math.randomseed(os.time())
-    local function button(sc, txt, keybind, keybind_opts)
-        local b = alpha_themes_dashboard.button(sc, txt, keybind, keybind_opts)
-        b.opts.hl = "AlphaButton"
-        b.opts.hl_shortcut = "AlphaButtonShortcut"
-        return b
-    end
-    local function footer()
-        local global = require("core.global")
-        local plugins = require("lazy").stats().count
-        local startup_time = require("lazy").stats().startuptime
-        local v = vim.version()
-        local datetime = os.date(" %d-%m-%Y")
-        local platform
-        if global.os == "linux" then
-            platform = " Linux"
-        elseif global.os == "mac" then
-            platform = " macOS"
-        else
-            platform = ""
+config.snacks_nvim = function()
+        local snacks_status_ok, snacks = pcall(require, "snacks")
+        if not snacks_status_ok then
+            return
         end
-        return string.format(
-            icons.common.plugins
-            .. " %d plugins  "
-            .. icons.common.time
-            .. "%d ms  "
-            .. icons.common.vim
-            .. "v%d.%d.%d  %s  %s",
-            plugins,
-            startup_time,
-            v.major,
-            v.minor,
-            v.patch,
-            platform,
-            datetime
-        )
-    end
-    alpha_themes_dashboard.section.header.val = {
-        " 888     Y88b      / 888      e    e      ",
-        " 888      Y88b    /  888     d8b  d8b     ",
-        " 888       Y88b  /   888    d888bdY88b    ",
-        " 888        Y888/    888   / Y88Y Y888b   ",
-        " 888         Y8/     888  /   YY   Y888b  ",
-        " 888____      Y      888 /          Y888b ",
-    }
-    alpha_themes_dashboard.section.header.opts.hl = "AlphaHeader"
-    alpha_themes_dashboard.section.buttons.val = {
-        button("SPC SPC b", icons.common.project .. " Projects", ":CtrlSpace b<CR>"),
-        button("<Leader>f", icons.common.file .. " Search file", ":FzfLua files<CR>"),
-        button("<Leader>s", icons.common.search_in_files .. " Search in files", ":FzfLua live_grep<CR>"),
-        button("q", icons.common.quit .. " Quit", "<Cmd>qa<CR>"),
-    }
-    alpha_themes_dashboard.section.footer.val = footer()
-    alpha_themes_dashboard.section.footer.opts.hl = "AlphaFooter"
-    table.insert(alpha_themes_dashboard.config.layout, { type = "padding", val = 1 })
-    table.insert(alpha_themes_dashboard.config.layout, {
-        type = "text",
-        val = require("alpha.fortune")(),
-        opts = {
-            position = "center",
-            hl = "AlphaQuote",
-        },
-    })
-    alpha.setup(alpha_themes_dashboard.config)
-    vim.api.nvim_create_autocmd("User", {
-        pattern = "LazyVimStarted",
-        callback = function()
-            alpha_themes_dashboard.section.footer.val = footer()
-            pcall(vim.cmd.AlphaRedraw)
-        end,
-    })
+        snacks.setup({
+            dashboard = {
+                enabled = true,
+                sections = {
+                    {
+                        header = [[
+██╗    ██╗   ██╗██╗███╗   ███╗
+██║    ██║   ██║██║████╗ ████║
+██║    ██║   ██║██║██╔████╔██║
+██║    ╚██╗ ██╔╝██║██║╚██╔╝██║
+███████╗╚████╔╝ ██║██║ ╚═╝ ██║
+╚══════╝ ╚═══╝  ╚═╝╚═╝     ╚═╝
+]],
+                    },
+                    { icon = " ", key = "p", desc = "Projects", action = ":CtrlSpace b" },
+                    { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+                    { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+                    { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+                    { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+                    { icon = "󰅢 ", key = "P", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                    { icon = "󰅢 ", key = "M", desc = "Mason", action = ":Mason" },
+                    { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+                    { pane = 2 },
+                    function()
+                        local v = vim.version()
+                        local datetime = os.date(" %d-%m-%Y")
+                        local platform
+                        if global.os == "linux" then
+                            platform = " Linux"
+                        elseif global.os == "mac" then
+                            platform = " macOS"
+                        else
+                            platform = ""
+                        end
+                        local build = ""
+                        if v.build ~= vim.NIL then
+                            build = " build " .. v.build
+                        end
+                        local str = platform .. " " .. datetime .. " " .. icons.common.vim .. "v" .. v.major .. "." .. v.minor .. "." .. v.patch .. build
+                        return { pane = 2, text = {str, hl = "SnacksDashboardDesc"}, align = "center" }
+                    end,
+                    {pane = 2},
+                    { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 1 },
+                    { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 3, padding = 1 },
+                    {indent = 3},
+                    { section = "startup"},
+                },
+            },
+            notifier = {
+                enabled = true,
+                style = function(buf, notif, ctx)
+                    local title = notif.icon .. " " .. (notif.title or "")
+                    if title ~= "" then
+                        ctx.opts.title = { { " " .. title .. " ", ctx.hl.title } }
+                        ctx.opts.title_pos = "center"
+                    end
+                    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(notif.msg, "\n"))
+                end,
+                top_down = true,
+                -- margin = { top = 0, right = 0, bottom = 0, left = 1 },
+                padding = true,
+                icons = {
+                    error = " ",
+                    warn = " ",
+                    info = " ",
+                    debug = " ",
+                    trace = " ",
+                },
+            },
+            profiler = {
+                enabled = true,
+            },
+            health = {
+                enabled = true,
+            },
+            lazygit = {
+                enabled = false,
+                config = {
+                    os = { editPreset = "nvim-remote" },
+                    gui = {
+                        nerdFontsVersion = "3",
+                        border           = "hidden",
+                    },
+                },
+                theme = {
+                    [241]                      = { fg = "Special" },
+                    activeBorderColor          = { fg = "SnacksInActiveBorder", bold = true },
+                    cherryPickedCommitBgColor  = { fg = "Identifier" },
+                    cherryPickedCommitFgColor  = { fg = "Function" },
+                    defaultFgColor             = { fg = "Normal" },
+                    inactiveBorderColor        = { fg = "SnacksActiveBorder" },
+                    optionsTextColor           = { fg = "Function" },
+                    searchingActiveBorderColor = { fg = "SnacksActiveBorder", bold = true },
+                    selectedLineBgColor        = { bg = "Visual" },
+                    unstagedChangesColor       = { fg = "DiagnosticError" },
+                },
+            },
+            git = {
+                enabled = true,
+            },
+            gitbrowse = {
+                enabled = true,
+            },
+            quickfile = { enabled = true },
+            bigfile = { enabled = true },
+            styles = {
+                notification = {
+                    title = "LVIM IDE",
+                    border = { "─", "─", "─", " ", "─", "─", "─", " " },
+                },
+                dashboard = {
+                    zindex = 10,
+                    height = 10,
+                    width = 10,
+                    bo = {
+                        bufhidden = "wipe",
+                        buftype = "nofile",
+                        buflisted = true,
+                        filetype = "snacks_dashboard",
+                        swapfile = false,
+                        undofile = false,
+                    },
+                    wo = {
+                        colorcolumn = "",
+                        cursorcolumn = false,
+                        cursorline = false,
+                        foldmethod = "manual",
+                        list = false,
+                        number = false,
+                        relativenumber = false,
+                        sidescrolloff = 0,
+                        signcolumn = "no",
+                        spell = false,
+                        statuscolumn = "",
+                        statusline = "",
+                        winbar = "",
+                        winhighlight = "Normal:SnacksDashboardNormal,NormalFloat:SnacksDashboardNormal",
+                        wrap = true,
+                    },
+                }
+            },
+        })
+        _G.dd = function(...)
+            Snacks.debug.inspect(...)
+        end
+        _G.bt = function()
+            Snacks.debug.backtrace()
+        end
+        vim.print = _G.dd
+        vim.cmd("command! Lazygit :lua Snacks.lazygit()")
 end
 
 config.nvim_window_picker = function()
@@ -1019,7 +1096,7 @@ config.lvim_shell = function()
             )
         end
     end
-    vim.cmd("command! Lazygit :lua require('modules.base.configs.ui.shell').Lazygit()(<f-args>)")
+    vim.cmd("command! LazyGit :lua require('modules.base.configs.ui.shell').Lazygit()(<f-args>)")
     vim.cmd("command! Lazydocker :lua require('modules.base.configs.ui.shell').Lazydocker()")
     local shells = require("modules.base.configs.ui.shell")
     vim.keymap.set("n", "<A-g>", function()
