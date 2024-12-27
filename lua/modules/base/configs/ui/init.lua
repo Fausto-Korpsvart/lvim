@@ -470,16 +470,25 @@ config.noice_nvim = function()
 end
 
 config.snacks_nvim = function()
-        local snacks_status_ok, snacks = pcall(require, "snacks")
-        if not snacks_status_ok then
-            return
-        end
-        snacks.setup({
-            dashboard = {
-                enabled = true,
-                sections = {
-                    {
-                        header = [[
+    local snacks_status_ok, snacks = pcall(require, "snacks")
+    if not snacks_status_ok then
+        return
+    end
+    snacks.setup({
+        dashboard = {
+            enabled = true,
+            sections = {
+                --                     {
+                --                         header = [[
+                -- ██     ██    ██ ██ ███    ███
+                -- ██     ██    ██ ██ ████  ████
+                -- ██     ██    ██ ██ ██ ████ ██
+                -- ██      ██  ██  ██ ██  ██  ██
+                -- ███████  ████   ██ ██      ██
+                -- ]],
+                --                     },
+                {
+                    header = [[
 ██╗    ██╗   ██╗██╗███╗   ███╗
 ██║    ██║   ██║██║████╗ ████║
 ██║    ██║   ██║██║██╔████╔██║
@@ -487,144 +496,171 @@ config.snacks_nvim = function()
 ███████╗╚████╔╝ ██║██║ ╚═╝ ██║
 ╚══════╝ ╚═══╝  ╚═╝╚═╝     ╚═╝
 ]],
-                    },
-                    { icon = " ", key = "p", desc = "Projects", action = ":CtrlSpace b" },
-                    { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-                    { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-                    { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-                    { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-                    { icon = "󰅢 ", key = "P", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-                    { icon = "󰅢 ", key = "M", desc = "Mason", action = ":Mason" },
-                    { icon = " ", key = "q", desc = "Quit", action = ":qa" },
-                    { pane = 2 },
-                    function()
-                        local v = vim.version()
-                        local datetime = os.date(" %d-%m-%Y")
-                        local platform
-                        if global.os == "linux" then
-                            platform = " Linux"
-                        elseif global.os == "mac" then
-                            platform = " macOS"
-                        else
-                            platform = ""
-                        end
-                        local build = ""
-                        if v.build ~= vim.NIL then
-                            build = " build " .. v.build
-                        end
-                        local str = platform .. " " .. datetime .. " " .. icons.common.vim .. "v" .. v.major .. "." .. v.minor .. "." .. v.patch .. build
-                        return { pane = 2, text = {str, hl = "SnacksDashboardDesc"}, align = "center" }
-                    end,
-                    {pane = 2},
-                    { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 1 },
-                    { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 3, padding = 1 },
-                    {indent = 3},
-                    { section = "startup"},
                 },
-            },
-            notifier = {
-                enabled = true,
-                style = function(buf, notif, ctx)
-                    local title = notif.icon .. " " .. (notif.title or "")
-                    if title ~= "" then
-                        ctx.opts.title = { { " " .. title .. " ", ctx.hl.title } }
-                        ctx.opts.title_pos = "center"
+                { icon = " ", key = "p", desc = "Projects", action = ":CtrlSpace b" },
+                { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+                { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+                { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+                { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+                { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+                { icon = "󰅢 ", key = "P", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                { icon = "󰅢 ", key = "M", desc = "Mason", action = ":Mason" },
+                { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+                { pane = 2 },
+                function()
+                    local v = vim.version()
+                    local datetime = os.date(" %d-%m-%Y")
+                    local platform
+                    if global.os == "linux" then
+                        platform = " Linux"
+                    elseif global.os == "mac" then
+                        platform = " macOS"
+                    else
+                        platform = ""
                     end
-                    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(notif.msg, "\n"))
+                    local build = ""
+                    if v.build ~= vim.NIL then
+                        build = " build " .. v.build
+                    end
+                    local str = platform ..
+                        " " ..
+                        datetime ..
+                        " " .. icons.common.vim .. "v" .. v.major .. "." .. v.minor .. "." .. v.patch .. build
+                    return { pane = 2, text = { str, hl = "SnacksDashboardDesc" }, align = "center" }
                 end,
-                top_down = true,
-                -- margin = { top = 0, right = 0, bottom = 0, left = 1 },
-                padding = true,
-                icons = {
-                    error = " ",
-                    warn = " ",
-                    info = " ",
-                    debug = " ",
-                    trace = " ",
+                { pane = 2 },
+                { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 3, padding = 1 },
+                { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 3, padding = 1 },
+                { indent = 3 },
+                { section = "startup" },
+            },
+        },
+        notifier = {
+            enabled = true,
+            style = function(buf, notif, ctx)
+                local title = notif.icon .. " " .. (notif.title or "")
+                if title ~= "" then
+                    ctx.opts.title = { { " " .. title .. " ", ctx.hl.title } }
+                    ctx.opts.title_pos = "center"
+                end
+                vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(notif.msg, "\n"))
+            end,
+            top_down = true,
+            -- margin = { top = 0, right = 0, bottom = 0, left = 1 },
+            padding = true,
+            icons = {
+                error = " ",
+                warn = " ",
+                info = " ",
+                debug = " ",
+                trace = " ",
+            },
+        },
+        profiler = {
+            enabled = true,
+        },
+        health = {
+            enabled = true,
+        },
+        lazygit = {
+            enabled = false,
+            config = {
+                os = { editPreset = "nvim-remote" },
+                gui = {
+                    nerdFontsVersion = "3",
+                    border           = "hidden",
                 },
             },
-            profiler = {
-                enabled = true,
+            theme = {
+                [241]                      = { fg = "Special" },
+                activeBorderColor          = { fg = "SnacksInActiveBorder", bold = true },
+                cherryPickedCommitBgColor  = { fg = "Identifier" },
+                cherryPickedCommitFgColor  = { fg = "Function" },
+                defaultFgColor             = { fg = "Normal" },
+                inactiveBorderColor        = { fg = "SnacksActiveBorder" },
+                optionsTextColor           = { fg = "Function" },
+                searchingActiveBorderColor = { fg = "SnacksActiveBorder", bold = true },
+                selectedLineBgColor        = { bg = "Visual" },
+                unstagedChangesColor       = { fg = "DiagnosticError" },
             },
-            health = {
-                enabled = true,
+        },
+        git = {
+            enabled = true,
+        },
+        gitbrowse = {
+            enabled = true,
+        },
+        quickfile = { enabled = true },
+        bigfile = { enabled = true },
+        zen = { enabled = true },
+        scope = { enabled = true },
+        scratch = { enabled = true },
+        styles = {
+            notification = {
+                title = "LVIM IDE",
+                border = { "─", "─", "─", " ", "─", "─", "─", " " },
             },
-            lazygit = {
-                enabled = false,
-                config = {
-                    os = { editPreset = "nvim-remote" },
-                    gui = {
-                        nerdFontsVersion = "3",
-                        border           = "hidden",
-                    },
+            dashboard = {
+                zindex = 10,
+                height = 10,
+                width = 10,
+                bo = {
+                    bufhidden = "wipe",
+                    buftype = "nofile",
+                    buflisted = true,
+                    filetype = "snacks_dashboard",
+                    swapfile = false,
+                    undofile = false,
                 },
-                theme = {
-                    [241]                      = { fg = "Special" },
-                    activeBorderColor          = { fg = "SnacksInActiveBorder", bold = true },
-                    cherryPickedCommitBgColor  = { fg = "Identifier" },
-                    cherryPickedCommitFgColor  = { fg = "Function" },
-                    defaultFgColor             = { fg = "Normal" },
-                    inactiveBorderColor        = { fg = "SnacksActiveBorder" },
-                    optionsTextColor           = { fg = "Function" },
-                    searchingActiveBorderColor = { fg = "SnacksActiveBorder", bold = true },
-                    selectedLineBgColor        = { bg = "Visual" },
-                    unstagedChangesColor       = { fg = "DiagnosticError" },
+                wo = {
+                    colorcolumn = "",
+                    cursorcolumn = false,
+                    cursorline = false,
+                    foldmethod = "manual",
+                    list = false,
+                    number = false,
+                    relativenumber = false,
+                    sidescrolloff = 0,
+                    signcolumn = "no",
+                    spell = false,
+                    statuscolumn = "",
+                    statusline = "",
+                    winbar = "",
+                    winhighlight = "Normal:SnacksDashboardNormal,NormalFloat:SnacksDashboardNormal",
+                    wrap = true,
                 },
             },
-            git = {
-                enabled = true,
-            },
-            gitbrowse = {
-                enabled = true,
-            },
-            quickfile = { enabled = true },
-            bigfile = { enabled = true },
-            styles = {
-                notification = {
-                    title = "LVIM IDE",
-                    border = { "─", "─", "─", " ", "─", "─", "─", " " },
-                },
-                dashboard = {
-                    zindex = 10,
-                    height = 10,
-                    width = 10,
-                    bo = {
-                        bufhidden = "wipe",
-                        buftype = "nofile",
-                        buflisted = true,
-                        filetype = "snacks_dashboard",
-                        swapfile = false,
-                        undofile = false,
-                    },
-                    wo = {
-                        colorcolumn = "",
-                        cursorcolumn = false,
-                        cursorline = false,
-                        foldmethod = "manual",
-                        list = false,
-                        number = false,
-                        relativenumber = false,
-                        sidescrolloff = 0,
-                        signcolumn = "no",
-                        spell = false,
-                        statuscolumn = "",
-                        statusline = "",
-                        winbar = "",
-                        winhighlight = "Normal:SnacksDashboardNormal,NormalFloat:SnacksDashboardNormal",
-                        wrap = true,
-                    },
-                }
-            },
-        })
-        _G.dd = function(...)
-            Snacks.debug.inspect(...)
-        end
-        _G.bt = function()
-            Snacks.debug.backtrace()
-        end
-        vim.print = _G.dd
-        vim.cmd("command! Lazygit :lua Snacks.lazygit()")
+        },
+    })
+    _G.dd = function(...)
+        Snacks.debug.inspect(...)
+    end
+    _G.bt = function()
+        Snacks.debug.backtrace()
+    end
+    vim.print = _G.dd
+    vim.cmd("command! Lazygit :lua Snacks.lazygit()")
+    vim.keymap.set("n", "<C-c>z", function()
+        Snacks.zen.zoom()
+    end, { noremap = true, silent = true, desc = "Zoom" })
+    vim.keymap.set("n", "<Leader>sz", function()
+        Snacks.zen.zen()
+    end, { noremap = true, silent = true, desc = "Zen" })
+    vim.keymap.set("n", "<Leader>sb", function()
+        Snacks.git.blame_line()
+    end, { noremap = true, silent = true, desc = "Git blame line" })
+    vim.keymap.set("n", "<Leader>sg", function()
+        Snacks.gitbrowse.open()
+    end, { noremap = true, silent = true, desc = "Git open url" })
+    vim.keymap.set("n", "<Leader>sl", function()
+        Snacks.lazygit()
+    end, { noremap = true, silent = true, desc = "Lazygit" })
+    vim.keymap.set("n", "<Leader>ss", function()
+        Snacks.scratch.open()
+    end, { noremap = true, silent = true, desc = "Scratch open" })
+    vim.keymap.set("n", "<Leader>sS", function()
+        Snacks.scratch.select()
+    end, { noremap = true, silent = true, desc = "Scratch select" })
 end
 
 config.nvim_window_picker = function()
@@ -791,6 +827,8 @@ config.mini_clue = function()
                 { mode = "n", keys = "c" },
                 { mode = "x", keys = "c" },
                 { mode = "n", keys = "m" },
+                { mode = "x", keys = "a" },
+                { mode = "x", keys = "i" },
             },
             clues = {
                 mini_clue.gen_clues.builtin_completion(),
@@ -1244,41 +1282,6 @@ config.toggleterm_nvim = function()
     vim.keymap.set("n", "<F4>", function()
         terminal_9:toggle()
     end, { noremap = true, silent = true, desc = "Terminal Float" })
-end
-
-config.zen_mode_nvim = function()
-    local zen_mode_status_ok, zen_mode = pcall(require, "zen-mode")
-    if not zen_mode_status_ok then
-        return
-    end
-    zen_mode.setup({
-        window = {
-            options = {
-                number = false,
-                relativenumber = false,
-            },
-        },
-        plugins = {
-            gitsigns = {
-                enabled = true,
-            },
-        },
-    })
-end
-
-config.neozoom_lua = function()
-    local neo_zoom_status_ok, neo_zoom = pcall(require, "neo-zoom")
-    if not neo_zoom_status_ok then
-        return
-    end
-    neo_zoom.setup({
-        left_ratio = 0,
-        top_ratio = 0,
-        width_ratio = 0.6,
-        height_ratio = 1,
-        border = "none",
-        scrolloff_on_zoom = 0,
-    })
 end
 
 config.stay_in_place = function()

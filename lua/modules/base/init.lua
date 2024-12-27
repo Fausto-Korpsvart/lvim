@@ -229,23 +229,6 @@ modules["akinsho/toggleterm.nvim"] = {
     config = ui_config.toggleterm_nvim,
 }
 
-modules["folke/zen-mode.nvim"] = {
-    commit = funcs.get_commit("zen-mode.nvim", plugins_snapshot),
-    dependencies = {
-        "folke/twilight.nvim",
-    },
-    cmd = "ZenMode",
-    config = ui_config.zen_mode_nvim,
-}
-
-modules["nyngwang/NeoZoom.lua"] = {
-    commit = funcs.get_commit("NeoZoom.lua", plugins_snapshot),
-    keys = {
-        { "<C-c>z", "<Cmd>NeoZoomToggle<CR>", desc = "NeoZoom" },
-    },
-    config = ui_config.neozoom_lua,
-}
-
 modules["gbprod/stay-in-place.nvim"] = {
     commit = funcs.get_commit("stay-in-place.nvim", plugins_snapshot),
     event = {
@@ -319,7 +302,7 @@ modules["ibhagwan/fzf-lua"] = {
             desc = "FzfLua files",
         },
         {
-            "<Leader>s",
+            "<Leader>w",
             function()
                 vim.cmd("FzfLua live_grep")
             end,
@@ -578,13 +561,13 @@ modules["nvim-treesitter/nvim-treesitter-context"] = {
     config = editor_config.nvim_treesitter_context,
 }
 
-modules["chrisgrieser/nvim-various-textobjs"] = {
-    commit = funcs.get_commit("nvim-various-textobjs", plugins_snapshot),
-    event = {
-        "BufRead",
-    },
-    config = editor_config.nvim_various_textobjs,
-}
+-- modules["chrisgrieser/nvim-various-textobjs"] = {
+--     commit = funcs.get_commit("nvim-various-textobjs", plugins_snapshot),
+--     event = {
+--         "BufRead",
+--     },
+--     config = editor_config.nvim_various_textobjs,
+-- }
 
 modules["rest-nvim/rest.nvim"] = {
     commit = funcs.get_commit("rest.nvim", plugins_snapshot),
