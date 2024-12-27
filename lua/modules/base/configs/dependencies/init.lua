@@ -273,16 +273,4 @@ config.nvim_web_devicons = function()
     web_devicons.setup()
 end
 
-config.twilight_nvim = function()
-    local twilight_status_ok, twilight = pcall(require, "twilight")
-    if not twilight_status_ok then
-        return
-    end
-    twilight.setup({
-        dimming = {
-            alpha = 0.5,
-        },
-    })
-end
-
 return config

@@ -55,12 +55,6 @@ modules["nvim-tree/nvim-web-devicons"] = {
     lazy = true,
 }
 
-modules["folke/twilight.nvim"] = {
-    commit = funcs.get_commit("twilight.nvim", plugins_snapshot),
-    config = dependencies_config.twilight_nvim,
-    lazy = true,
-}
-
 modules["nvim-telescope/telescope-fzf-native.nvim"] = {
     commit = funcs.get_commit("telescope-fzf-native.nvim", plugins_snapshot),
     build = "make",
