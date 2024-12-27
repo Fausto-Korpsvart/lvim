@@ -615,7 +615,7 @@ modules["arjunmahishi/flow.nvim"] = {
     config = editor_config.flow_nvim,
 }
 
-modules["lvim-tech/transfer.nvim"] = {
+modules["coffebar/transfer.nvim"] = {
     commit = funcs.get_commit("transfer.nvim", plugins_snapshot),
     dependencies = {
         "nvim-lua/plenary.nvim",
