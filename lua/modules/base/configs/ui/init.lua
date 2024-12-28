@@ -640,6 +640,9 @@ config.snacks_nvim = function()
     end
     vim.print = _G.dd
     vim.cmd("command! Lazygit :lua Snacks.lazygit()")
+    vim.keymap.set("n", "<Leader>sn", function()
+        Snacks.notifier.show_history()
+    end, { noremap = true, silent = true, desc = "Notify history" })
     vim.keymap.set("n", "<C-c>z", function()
         Snacks.zen.zoom()
     end, { noremap = true, silent = true, desc = "Zoom" })
