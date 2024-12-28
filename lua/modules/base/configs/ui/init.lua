@@ -505,7 +505,7 @@ config.snacks_nvim = function()
                 { icon = " ", key = "<Leader>vc", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
                 { icon = "󰅢 ", key = "<leader>vl", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
                 { icon = "󰅢 ", key = "<leader>vm", desc = "Mason", action = ":Mason" },
-                { icon = " ", key = "<C-c>e", desc = "Quit", action = ":Quit<CR>" },
+                { icon = " ", key = "<C-c>e", desc = "Quit", action = ":Quit" },
                 { pane = 2 },
                 function()
                     local v = vim.version()
@@ -716,6 +716,10 @@ config.snacks_nvim = function()
     end, { noremap = true, silent = true, desc = "Scratch select" })
     vim.keymap.set("n", "<Leader>sf", function()
         fzf_scratch()
+    end, { noremap = true, silent = true, desc = "Fzf scratch" })
+    vim.keymap.set("n", "<Leader>sr", function()
+        local git_root = Snacks.git.get_root()
+        vim.cmd("cd " .. git_root)
     end, { noremap = true, silent = true, desc = "Fzf scratch" })
 end
 
