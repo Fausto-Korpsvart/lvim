@@ -296,6 +296,13 @@ modules["ibhagwan/fzf-lua"] = {
             desc = "FzfLua files",
         },
         {
+            "<Leader>o",
+            function()
+                vim.cmd("FzfLua oldfiles")
+            end,
+            desc = "FzfLua marks",
+        },
+        {
             "<Leader>w",
             function()
                 vim.cmd("FzfLua live_grep")
