@@ -10,7 +10,6 @@ local efm_user = require("languages.user.languages._efm")
 local M = {}
 
 local efm = funcs.merge(efm_base, efm_user)
-
 if global.efm == false then
     global.efm = {
         init_options = { documentFormatting = true },
@@ -42,14 +41,14 @@ M.setup_efm = function()
                 "closed",
                 vim.schedule_wrap(function()
                     lspconfig.efm.setup(global.efm)
-                    vim.cmd(":LspStart efm")
+                    -- vim.cmd(":LspStart efm")
                     global.install_proccess = false
                 end)
             )
         end
     else
         lspconfig.efm.setup(global.efm)
-        vim.cmd(":LspStart efm")
+        -- vim.cmd(":LspStart efm")
     end
 end
 
