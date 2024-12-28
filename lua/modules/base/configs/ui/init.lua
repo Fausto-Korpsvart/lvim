@@ -640,6 +640,56 @@ config.snacks_nvim = function()
     end
     vim.print = _G.dd
     vim.cmd("command! Lazygit :lua Snacks.lazygit()")
+
+    local function fzf_scratch()
+        local entries = {}
+        local items = Snacks.scratch.list()
+        local item_map = {}
+        local utils = require("fzf-lua.utils")
+        local function hl_validate(hl)
+            return not utils.is_hl_cleared(hl) and hl or nil
+        end
+        local function ansi_from_hl(hl, s)
+            return utils.ansi_from_hl(hl_validate(hl), s)
+        end
+        for _, item in ipairs(items) do
+            item.icon = item.icon or Snacks.util.icon(item.ft, "filetype")
+            item.branch = item.branch and ("branch:%s"):format(item.branch) or ""
+            item.cwd = item.cwd and vim.fn.fnamemodify(item.cwd, ":p:~") or ""
+            local display = string.format("%s %s %s %s", item.cwd, item.icon, item.name, item.branch)
+            table.insert(entries, display)
+            item_map[display] = item
+        end
+        local fzf = require("fzf-lua")
+        fzf.fzf_exec(entries, {
+            prompt = "Scratch Buffers",
+            fzf_opts = {
+                ["--header"] = string.format(
+                    ":: <%s> to %s | <%s> to %s",
+                    ansi_from_hl("FzfLuaHeaderBind", "enter"),
+                    ansi_from_hl("FzfLuaHeaderText", "Select Scratch"),
+                    ansi_from_hl("FzfLuaHeaderBind", "ctrl-d"),
+                    ansi_from_hl("FzfLuaHeaderText", "Delete Scratch")
+                ),
+            },
+            actions = {
+                ["default"] = function(selected)
+                    local item = item_map[selected[1]]
+                    Snacks.scratch.open({
+                        icon = item.icon,
+                        file = item.file,
+                        name = item.name,
+                        ft = item.ft,
+                    })
+                end,
+                ["ctrl-d"] = function(selected)
+                    local item = item_map[selected[1]]
+                    os.remove(item.file)
+                    vim.notify("Deleted scratch file: " .. item.file)
+                end,
+            },
+        })
+    end
     vim.keymap.set("n", "<Leader>sn", function()
         Snacks.notifier.show_history()
     end, { noremap = true, silent = true, desc = "Notify history" })
@@ -664,6 +714,9 @@ config.snacks_nvim = function()
     vim.keymap.set("n", "<Leader>sS", function()
         Snacks.scratch.select()
     end, { noremap = true, silent = true, desc = "Scratch select" })
+    vim.keymap.set("n", "<Leader>sf", function()
+        fzf_scratch()
+    end, { noremap = true, silent = true, desc = "Fzf scratch" })
 end
 
 config.nvim_window_picker = function()
