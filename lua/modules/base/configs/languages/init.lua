@@ -177,8 +177,8 @@ config.nvim_rip_substitute = function()
         keymaps = {
             confirm = "<CR>",
             abort = "q",
-            prevSubst = "<Up>",
-            nextSubst = "<Down>",
+            prevSubstitutionInHistory = "<Up>",
+            nextSubstitutionInHistory = "<Down>",
             insertModeConfirm = "<C-CR>",
         },
         incrementalPreview = {
