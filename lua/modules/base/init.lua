@@ -154,6 +154,7 @@ modules["echasnovski/mini.files"] = {
 }
 
 modules["folke/which-key.nvim"] = {
+    commit = funcs.get_commit("which-key.nvim", plugins_snapshot),
     cond = function()
         return _G.LVIM_SETTINGS.keyshelper
     end,
@@ -299,7 +300,7 @@ modules["ibhagwan/fzf-lua"] = {
             function()
                 vim.cmd("FzfLua oldfiles")
             end,
-            desc = "FzfLua marks",
+            desc = "FzfLua oldfiles",
         },
         {
             "<Leader>w",

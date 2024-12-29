@@ -858,9 +858,9 @@ config.which_key_nvim = function()
         local options = {
             preset = "helix",
             delay = wk_delay,
-            wk_triggers = {
+            triggers = {
                 { "<auto>", mode = "nixsotc" },
-                { "m",      mode = { "n", "v" } },
+                { "m",      mode = { "n" } },
             },
             icons = {
                 rules = false,
