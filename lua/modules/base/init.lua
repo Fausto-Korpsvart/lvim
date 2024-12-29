@@ -153,12 +153,11 @@ modules["echasnovski/mini.files"] = {
     config = ui_config.mini_files,
 }
 
-modules["echasnovski/mini.clue"] = {
-    commit = funcs.get_commit("mini.clue", plugins_snapshot),
-    event = {
-        "VimEnter",
-    },
-    config = ui_config.mini_clue,
+modules["folke/which-key.nvim"] = {
+    cond = function()
+        return _G.LVIM_SETTINGS.keyshelper
+    end,
+    config = ui_config.which_key_nvim
 }
 
 modules["echasnovski/mini.cursorword"] = {

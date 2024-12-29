@@ -720,7 +720,7 @@ config.snacks_nvim = function()
     vim.keymap.set("n", "<Leader>sr", function()
         local git_root = Snacks.git.get_root()
         vim.cmd("cd " .. git_root)
-    end, { noremap = true, silent = true, desc = "Fzf scratch" })
+    end, { noremap = true, silent = true, desc = "Cd to git root" })
 end
 
 config.nvim_window_picker = function()
@@ -843,146 +843,33 @@ config.mini_files = function()
     vim.api.nvim_create_user_command("MiniFiles", mini_files_open, {})
 end
 
-config.mini_clue = function()
-    local mini_clue_status_ok, mini_clue = pcall(require, "mini.clue")
-    if not mini_clue_status_ok then
+config.which_key_nvim = function()
+    local which_key_status_ok, which_key = pcall(require, "which-key")
+    if not which_key_status_ok then
         return
     end
-    local function clue_setup()
-        mini_clue.setup({
-            window = {
-                config = {
-                    width = "auto",
-                },
-                delay = tonumber(_G.LVIM_SETTINGS.keyshelperdelay),
-                scroll_down = "<C-d>",
-                scroll_up = "<C-u>",
-            },
-            triggers = {
-                { mode = "n", keys = "<Leader>" },
-                { mode = "x", keys = "<Leader>" },
-                { mode = "i", keys = "<C-x>" },
-                { mode = "n", keys = "g" },
-                { mode = "x", keys = "g" },
-                { mode = "n", keys = "'" },
-                { mode = "n", keys = "`" },
-                { mode = "x", keys = "'" },
-                { mode = "x", keys = "`" },
-                { mode = "n", keys = '"' },
-                { mode = "x", keys = '"' },
-                { mode = "i", keys = "<C-r>" },
-                { mode = "c", keys = "<C-r>" },
-                { mode = "n", keys = "<C-w>" },
-                { mode = "n", keys = "z" },
-                { mode = "x", keys = "z" },
-                { mode = "n", keys = ";" },
-                { mode = "n", keys = ";p" },
-                { mode = "n", keys = "<C-c>" },
-                { mode = "n", keys = "<C-c><C-c>" },
-                { mode = "n", keys = "d" },
-                { mode = "n", keys = "]" },
-                { mode = "n", keys = "[" },
-                { mode = "n", keys = "y" },
-                { mode = "x", keys = "y" },
-                { mode = "n", keys = "c" },
-                { mode = "x", keys = "c" },
-                { mode = "n", keys = "m" },
-                { mode = "x", keys = "a" },
-                { mode = "x", keys = "i" },
-            },
-            clues = {
-                mini_clue.gen_clues.builtin_completion(),
-                mini_clue.gen_clues.g(),
-                mini_clue.gen_clues.marks(),
-                mini_clue.gen_clues.registers(),
-                mini_clue.gen_clues.windows(),
-                mini_clue.gen_clues.z(),
-            },
-        })
-    end
-
-    clue_setup()
-    local function clue_enable_disable(status)
-        if status == true then
-            funcs.tm_autocmd("start")
-            vim.defer_fn(function()
-                mini_clue.enable_all_triggers()
-                vim.g.miniclue_disable = false
-                clue_setup()
-            end, 10)
-        else
-            funcs.tm_autocmd("stop")
-            vim.defer_fn(function()
-                mini_clue.disable_all_triggers()
-                vim.g.miniclue_disable = true
-            end, 10)
-        end
-    end
-
-    if _G.LVIM_SETTINGS.keyshelper == true then
-        clue_enable_disable(true)
-    else
-        clue_enable_disable(false)
-    end
-    local global = require("core.global")
-    local ui_config = require("lvim-ui-config.config")
-    local select = require("lvim-ui-config.select")
-    local notify = require("lvim-ui-config.notify")
-    local function lvim_keys_helper()
-        local status
+    local wk_delay
+    local function wk()
         if _G.LVIM_SETTINGS.keyshelper == true then
-            status = "Enabled"
+            wk_delay = tonumber(_G.LVIM_SETTINGS.keyshelperdelay)
         else
-            status = "Disabled"
+            wk_delay = tonumber(_G.LVIM_SETTINGS.keyshelperdelay)
         end
-        local opts = ui_config.select({
-            "Enable",
-            "Disable",
-            "Cancel",
-        }, { prompt = "Keys helper (" .. status .. ")" }, {})
-        select(opts, function(choice)
-            if choice == "Enable" then
-                _G.LVIM_SETTINGS["keyshelper"] = true
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-                clue_enable_disable(true)
-                notify.info("Keys helper enabled", { title = "LVIM IDE" })
-            elseif choice == "Disable" then
-                _G.LVIM_SETTINGS["keyshelper"] = false
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-                clue_enable_disable(false)
-                notify.info("Keys helper disabled", { title = "LVIM IDE" })
-            end
-        end)
+        local options = {
+            preset = "helix",
+            delay = wk_delay,
+            wk_triggers = {
+                { "<auto>", mode = "nixsotc" },
+                { "m",      mode = { "n", "v" } },
+            },
+            icons = {
+                rules = false,
+                mappings = false,
+            },
+        }
+        which_key.setup(options)
     end
-    vim.api.nvim_create_user_command("LvimKeysHelper", lvim_keys_helper, {})
-    local function lvim_keys_helper_delay()
-        local status = _G.LVIM_SETTINGS.keyshelperdelay
-        local opts = ui_config.select({
-            0,
-            50,
-            100,
-            200,
-            300,
-            400,
-            500,
-            600,
-            700,
-            800,
-            900,
-            1000,
-            "Cancel",
-        }, { prompt = "KeysHelperDelay (" .. status .. " ms)" }, {})
-        select(opts, function(choice)
-            if choice == "Cancel" then
-            else
-                _G.LVIM_SETTINGS["keyshelperdelay"] = tonumber(choice)
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-                clue_setup()
-                notify.info("Keys helper delay: " .. choice .. "ms", { title = "LVIM IDE" })
-            end
-        end)
-    end
-    vim.api.nvim_create_user_command("LvimKeysHelperDelay", lvim_keys_helper_delay, {})
+    wk()
 end
 
 config.mini_cursorword = function()

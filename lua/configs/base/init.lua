@@ -222,6 +222,68 @@ configs["base_keymaps"] = function()
     keymaps_ft.set_keymaps_ft()
 end
 
+configs["base_which_key"] = function()
+    local function lvim_keys_helper()
+        local ui_config = require("lvim-ui-config.config")
+        local select = require("lvim-ui-config.select")
+        local notify = require("lvim-ui-config.notify")
+        local status
+        if _G.LVIM_SETTINGS.keyshelper == true then
+            status = "Enabled"
+        else
+            status = "Disabled"
+        end
+        local opts = ui_config.select({
+            "Enable",
+            "Disable",
+            "Cancel",
+        }, { prompt = "Keys helper (" .. status .. ")" }, {})
+        select(opts, function(choice)
+            if choice == "Enable" then
+                _G.LVIM_SETTINGS["keyshelper"] = true
+                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
+                notify.info("Keys helper enabled. LVIM IDE needs to be restarted", { title = "LVIM IDE" })
+            elseif choice == "Disable" then
+                _G.LVIM_SETTINGS["keyshelper"] = false
+                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
+                notify.info("Keys helper disabled. LVIM IDE needs to be restarted", { title = "LVIM IDE" })
+            end
+        end)
+    end
+    vim.api.nvim_create_user_command("LvimKeysHelper", lvim_keys_helper, {})
+    local function lvim_keys_helper_delay()
+        local ui_config = require("lvim-ui-config.config")
+        local select = require("lvim-ui-config.select")
+        local notify = require("lvim-ui-config.notify")
+        local status = _G.LVIM_SETTINGS.keyshelperdelay
+        local opts = ui_config.select({
+            0,
+            50,
+            100,
+            200,
+            300,
+            400,
+            500,
+            600,
+            700,
+            800,
+            900,
+            1000,
+            "Cancel",
+        }, { prompt = "KeysHelperDelay (" .. status .. " ms)" }, {})
+        select(opts, function(choice)
+            if choice == "Cancel" then
+            else
+                _G.LVIM_SETTINGS["keyshelperdelay"] = tonumber(choice)
+                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
+                vim.cmd("Lazy reload which-key.nvim")
+               notify.info("Keys helper delay: " .. choice .. "ms", { title = "LVIM IDE" })
+            end
+        end)
+    end
+    vim.api.nvim_create_user_command("LvimKeysHelperDelay", lvim_keys_helper_delay, {})
+end
+
 configs["base_ctrlspace_pre_config"] = function()
     vim.g.ctrlspace_use_tablineend = 1
     vim.g.CtrlSpaceLoadLastWorkspaceOnStart = 0
