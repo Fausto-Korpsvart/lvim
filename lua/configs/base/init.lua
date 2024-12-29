@@ -277,7 +277,7 @@ configs["base_which_key"] = function()
                 _G.LVIM_SETTINGS["keyshelperdelay"] = tonumber(choice)
                 funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
                 vim.cmd("Lazy reload which-key.nvim")
-               notify.info("Keys helper delay: " .. choice .. "ms", { title = "LVIM IDE" })
+                notify.info("Keys helper delay: " .. choice .. "ms", { title = "LVIM IDE" })
             end
         end)
     end
