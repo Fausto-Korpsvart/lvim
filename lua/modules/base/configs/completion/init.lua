@@ -7,7 +7,7 @@ config.blink_cmp = function()
     end
     local icons = require("configs.base.ui.icons")
     local lsp_symbols = icons.cmp
-    local ext = { "lazydev", "ripgrep", "nvim-px-to-rem" }
+    local ext = { "lazydev", "ripgrep" }
     local default_sources =
         vim.list_extend({ "lsp", "path", "snippets", "buffer" }, ext)
     blink_cmp.setup({
@@ -36,10 +36,6 @@ config.blink_cmp = function()
             providers = {
                 lsp = {
                     fallbacks = { "lazydev" },
-                },
-                ["nvim-px-to-rem"] = {
-                    module = "nvim-px-to-rem.integrations.blink",
-                    name = "nvim-px-to-rem",
                 },
                 lazydev = {
                     name = "LazyDev",
