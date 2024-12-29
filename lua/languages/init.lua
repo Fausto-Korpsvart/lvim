@@ -23,19 +23,18 @@ M.start_language = function(language)
         if global["languages"][language]["project_root_path"] == project_root_path then
             return
         else
-            M.pre_init_language(language, project_root_path, "global")
+            M.pre_init_language(language, project_root_path)
             M.init_language(language)
         end
     else
-        M.pre_init_language(language, project_root_path, "global")
+        M.pre_init_language(language, project_root_path)
         M.init_language(language)
     end
 end
 
-M.pre_init_language = function(language, project_root_path, lsp_type)
+M.pre_init_language = function(language, project_root_path)
     global["languages"][language] = {}
     global["languages"][language]["project_root_path"] = project_root_path
-    global["languages"][language]["lsp_type"] = lsp_type
 end
 
 M.init_language = function(language)

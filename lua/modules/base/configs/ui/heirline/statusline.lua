@@ -313,7 +313,7 @@ M.get_statusline = function()
 
     local lsp_active = {
         condition = heirline_conditions.lsp_attached,
-        update = { "LspAttach", "LspDetach" },
+        update = { "LspAttach", "LspDetach", "BufWinEnter" },
         provider = function()
             local lsp = {}
             local linters = {}
