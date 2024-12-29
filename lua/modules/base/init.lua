@@ -958,6 +958,7 @@ modules["akinsho/flutter-tools.nvim"] = {
     },
     config = languages_config.flutter_tools_nvim,
 }
+
 modules["luckasRanarison/tailwind-tools.nvim"] = {
     commit = funcs.get_commit("tailwind-tools.nvim", plugins_snapshot),
     dependencies = {
