@@ -55,17 +55,6 @@ modules["nvim-tree/nvim-web-devicons"] = {
     lazy = true,
 }
 
-modules["nvim-telescope/telescope-fzf-native.nvim"] = {
-    commit = funcs.get_commit("telescope-fzf-native.nvim", plugins_snapshot),
-    build = "make",
-    lazy = true,
-}
-
-modules["nvim-telescope/telescope-file-browser.nvim"] = {
-    commit = funcs.get_commit("telescope-file-browser.nvim", plugins_snapshot),
-    lazy = true,
-}
-
 modules["junegunn/fzf"] = {
     commit = funcs.get_commit("fzf", plugins_snapshot),
     build = function()
@@ -265,24 +254,6 @@ modules["numToStr/Navigator.nvim"] = {
     config = editor_config.navigator_nvim,
 }
 
-modules["nvim-telescope/telescope.nvim"] = {
-    commit = funcs.get_commit("telescope.nvim", plugins_snapshot),
-    cmd = "Telescope",
-    keys = {
-        { "<A-,>", "<Cmd>Telescope find_files<CR>", desc = "Telescope find files" },
-        { "<A-.>", "<Cmd>Telescope live_grep<CR>", desc = "Telescope live grep" },
-        { "<A-/>", "<Cmd>Telescope file_browser<CR>", desc = "Telescope file browser" },
-        { "<A-b>", "<Cmd>Telescope buffers<CR>", desc = "Telescope buffers" },
-        { "<C-c>t", "<Cmd>Telescope tmux session<CR>", desc = "Telescope tmux session" },
-    },
-    dependencies = {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        "nvim-telescope/telescope-file-browser.nvim",
-        "camgraff/telescope-tmux.nvim",
-    },
-    config = editor_config.telescope_nvim,
-}
-
 modules["ibhagwan/fzf-lua"] = {
     commit = funcs.get_commit("fzf-lua", plugins_snapshot),
     cmd = "FzfLua",
@@ -479,9 +450,6 @@ modules["gennaro-tedesco/nvim-peekup"] = {
 
 modules["gcmt/vessel.nvim"] = {
     commit = funcs.get_commit("vessel.nvim", plugins_snapshot),
-    dependencies = {
-        { "nvim-telescope/telescope.nvim" },
-    },
     config = editor_config.vessel_nvim,
 }
 
@@ -778,9 +746,6 @@ local version_control_config = require("modules.base.configs.version_control")
 
 modules["wintermute-cell/gitignore.nvim"] = {
     event = { "BufRead" },
-    dependencies = {
-        "nvim-telescope/telescope.nvim",
-    },
 }
 
 modules["NeogitOrg/neogit"] = {
@@ -824,17 +789,6 @@ modules["lvim-tech/lvim-forgit"] = {
         { "<A-t>", "<Cmd>LvimForgit<CR>", desc = "Lvim forgit" },
     },
     config = version_control_config.lvim_forgit,
-}
-
-modules["pwntester/octo.nvim"] = {
-    commit = funcs.get_commit("octo.nvim", plugins_snapshot),
-    cmd = "Octo",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope.nvim",
-        "nvim-tree/nvim-web-devicons",
-    },
-    config = version_control_config.octo_nvim,
 }
 
 modules["mbbill/undotree"] = {
@@ -972,7 +926,6 @@ modules["luckasRanarison/tailwind-tools.nvim"] = {
     commit = funcs.get_commit("tailwind-tools.nvim", plugins_snapshot),
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "nvim-telescope/telescope.nvim",
         "folke/neoconf.nvim",
         "neovim/nvim-lspconfig",
     },

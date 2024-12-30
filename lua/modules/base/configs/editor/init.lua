@@ -14,87 +14,6 @@ config.navigator_nvim = function()
     vim.keymap.set("n", "<C-j>", "<CMD>NavigatorDown<CR>")
 end
 
-config.telescope_nvim = function()
-    local telescope_status_ok, telescope = pcall(require, "telescope")
-    if not telescope_status_ok then
-        return
-    end
-    telescope.setup({
-        defaults = {
-            prompt_prefix = " " .. icons.common.search .. " ",
-            selection_caret = "  ",
-            entry_prefix = "  ",
-            initial_mode = "insert",
-            selection_strategy = "reset",
-            sorting_strategy = "ascending",
-            layout_strategy = "bottom_pane",
-            layout_config = {
-                height = function()
-                    return math.ceil((vim.api.nvim_get_option_value("lines", {}) + 5) * _G.LVIM_SETTINGS.floatheight)
-                end,
-            },
-            vimgrep_arguments = {
-                "rg",
-                "--color=never",
-                "--no-heading",
-                "--with-filename",
-                "--line-number",
-                "--column",
-                "--smart-case",
-                "--hidden",
-            },
-            file_sorter = require("telescope.sorters").get_fuzzy_file,
-            file_ignore_patterns = {
-                "node_modules",
-                ".git",
-                "target",
-                "vendor",
-            },
-            generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-            path_display = { shorten = 5 },
-            winblend = 0,
-            border = {},
-            borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-            color_devicons = true,
-            set_env = { ["COLORTERM"] = "truecolor" },
-            file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-            grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-            qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-            buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
-        },
-        pickers = {
-            file_browser = {
-                hidden = true,
-            },
-            find_files = {
-                hidden = true,
-            },
-            live_grep = {
-                hidden = true,
-                only_sort_text = true,
-            },
-        },
-        extensions = {
-            fzf = {
-                fuzzy = true,
-                override_generic_sorter = false,
-                override_file_sorter = true,
-                case_mode = "smart_case",
-            },
-            file_browser = {},
-        },
-    })
-    telescope.load_extension("fzf")
-    telescope.load_extension("file_browser")
-    telescope.load_extension("tmux")
-    vim.api.nvim_create_autocmd("User", {
-        pattern = "TelescopePreviewerLoaded",
-        callback = function()
-            vim.opt.number = true
-        end,
-    })
-end
-
 config.fzf_lua = function()
     local fzf_lua_status_ok, fzf_lua = pcall(require, "fzf-lua")
     if not fzf_lua_status_ok then
@@ -238,8 +157,8 @@ config.vessel_nvim = function()
         create_commands = true,
         commands = {
             view_marks = "Marks",
-            view_jumps = "Jumps"
-        }
+            view_jumps = "Jumps",
+        },
     })
     vim.keymap.set("n", "ml", "<Plug>(VesselViewLocalMarks)", { desc = "Marks view local" })
     vim.keymap.set("n", "mg", "<Plug>(VesselViewGlobalMarks)", { desc = "Marks view global" })
@@ -782,7 +701,6 @@ config.flow_nvim = function()
     })
 end
 
-
 config.transfer_nvim = function()
     local transfer_status_ok, transfer = pcall(require, "transfer")
     if not transfer_status_ok then
@@ -790,7 +708,6 @@ config.transfer_nvim = function()
     end
     transfer.setup()
 end
-
 
 config.code_runner_nvim = function()
     local global = require("core.global")
@@ -891,7 +808,6 @@ config.ccc_nvim = function()
         alpha_show = "show",
         highlight_mode = "virtual",
         virtual_symbol = " ● ",
-
     })
     vim.keymap.set("n", "<C-c>r", function()
         vim.cmd("CccPick")
@@ -904,8 +820,8 @@ config.nvim_highlight_colors = function()
         return
     end
     highlight_colors.setup({
-        render = 'virtual',
-        virtual_symbol = '●',
+        render = "virtual",
+        virtual_symbol = "●",
     })
 end
 
