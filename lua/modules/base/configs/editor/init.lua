@@ -260,6 +260,44 @@ config.vessel_nvim = function()
     end, { desc = "Jumps External" })
 end
 
+config.neocomposer_nvim = function()
+    local neocomposer_status_ok, neocomposer = pcall(require, "NeoComposer")
+    if not neocomposer_status_ok then
+        return
+    end
+    local theme = _G.LVIM_SETTINGS.theme
+    neocomposer.setup({
+        window = {
+            width = 120,
+            height = 26,
+        },
+        colors = {
+            bg = _G.LVIM_COLORS["colors"][theme].bg,
+            fg = _G.LVIM_COLORS["colors"][theme].teal_01,
+            red = _G.LVIM_COLORS["colors"][theme].red_02,
+            blue = _G.LVIM_COLORS["colors"][theme].blue_02,
+            green = _G.LVIM_COLORS["colors"][theme].green_02,
+        },
+        keymaps = {
+            play_macro = "<Leader>q",
+            yank_macro = "<Leader>ky",
+            stop_macro = "<Leader>ks",
+            toggle_record = "q",
+            cycle_next = "<Leader>kn",
+            cycle_prev = "<Leader>kp",
+            toggle_macro_menu = "<Leader>km",
+        },
+    })
+    vim.api.nvim_set_hl(0, "ComposerBorder", {
+        bg = _G.LVIM_COLORS["colors"][theme].bg,
+        fg = _G.LVIM_COLORS["colors"][theme].bg,
+    })
+    vim.api.nvim_set_hl(0, "ComposerTitle", {
+        bg = _G.LVIM_COLORS["colors"][theme].bg,
+        fg = _G.LVIM_COLORS["colors"][theme].red_02,
+    })
+end
+
 config.nvim_hlslens = function()
     local hlslens_status_ok, hlslens = pcall(require, "hlslens")
     if not hlslens_status_ok then

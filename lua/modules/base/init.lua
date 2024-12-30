@@ -486,6 +486,15 @@ modules["gcmt/vessel.nvim"] = {
     config = editor_config.vessel_nvim,
 }
 
+modules["lvim-tech/NeoComposer.nvim"] = {
+    commit = funcs.get_commit("NeoComposer.nvim", plugins_snapshot),
+    dependencies = { "kkharji/sqlite.lua" },
+    event = {
+        "BufRead",
+    },
+    config = editor_config.neocomposer_nvim,
+}
+
 modules["kevinhwang91/nvim-hlslens"] = {
     commit = funcs.get_commit("nvim-hlslens", plugins_snapshot),
     event = {

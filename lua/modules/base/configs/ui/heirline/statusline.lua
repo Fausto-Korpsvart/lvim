@@ -246,22 +246,29 @@ M.get_statusline = function()
         },
     }
 
+    -- local macro_rec = {
+    --     condition = function()
+    --         return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+    --     end,
+    --     provider = " ",
+    --     hl = { fg = colors.red_01, bold = true },
+    --     heirline_utils.surround({ "[", "]" }, nil, {
+    --         provider = function()
+    --             return vim.fn.reg_recording()
+    --         end,
+    --         hl = { fg = colors.green_01, bold = true },
+    --     }),
+    --     update = {
+    --         "RecordingEnter",
+    --         "RecordingLeave",
+    --     },
+    -- }
+
     local macro_rec = {
         condition = function()
-            return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+            return require("NeoComposer.state")
         end,
-        provider = " ",
-        hl = { fg = colors.red_01, bold = true },
-        heirline_utils.surround({ "[", "]" }, nil, {
-            provider = function()
-                return vim.fn.reg_recording()
-            end,
-            hl = { fg = colors.green_01, bold = true },
-        }),
-        update = {
-            "RecordingEnter",
-            "RecordingLeave",
-        },
+        provider = require("NeoComposer.ui").status_recording,
     }
 
     local diagnostics = {
