@@ -121,7 +121,7 @@ modules["folke/noice.nvim"] = {
 
 modules["folke/snacks.nvim"] = {
     commit = funcs.get_commit("snacks.nvim", plugins_snapshot),
-    config = ui_config.snacks_nvim
+    config = ui_config.snacks_nvim,
 }
 
 modules["s1n7ax/nvim-window-picker"] = {
@@ -158,7 +158,7 @@ modules["folke/which-key.nvim"] = {
     cond = function()
         return _G.LVIM_SETTINGS.keyshelper
     end,
-    config = ui_config.which_key_nvim
+    config = ui_config.which_key_nvim,
 }
 
 modules["echasnovski/mini.cursorword"] = {
@@ -167,7 +167,6 @@ modules["echasnovski/mini.cursorword"] = {
         "BufEnter",
     },
     config = ui_config.mini_cursorword,
-
 }
 
 modules["prichrd/netrw.nvim"] = {
@@ -183,11 +182,11 @@ modules["nvim-neo-tree/neo-tree.nvim"] = {
     commit = funcs.get_commit("neo-tree.nvim", plugins_snapshot),
     cmd = "Neotree",
     keys = {
-        { "<S-x>",      "<cmd>Neotree toggle filesystem left<CR>", desc = "NeoTree filesystem" },
+        { "<S-x>", "<cmd>Neotree toggle filesystem left<CR>", desc = "NeoTree filesystem" },
         { "<C-c><C-f>", "<cmd>Neotree toggle filesystem left<CR>", desc = "NeoTree filesystem" },
-        { "<C-c><C-b>", "<cmd>Neotree toggle buffers left<CR>",    desc = "NeoTree buffers" },
+        { "<C-c><C-b>", "<cmd>Neotree toggle buffers left<CR>", desc = "NeoTree buffers" },
         { "<C-c><C-g>", "<cmd>Neotree toggle git_status left<CR>", desc = "NeoTree git status" },
-        { "<S-q>",      "<cmd>Neotree toggle close<CR>",           desc = "NeoTree close" },
+        { "<S-q>", "<cmd>Neotree toggle close<CR>", desc = "NeoTree close" },
     },
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -270,10 +269,10 @@ modules["nvim-telescope/telescope.nvim"] = {
     commit = funcs.get_commit("telescope.nvim", plugins_snapshot),
     cmd = "Telescope",
     keys = {
-        { "<A-,>",  "<Cmd>Telescope find_files<CR>",   desc = "Telescope find files" },
-        { "<A-.>",  "<Cmd>Telescope live_grep<CR>",    desc = "Telescope live grep" },
-        { "<A-/>",  "<Cmd>Telescope file_browser<CR>", desc = "Telescope file browser" },
-        { "<A-b>",  "<Cmd>Telescope buffers<CR>",      desc = "Telescope buffers" },
+        { "<A-,>", "<Cmd>Telescope find_files<CR>", desc = "Telescope find files" },
+        { "<A-.>", "<Cmd>Telescope live_grep<CR>", desc = "Telescope live grep" },
+        { "<A-/>", "<Cmd>Telescope file_browser<CR>", desc = "Telescope file browser" },
+        { "<A-b>", "<Cmd>Telescope buffers<CR>", desc = "Telescope buffers" },
         { "<C-c>t", "<Cmd>Telescope tmux session<CR>", desc = "Telescope tmux session" },
     },
     dependencies = {
@@ -651,8 +650,9 @@ modules["coffebar/transfer.nvim"] = {
         "TransferUpload",
         "TransferDownload",
         "TransferDirDiff",
-        "TransferRepeat" },
-    config = editor_config.transfer_nvim
+        "TransferRepeat",
+    },
+    config = editor_config.transfer_nvim,
 }
 
 modules["CRAG666/code_runner.nvim"] = {
@@ -740,7 +740,7 @@ modules["brenoprata10/nvim-highlight-colors"] = {
     event = {
         "BufRead",
     },
-    config = editor_config.nvim_highlight_colors
+    config = editor_config.nvim_highlight_colors,
 }
 
 modules["folke/flash.nvim"] = {
@@ -976,7 +976,7 @@ modules["luckasRanarison/tailwind-tools.nvim"] = {
         "folke/neoconf.nvim",
         "neovim/nvim-lspconfig",
     },
-    config = languages_config.tailwind_tools_nvim
+    config = languages_config.tailwind_tools_nvim,
 }
 
 modules["jsongerber/nvim-px-to-rem"] = {
@@ -999,7 +999,7 @@ modules["jsongerber/nvim-px-to-rem"] = {
             desc = "Px to Rem line",
         },
     },
-    config = languages_config.nvim_px_to_rem
+    config = languages_config.nvim_px_to_rem,
 }
 
 modules["kosayoda/nvim-lightbulb"] = {
