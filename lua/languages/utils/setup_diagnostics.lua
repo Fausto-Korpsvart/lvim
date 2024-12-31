@@ -20,7 +20,7 @@ end
 
 local config_diagnostic = {
     virtual_text = get_vt(),
-    update_in_insert = true,
+    update_in_insert = false,
     underline = true,
     severity_sort = true,
     signs = {
@@ -180,12 +180,12 @@ end
 M.get_capabilities = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities["offsetEncoding"] = "utf-8"
-    return require('blink.cmp').get_lsp_capabilities(capabilities)
+    return require("blink.cmp").get_lsp_capabilities(capabilities)
 end
 
 M.get_cpp_capabilities = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    return require('blink.cmp').get_lsp_capabilities(capabilities)
+    return require("blink.cmp").get_lsp_capabilities(capabilities)
 end
 
 M.keymaps = function(_, bufnr)
@@ -210,85 +210,85 @@ M.keymaps = function(_, bufnr)
             lhs = "gd",
             capability = "definitionProvider",
             command = vim.lsp.buf.definition,
-            desc = "LspDefinition"
+            desc = "LspDefinition",
         },
         {
             mode = "n",
             lhs = "gD",
             capability = "declarationProvider",
             command = vim.lsp.buf.declaration,
-            desc = "LspDeclaration"
+            desc = "LspDeclaration",
         },
         {
             mode = "n",
             lhs = "gt",
             capability = "typeDefinitionProvider",
             command = vim.lsp.buf.type_definition,
-            desc = "LspTypeDefinition"
+            desc = "LspTypeDefinition",
         },
         {
             mode = "n",
             lhs = "gr",
             capability = "referencesProvider",
             command = vim.lsp.buf.references,
-            desc = "LspReferences"
+            desc = "LspReferences",
         },
         {
             mode = "n",
             lhs = "gi",
             capability = "implementationProvider",
             command = vim.lsp.buf.implementation,
-            desc = "LspImplementation"
+            desc = "LspImplementation",
         },
         {
             mode = "n",
             lhs = "ge",
             capability = "renameProvider",
             command = vim.lsp.buf.rename,
-            desc = "LspRename"
+            desc = "LspRename",
         },
         {
             mode = "n",
             lhs = "ga",
             capability = "codeActionProvider",
             command = vim.lsp.buf.code_action,
-            desc = "LspCodeAction"
+            desc = "LspCodeAction",
         },
         {
             mode = "n",
             lhs = "gs",
             capability = "signatureHelpProvider",
             command = vim.lsp.buf.signature_help,
-            desc = "LspSignatureHelp"
+            desc = "LspSignatureHelp",
         },
         {
             mode = "n",
             lhs = "gL",
             capability = "codeLensProvider",
             command = vim.lsp.codelens.refresh,
-            desc = "LspCodeLensRefresh"
+            desc = "LspCodeLensRefresh",
         },
         {
             mode = "n",
             lhs = "gl",
             capability = "codeLensProvider",
             command = vim.lsp.codelens.run,
-            desc = "LspCodeLensRun"
+            desc = "LspCodeLensRun",
         },
         {
             mode = "n",
             lhs = "gh",
             capability = "hoverProvider",
             command = vim.lsp.buf.hover,
-            desc = "LspHover"
+            desc = "LspHover",
         },
         {
             mode = "n",
             lhs = "K",
             capability = "hoverProvider",
             command = vim.lsp.buf.hover,
-            desc = "LspHover"
-        }
+            desc = "LspHover",
+        },
     }
     local function setup_format_mappings()
         local has_format_capability = false
@@ -306,17 +306,12 @@ M.keymaps = function(_, bufnr)
         end
     end
     for _, mapping in ipairs(mappings) do
-        vim.keymap.set(
-            mapping.mode,
-            mapping.lhs,
-            create_safe_command(mapping.capability, mapping.command),
-            {
-                noremap = true,
-                silent = true,
-                buffer = bufnr,
-                desc = mapping.desc
-            }
-        )
+        vim.keymap.set(mapping.mode, mapping.lhs, create_safe_command(mapping.capability, mapping.command), {
+            noremap = true,
+            silent = true,
+            buffer = bufnr,
+            desc = mapping.desc,
+        })
     end
     setup_format_mappings()
 end
