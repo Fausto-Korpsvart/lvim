@@ -54,5 +54,5 @@ return {
         padding_right = " ",
         icon = "󰎴  ",
         hl = "MarkviewHeading6",
-    }
+    },
 }

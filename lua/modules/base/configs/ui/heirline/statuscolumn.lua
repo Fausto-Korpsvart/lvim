@@ -211,7 +211,12 @@ M.get_statuscolumn = function()
 
     local line_numbers = {
         provider = function()
-            if vim.bo.filetype == "qf" or vim.bo.filetype == "replacer" or vim.bo.filetype == "org" or vim.v.virtnum ~= 0 then
+            if
+                vim.bo.filetype == "qf"
+                or vim.bo.filetype == "replacer"
+                or vim.bo.filetype == "org"
+                or vim.v.virtnum ~= 0
+            then
                 return ""
             end
             if vim.v.relnum == 0 then

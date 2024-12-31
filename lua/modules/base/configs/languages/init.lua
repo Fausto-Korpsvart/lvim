@@ -525,17 +525,17 @@ config.nvim_dap_ui = function()
         layouts = {
             {
                 elements = {
-                    { id = "scopes",      size = 0.33 },
+                    { id = "scopes", size = 0.33 },
                     { id = "breakpoints", size = 0.17 },
-                    { id = "stacks",      size = 0.25 },
-                    { id = "watches",     size = 0.25 },
+                    { id = "stacks", size = 0.25 },
+                    { id = "watches", size = 0.25 },
                 },
                 size = 0.33,
                 position = "left",
             },
             {
                 elements = {
-                    { id = "repl",    size = 0.45 },
+                    { id = "repl", size = 0.45 },
                     { id = "console", size = 0.55 },
                 },
                 size = 0.27,
@@ -763,7 +763,7 @@ config.markview_nvim = function()
         width = { 10, 0.75 },
         height = { 3, 0.75 },
         debounce = 50,
-    });
+    })
 end
 
 config.mkdnflow_nvim = function()
@@ -773,11 +773,11 @@ config.mkdnflow_nvim = function()
     end
     mkdnflow_nvim.setup({
         to_do = {
-            symbols = { '', '󱑁', '' },
+            symbols = { "", "󱑁", "" },
             update_parents = true,
-            not_started = '',
-            in_progress = '󱑁',
-            complete = ''
+            not_started = "",
+            in_progress = "󱑁",
+            complete = "",
         },
     })
 end

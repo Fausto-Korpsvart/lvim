@@ -2,7 +2,7 @@ return {
     enable = true,
     default = {
         border = "▋",
-        hl = "MarkviewBlockQuoteDefault"
+        hl = "MarkviewBlockQuoteDefault",
     },
     callouts = {
         {
@@ -13,7 +13,7 @@ return {
             title = true,
             icon = "󱉫 ",
             border = "▋",
-            border_hl = nil
+            border_hl = nil,
         },
-    }
+    },
 }

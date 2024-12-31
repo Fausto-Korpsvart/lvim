@@ -292,7 +292,7 @@ M.file_size = function(size, options)
         result = {
             roundNumber(val, o.exponent > 0 and o.round or 0),
             (o.base == 10 and o.exponent == 1) and (o.bits and "kb" or "kB")
-            or si[o.bits and "bits" or "bytes"][o.exponent + 1],
+                or si[o.bits and "bits" or "bytes"][o.exponent + 1],
         }
         if o.unix then
             result[2] = result[2]:sub(1, 1)

@@ -3,68 +3,68 @@ return {
     checked = {
         match_string = "x",
         text = "󰗠",
-        hl = "MarkviewCheckboxChecked"
+        hl = "MarkviewCheckboxChecked",
     },
     unchecked = {
         match_string = " ",
         text = "󰄰",
-        hl = "MarkviewCheckboxUnchecked"
+        hl = "MarkviewCheckboxUnchecked",
     },
     custom = {
         {
             match_string = "?",
             text = "󰋗",
-            hl = "MarkviewCheckboxPending"
+            hl = "MarkviewCheckboxPending",
         },
         {
             match_string = "!",
             text = "󰀦",
-            hl = "MarkviewCheckboxUnchecked"
+            hl = "MarkviewCheckboxUnchecked",
         },
         {
             match_string = "-",
             text = "󰍶",
-            hl = "MarkviewCheckboxCancelled"
+            hl = "MarkviewCheckboxCancelled",
         },
         {
             match_string = "/",
             text = "󱎖",
-            hl = "MarkviewCheckboxPending"
+            hl = "MarkviewCheckboxPending",
         },
         {
             match_string = "b",
             text = "󰃀",
-            hl = "MarkviewCheckboxProgress"
+            hl = "MarkviewCheckboxProgress",
         },
         {
             match_string = "k",
             text = "",
-            hl = "MarkviewCheckboxPending"
+            hl = "MarkviewCheckboxPending",
         },
         {
             match_string = "p",
             text = "",
-            hl = "MarkviewCheckboxChecked"
+            hl = "MarkviewCheckboxChecked",
         },
         {
             match_string = "c",
             text = "",
-            hl = "MarkviewCheckboxUnchecked"
+            hl = "MarkviewCheckboxUnchecked",
         },
         {
             match_string = "u",
             text = "󰔵",
-            hl = "MarkviewCheckboxChecked"
+            hl = "MarkviewCheckboxChecked",
         },
         {
             match_string = "d",
             text = "󰔳",
-            hl = "MarkviewCheckboxUnchecked"
+            hl = "MarkviewCheckboxUnchecked",
         },
         {
             match_string = "t",
             text = "󰔚",
-            hl = "MarkviewCheckboxProgress"
+            hl = "MarkviewCheckboxProgress",
         },
-    }
+    },
 }

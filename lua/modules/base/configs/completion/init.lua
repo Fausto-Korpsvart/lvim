@@ -8,18 +8,21 @@ config.blink_cmp = function()
     local icons = require("configs.base.ui.icons")
     local lsp_symbols = icons.cmp
     local ext = { "lazydev", "ripgrep" }
-    local default_sources =
-        vim.list_extend({ "lsp", "path", "snippets", "buffer" }, ext)
+    local default_sources = vim.list_extend({ "lsp", "path", "snippets", "buffer" }, ext)
     blink_cmp.setup({
         snippets = {
-            expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
+            expand = function(snippet)
+                require("luasnip").lsp_expand(snippet)
+            end,
             active = function(filter)
                 if filter and filter.direction then
                     return require("luasnip").jumpable(filter.direction)
                 end
                 return require("luasnip").in_snippet()
             end,
-            jump = function(direction) require("luasnip").jump(direction) end,
+            jump = function(direction)
+                require("luasnip").jump(direction)
+            end,
         },
         sources = {
             default = default_sources,
@@ -80,8 +83,8 @@ config.blink_cmp = function()
                     treesitter = { "lsp" },
                     columns = {
                         { "kind_icon" },
-                        { "label",    "label_description", gap = 1 },
-                        { "kind" }
+                        { "label", "label_description", gap = 1 },
+                        { "kind" },
                     },
                 },
                 cmdline_position = function()
@@ -128,7 +131,7 @@ config.blink_cmp = function()
                 ["<C-k>"] = { "select_prev", "fallback" },
                 ["<C-h>"] = { "scroll_documentation_down", "fallback" },
                 ["<C-l>"] = { "scroll_documentation_up", "fallback" },
-            }
+            },
         },
     })
 end

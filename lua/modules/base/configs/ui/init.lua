@@ -51,7 +51,7 @@ config.noice_nvim = function()
                         { error = true },
                         { warning = true },
                         { event = "msg_show", kind = { "" } },
-                        { event = "lsp",      kind = "message" },
+                        { event = "lsp", kind = "message" },
                     },
                 },
             },
@@ -64,7 +64,7 @@ config.noice_nvim = function()
                         { error = true },
                         { warning = true },
                         { event = "msg_show", kind = { "" } },
-                        { event = "lsp",      kind = "message" },
+                        { event = "lsp", kind = "message" },
                     },
                 },
                 filter_opts = { count = 1 },
@@ -502,8 +502,19 @@ config.snacks_nvim = function()
                 { icon = " ", key = "<Leader>n", desc = "New File", action = ":ene | startinsert" },
                 { icon = " ", key = "<Leader>w", desc = "Find Text", action = ":FzfLua live_grep" },
                 { icon = " ", key = "<Leader>o", desc = "Recent Files", action = ":FzfLua oldfiles" },
-                { icon = " ", key = "<Leader>vc", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-                { icon = "󰅢 ", key = "<leader>vl", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                {
+                    icon = " ",
+                    key = "<Leader>vc",
+                    desc = "Config",
+                    action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+                },
+                {
+                    icon = "󰅢 ",
+                    key = "<leader>vl",
+                    desc = "Lazy",
+                    action = ":Lazy",
+                    enabled = package.loaded.lazy ~= nil,
+                },
                 { icon = "󰅢 ", key = "<leader>vm", desc = "Mason", action = ":Mason" },
                 { icon = " ", key = "<C-c>e", desc = "Quit", action = ":Quit" },
                 { pane = 2 },
@@ -522,10 +533,18 @@ config.snacks_nvim = function()
                     if v.build ~= vim.NIL then
                         build = " build " .. v.build
                     end
-                    local str = platform ..
-                        " " ..
-                        datetime ..
-                        " " .. icons.common.vim .. "v" .. v.major .. "." .. v.minor .. "." .. v.patch .. build
+                    local str = platform
+                        .. " "
+                        .. datetime
+                        .. " "
+                        .. icons.common.vim
+                        .. "v"
+                        .. v.major
+                        .. "."
+                        .. v.minor
+                        .. "."
+                        .. v.patch
+                        .. build
                     return { pane = 2, text = { str, hl = "SnacksDashboardDesc" }, align = "center" }
                 end,
                 { pane = 2 },
@@ -568,20 +587,20 @@ config.snacks_nvim = function()
                 os = { editPreset = "nvim-remote" },
                 gui = {
                     nerdFontsVersion = "3",
-                    border           = "hidden",
+                    border = "hidden",
                 },
             },
             theme = {
-                [241]                      = { fg = "Special" },
-                activeBorderColor          = { fg = "SnacksInActiveBorder", bold = true },
-                cherryPickedCommitBgColor  = { fg = "Identifier" },
-                cherryPickedCommitFgColor  = { fg = "Function" },
-                defaultFgColor             = { fg = "Normal" },
-                inactiveBorderColor        = { fg = "SnacksActiveBorder" },
-                optionsTextColor           = { fg = "Function" },
+                [241] = { fg = "Special" },
+                activeBorderColor = { fg = "SnacksInActiveBorder", bold = true },
+                cherryPickedCommitBgColor = { fg = "Identifier" },
+                cherryPickedCommitFgColor = { fg = "Function" },
+                defaultFgColor = { fg = "Normal" },
+                inactiveBorderColor = { fg = "SnacksActiveBorder" },
+                optionsTextColor = { fg = "Function" },
                 searchingActiveBorderColor = { fg = "SnacksActiveBorder", bold = true },
-                selectedLineBgColor        = { bg = "Visual" },
-                unstagedChangesColor       = { fg = "DiagnosticError" },
+                selectedLineBgColor = { bg = "Visual" },
+                unstagedChangesColor = { fg = "DiagnosticError" },
             },
         },
         git = {
@@ -860,7 +879,7 @@ config.which_key_nvim = function()
             delay = wk_delay,
             triggers = {
                 { "<auto>", mode = "nixsotc" },
-                { "m",      mode = { "n" } },
+                { "m", mode = { "n" } },
             },
             icons = {
                 rules = false,
@@ -878,7 +897,7 @@ config.mini_cursorword = function()
         return
     end
     mini_cursorword.setup({
-        delay = 10
+        delay = 10,
     })
 end
 
@@ -1074,10 +1093,10 @@ config.lvim_shell = function()
         if executable(vim.fn.tolower(fm)) == 1 then
             vim.cmd(
                 "command! -nargs=? -complete=dir "
-                .. fm
-                .. " :lua require('modules.base.configs.ui.shell')."
-                .. fm
-                .. "(<f-args>)"
+                    .. fm
+                    .. " :lua require('modules.base.configs.ui.shell')."
+                    .. fm
+                    .. "(<f-args>)"
             )
         end
     end
