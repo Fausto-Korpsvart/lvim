@@ -67,6 +67,25 @@ config.fzf_lua = function()
                 },
             }
         end,
+        keymap = {
+            builtin = {
+                ["<M-Esc>"] = "hide",
+                ["<F1>"] = "toggle-help",
+                ["<F2>"] = "toggle-fullscreen",
+                ["<F3>"] = "toggle-preview-wrap",
+                ["<F4>"] = "toggle-preview",
+                ["<F5>"] = "toggle-preview-ccw",
+                ["<F6>"] = "toggle-preview-cw",
+                ["<F7>"] = "toggle-preview-ts-ctx",
+                ["<F8>"] = "preview-ts-ctx-dec",
+                ["<F9>"] = "preview-ts-ctx-inc",
+                ["<S-Left>"] = "preview-reset",
+                ["<C-d>"] = "preview-page-down",
+                ["<C-u>"] = "preview-page-up",
+                ["<M-S-down>"] = "preview-down",
+                ["<M-S-up>"] = "preview-up",
+            },
+        },
     })
 end
 
