@@ -32,7 +32,7 @@ config.blink_cmp = function()
                     return { "buffer" }
                 end
                 if type == ":" then
-                    return { "cmdline" }
+                    return { "cmdline", "path" }
                 end
                 return {}
             end,
