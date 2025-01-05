@@ -1113,6 +1113,7 @@ modules["Saghen/blink.cmp"] = {
         "rafamadriz/friendly-snippets",
         "niuiic/blink-cmp-rg.nvim",
         "jsongerber/nvim-px-to-rem",
+        "xzbdmw/colorful-menu.nvim",
     },
     event = {
         "InsertEnter",
