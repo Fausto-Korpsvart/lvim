@@ -23,7 +23,7 @@ if global.efm == false then
             setup_diagnostics.document_auto_format(client, bufnr)
         end,
         root_dir = function(fname)
-            return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+            return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
         end,
     }
 end
@@ -41,14 +41,14 @@ M.setup_efm = function()
                 "closed",
                 vim.schedule_wrap(function()
                     lspconfig.efm.setup(global.efm)
-                    vim.cmd(":LspStart efm")
+                    -- vim.cmd(":LspStart efm")
                     global.install_proccess = false
                 end)
             )
         end
     else
         lspconfig.efm.setup(global.efm)
-        vim.cmd(":LspStart efm")
+        -- vim.cmd(":LspStart efm")
     end
 end
 
