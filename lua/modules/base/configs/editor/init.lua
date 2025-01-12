@@ -46,7 +46,7 @@ config.fzf_lua = function()
             ["header"] = { "fg", "FzfLuaPrompt" },
             ["gutter"] = { "bg", "FzfLuaNormal" },
         },
-        winopts_fn = function()
+        winopts = function()
             local win_height = math.ceil(vim.api.nvim_get_option_value("lines", {}) * _G.LVIM_SETTINGS.floatheight)
             local win_width = math.ceil(vim.api.nvim_get_option_value("columns", {}) * 1)
             local col = math.ceil((vim.api.nvim_get_option_value("columns", {}) - win_width) * 1)
