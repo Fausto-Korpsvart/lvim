@@ -1112,8 +1112,8 @@ modules["Saghen/blink.cmp"] = {
         "L3MON4D3/LuaSnip",
         "rafamadriz/friendly-snippets",
         "niuiic/blink-cmp-rg.nvim",
-        "jsongerber/nvim-px-to-rem",
         "xzbdmw/colorful-menu.nvim",
+        "moyiz/blink-emoji.nvim",
     },
     event = {
         "InsertEnter",
