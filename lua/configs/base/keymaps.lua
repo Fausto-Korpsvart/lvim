@@ -4,10 +4,10 @@ keymaps["normal"] = {
     { "<Esc>", "<Esc>:noh<CR>", "Esc" }, -- Remove highlight after search
     { "j", "gj", "j" }, -- Re-map j
     { "k", "gk", "k" }, -- Re-map k
-    { "<C-d>", "<C-d>zz", "C-d" }, -- Re-map C-d
-    { "<C-u>", "<C-u>zz", "C-u" }, -- Re-map C-u
-    { "<C-f>", "<C-f>zz", "C-f" }, -- Re-map C-f
-    { "<C-b>", "<C-b>zz", "C-b" }, -- Re-map C-b
+    -- { "<C-d>", "<C-d>zz", "C-d" }, -- Re-map C-d
+    -- { "<C-u>", "<C-u>zz", "C-u" }, -- Re-map C-u
+    -- { "<C-f>", "<C-f>zz", "C-f" }, -- Re-map C-f
+    -- { "<C-b>", "<C-b>zz", "C-b" }, -- Re-map C-b
     { "<C-c>N", ":enew<CR>", "Create empty buffer" }, -- Create empty buffer
     { "<C-c>s", ":Save<CR>", "Save" }, -- Save
     { "<C-c>a", ":wa<CR>", "Save all" }, -- Save all

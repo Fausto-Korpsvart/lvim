@@ -30,15 +30,15 @@ config.noice_nvim = function()
         },
         messages = {
             enabled = true,
-            view = "mini",
-            view_error = "mini",
-            view_warn = "mini",
+            view = "notify",
+            view_error = "notify",
+            view_warn = "notify",
             view_history = "split",
             view_search = false,
         },
         popupmenu = {
             enabled = true,
-            backend = "mini",
+            backend = "notify",
             kind_icons = {},
         },
         commands = {
@@ -82,11 +82,11 @@ config.noice_nvim = function()
         },
         lsp = {
             progress = {
-                enabled = true,
+                enabled = false,
                 format = "lsp_progress",
                 format_done = "lsp_progress_done",
                 throttle = 1000 / 30,
-                view = "mini",
+                view = "notify",
             },
             override = {
                 -- ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -396,7 +396,7 @@ config.noice_nvim = function()
                 },
             },
             {
-                view = "mini",
+                view = "notify",
                 filter = {
                     event = "msg_show",
                     kind = "",
@@ -405,7 +405,7 @@ config.noice_nvim = function()
                 opts = { skip = true },
             },
             {
-                view = "mini",
+                view = "notify",
                 filter = {
                     event = "msg_show",
                     kind = { "", "echo", "echomsg" },
@@ -417,21 +417,21 @@ config.noice_nvim = function()
                 },
             },
             {
-                view = "mini",
+                view = "notify",
                 filter = { error = true },
                 opts = {
                     skip = true,
                 },
             },
             {
-                view = "mini",
+                view = "notify",
                 filter = { warning = true },
                 opts = {
                     skip = true,
                 },
             },
             {
-                view = "mini",
+                view = "notify",
                 filter = { event = "notify" },
                 opts = {
                     title = "LVIM IDE",
@@ -450,7 +450,7 @@ config.noice_nvim = function()
                 },
             },
             {
-                view = "mini",
+                view = "notify",
                 filter = { event = "lsp", kind = "progress" },
             },
         },
@@ -475,6 +475,8 @@ config.snacks_nvim = function()
         return
     end
     snacks.setup({
+        scroll = { enabled = true },
+        -- animate = { enabled = true },
         dashboard = {
             enabled = true,
             sections = {
@@ -740,6 +742,47 @@ config.snacks_nvim = function()
         local git_root = Snacks.git.get_root()
         vim.cmd("cd " .. git_root)
     end, { noremap = true, silent = true, desc = "Cd to git root" })
+
+    ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
+    local progress = vim.defaulttable()
+    vim.api.nvim_create_autocmd("LspProgress", {
+        ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+        callback = function(ev)
+            local client = vim.lsp.get_client_by_id(ev.data.client_id)
+            local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
+            if not client or type(value) ~= "table" then
+                return
+            end
+            local p = progress[client.id]
+            for i = 1, #p + 1 do
+                if i == #p + 1 or p[i].token == ev.data.params.token then
+                    p[i] = {
+                        token = ev.data.params.token,
+                        msg = ("[%3d%%] %s%s"):format(
+                            value.kind == "end" and 100 or value.percentage or 100,
+                            value.title or "",
+                            value.message and (" **%s**"):format(value.message) or ""
+                        ),
+                        done = value.kind == "end",
+                    }
+                    break
+                end
+            end
+            local msg = {} ---@type string[]
+            progress[client.id] = vim.tbl_filter(function(v)
+                return table.insert(msg, v.msg) or not v.done
+            end, p)
+            local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+            vim.notify(table.concat(msg, "\n"), "info", {
+                id = "lsp_progress",
+                title = client.name,
+                opts = function(notif)
+                    notif.icon = #progress[client.id] == 0 and " "
+                        or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+                end,
+            })
+        end,
+    })
 end
 
 config.nvim_window_picker = function()
@@ -928,8 +971,8 @@ config.neo_tree_nvim = function()
     neo_tree.setup({
         use_popups_for_input = false,
         popup_border_style = { " ", " ", " ", " ", " ", " ", " ", " " },
-        enable_git_status = false,
-        enable_diagnostics = false,
+        enable_git_status = true,
+        enable_diagnostics = true,
         sources = {
             "filesystem",
             "buffers",
