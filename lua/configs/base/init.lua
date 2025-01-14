@@ -115,6 +115,10 @@ configs["base_lvim"] = function()
         "lua require'core.funcs'.copy_file(require'core.global'.lvim_path .. '/.configs/templates/.editorconfig', vim.fn.getcwd() .. '/.editorconfig')",
         {}
     )
+    vim.api.nvim_create_user_command("RemoveComments", "lua require'core.funcs'.remove_comments()", {})
+    vim.keymap.set("n", "gcd", function()
+        vim.cmd("RemoveComments")
+    end, { noremap = true, silent = true, desc = "Delete all comments" })
 end
 
 configs["base_options"] = function()

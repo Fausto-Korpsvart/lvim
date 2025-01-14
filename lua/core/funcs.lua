@@ -515,4 +515,72 @@ M.tm_autocmd = function(action)
     end
 end
 
+local multi_line_patterns = {
+    "%-%-%[%[.-%]%]", -- --[[ multi-line comment ]]
+    "/%*.-%*/", -- /* multi-line comment */
+    "<!%-%-.-%-%->", -- <!-- multi-line comment -->
+}
+
+local single_line_patterns = {
+    "^%s*%-%-[^%-%[].*$", -- -- single-line comment (but not ---)
+    "^%s*//.*$", -- // single-line comment
+    "^%s*#[^%x%d].*$", -- # single-line comment (but not #hex)
+    "^%s*;.*$", -- ; single-line comment
+    "^%s*{{!.-}}%s*$", -- {{! handlebars single-line comment }}
+    "^%s*{#.-#}%s*$", -- {# django/jinja single-line comment #}
+    "%s%-%-[^%-%[].*$", -- inline -- comment
+    "%s//.*$", -- inline // comment
+    "%s#[^%x%d].*$", -- inline # comment (but not #hex)
+    "%s;.*$", -- inline ; comment
+}
+
+M.remove_comments = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local original_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    local content = table.concat(original_lines, "\n")
+    local multi_line_comment_count = 0
+    local multi_line_total_lines = 0
+    for _, pattern in ipairs(multi_line_patterns) do
+        content = content:gsub(pattern, function(match)
+            multi_line_comment_count = multi_line_comment_count + 1
+            local line_count = select(2, match:gsub("\n", "")) + 1
+            multi_line_total_lines = multi_line_total_lines + line_count
+            return string.rep("\n", line_count)
+        end)
+    end
+    local lines = vim.split(content, "\n", { trimempty = false })
+    local result_lines = {}
+    local single_line_comment_count = 0
+    for i, line in ipairs(lines) do
+        local modified_line = line
+        local is_original_empty = original_lines[i] and original_lines[i]:match("^%s*$") or false
+        if not modified_line:match("#%x%x%x%x%x%x?") then
+            for _, pattern in ipairs(single_line_patterns) do
+                local before = #modified_line
+                modified_line = modified_line:gsub(pattern, "")
+                if #modified_line < before then
+                    single_line_comment_count = single_line_comment_count + 1
+                end
+            end
+        end
+        modified_line = modified_line:gsub("%s+$", "")
+        if modified_line:match("%S") or is_original_empty then
+            table.insert(result_lines, modified_line)
+        end
+    end
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, result_lines)
+    vim.notify(
+        "Deleted comments: \n"
+            .. "Single-line: "
+            .. single_line_comment_count
+            .. "\n"
+            .. "Multi-line: "
+            .. multi_line_comment_count
+            .. " (Total lines: "
+            .. multi_line_total_lines
+            .. ")",
+        vim.log.levels.INFO
+    )
+end
+
 return M
