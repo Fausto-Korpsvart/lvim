@@ -2,14 +2,6 @@ local icons = require("configs.base.ui.icons")
 
 local config = {}
 
-config.neoconf_nvim = function()
-    local neoconf_status_ok, neoconf = pcall(require, "neoconf")
-    if not neoconf_status_ok then
-        return
-    end
-    neoconf.setup()
-end
-
 config.mason_nvim = function()
     vim.api.nvim_create_user_command(
         "LvimInstallLangDependencies",

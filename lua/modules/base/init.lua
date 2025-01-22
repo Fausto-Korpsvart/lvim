@@ -806,17 +806,6 @@ modules["mbbill/undotree"] = {
 
 local languages_config = require("modules.base.configs.languages")
 
-modules["folke/neoconf.nvim"] = {
-    commit = funcs.get_commit("neoconf.nvim", plugins_snapshot),
-    event = {
-        "BufRead",
-    },
-    dependencies = {
-        "neovim/nvim-lspconfig",
-    },
-    config = languages_config.neoconf_nvim,
-}
-
 modules["williamboman/mason.nvim"] = {
     build = ":MasonUpdate",
     commit = funcs.get_commit("mason.nvim", plugins_snapshot),
@@ -825,7 +814,6 @@ modules["williamboman/mason.nvim"] = {
     },
     dependencies = {
         "neovim/nvim-lspconfig",
-        "folke/neoconf.nvim",
     },
     config = languages_config.mason_nvim,
 }
@@ -926,7 +914,6 @@ modules["luckasRanarison/tailwind-tools.nvim"] = {
     commit = funcs.get_commit("tailwind-tools.nvim", plugins_snapshot),
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "folke/neoconf.nvim",
         "neovim/nvim-lspconfig",
     },
     config = languages_config.tailwind_tools_nvim,
