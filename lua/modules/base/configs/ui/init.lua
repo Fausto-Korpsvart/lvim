@@ -476,7 +476,7 @@ config.snacks_nvim = function()
     end
     snacks.setup({
         scroll = { enabled = true },
-        -- animate = { enabled = true },
+        animate = { enabled = true },
         dashboard = {
             enabled = true,
             sections = {
