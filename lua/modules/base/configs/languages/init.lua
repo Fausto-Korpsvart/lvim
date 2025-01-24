@@ -597,20 +597,6 @@ config.nvim_dap = function()
     end
 end
 
-config.nvim_dap_vscode_js = function()
-    local global = require("core.global")
-    local dap_vscode_js_status_ok, dap_vscode_js = pcall(require, "dap-vscode-js")
-    if not dap_vscode_js_status_ok then
-        return
-    end
-    dap_vscode_js.setup({
-        node_path = "node",
-        debugger_path = global.mason_path .. "/bin/vscode-js-debug",
-        debugger_cmd = { "js-debug-adapter" },
-        adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
-    })
-end
-
 config.nvim_dbee = function()
     local nvim_dbee_status_ok, nvim_dbee = pcall(require, "dbee")
     if not nvim_dbee_status_ok then
