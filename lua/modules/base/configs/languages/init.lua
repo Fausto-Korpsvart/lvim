@@ -492,67 +492,15 @@ config.outline_nvim = function()
     end, { noremap = true, silent = true, desc = "Outline" })
 end
 
-config.nvim_dap_ui = function()
-    local dapui_status_ok, dapui = pcall(require, "dapui")
-    if not dapui_status_ok then
-        return
-    end
+config.nvim_dap = function()
     local dap_status_ok, dap = pcall(require, "dap")
     if not dap_status_ok then
         return
     end
-    dapui.setup({
-        icons = icons.dap_ui.base,
-        mappings = {
-            expand = { "<CR>", "<2-LeftMouse>" },
-            open = "o",
-            remove = "d",
-            edit = "e",
-            repl = "r",
-            toggle = "t",
-        },
-        element_mappings = {},
-        expand_lines = vim.fn.has("nvim-0.7") == 1,
-        force_buffers = true,
-        layouts = {
-            {
-                elements = {
-                    { id = "scopes", size = 0.33 },
-                    { id = "breakpoints", size = 0.17 },
-                    { id = "stacks", size = 0.25 },
-                    { id = "watches", size = 0.25 },
-                },
-                size = 0.33,
-                position = "left",
-            },
-            {
-                elements = {
-                    { id = "repl", size = 0.45 },
-                    { id = "console", size = 0.55 },
-                },
-                size = 0.27,
-                position = "bottom",
-            },
-        },
-        floating = {
-            max_height = nil,
-            max_width = nil,
-            border = "single",
-            mappings = {
-                ["close"] = { "q", "<Esc>" },
-            },
-        },
-        controls = {
-            enabled = vim.fn.exists("+winbar") == 1,
-            element = "repl",
-            icons = icons.dap_ui.controls,
-        },
-        render = {
-            max_type_length = nil,
-            max_value_lines = 100,
-            indent = 1,
-        },
-    })
+    local dap_view_status_ok, dap_view = pcall(require, "dap-view")
+    if not dap_view_status_ok then
+        return
+    end
     vim.fn.sign_define("DapBreakpoint", {
         text = icons.dap_ui.sign.breakpoint,
         texthl = "DapBreakpoint",
@@ -628,7 +576,7 @@ config.nvim_dap_ui = function()
     vim.keymap.set("n", "<A-8>", function()
         dap.close()
         dap.disconnect()
-        dapui.close()
+        dap_view.close()
     end, { noremap = true, silent = true, desc = "DapUIClose" })
     vim.keymap.set("n", "<A-9>", function()
         dap.restart()
@@ -638,14 +586,14 @@ config.nvim_dap_ui = function()
     end, { noremap = true, silent = true, desc = "DapToggleRepl" })
     dap.listeners.after.event_initialized["dapui_config"] = function()
         vim.defer_fn(function()
-            dapui.open()
+            dap_view.open()
         end, 200)
     end
     dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
+        dap_view.close()
     end
     dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
+        dap_view.close()
     end
 end
 

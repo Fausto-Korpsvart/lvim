@@ -984,18 +984,16 @@ modules["hedyhli/outline.nvim"] = {
     config = languages_config.outline_nvim,
 }
 
-modules["rcarriga/nvim-dap-ui"] = {
-    commit = funcs.get_commit("nvim-dap-ui", plugins_snapshot),
+modules["mfussenegger/nvim-dap"] = {
+    commit = funcs.get_commit("nvim-dap", plugins_snapshot),
     event = {
         "BufReadPre",
     },
     dependencies = {
-        "mfussenegger/nvim-dap",
-        "nvim-neotest/nvim-nio",
-        "mxsdev/nvim-dap-vscode-js",
+        "igorlfs/nvim-dap-view",
         "jbyuki/one-small-step-for-vimkind",
     },
-    config = languages_config.nvim_dap_ui,
+    config = languages_config.nvim_dap,
 }
 
 modules["kndndrj/nvim-dbee"] = {
