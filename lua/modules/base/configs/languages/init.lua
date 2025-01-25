@@ -679,11 +679,13 @@ config.markview_nvim = function()
     end
     markview.setup({
         block_quotes = require("modules.base.configs.languages.markview.block_quotes"),
-        tables = require("modules.base.configs.languages.markview.tables"),
-        headings = require("modules.base.configs.languages.markview.headings"),
         code_blocks = require("modules.base.configs.languages.markview.code_blocks"),
         checkboxes = require("modules.base.configs.languages.markview.checkboxes"),
-        list_items = require("modules.base.configs.languages.markview.list_items"),
+        markdown = {
+            headings = require("modules.base.configs.languages.markview.headings"),
+            tables = require("modules.base.configs.languages.markview.tables"),
+            list_items = require("modules.base.configs.languages.markview.list_items"),
+        },
     })
     require("markview.extras.editor").setup({
         width = { 10, 0.75 },

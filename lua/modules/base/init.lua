@@ -30,11 +30,6 @@ modules["nvim-lua/popup.nvim"] = {
     lazy = true,
 }
 
-modules["nvim-neotest/nvim-nio"] = {
-    commit = funcs.get_commit("nvim-nio", plugins_snapshot),
-    lazy = true,
-}
-
 modules["MunifTanjim/nui.nvim"] = {
     commit = funcs.get_commit("nui.nvim", plugins_snapshot),
     lazy = true,
@@ -992,6 +987,7 @@ modules["mfussenegger/nvim-dap"] = {
     dependencies = {
         "igorlfs/nvim-dap-view",
         "jbyuki/one-small-step-for-vimkind",
+        "mxsdev/nvim-dap-vscode-js",
     },
     config = languages_config.nvim_dap,
 }
@@ -1058,7 +1054,6 @@ modules["iamcco/markdown-preview.nvim"] = {
 
 modules["OXY2DEV/markview.nvim"] = {
     commit = funcs.get_commit("markview-nvim", plugins_snapshot),
-    -- ft = { "md", "markdown", "latex" },
     config = languages_config.markview_nvim,
 }
 
