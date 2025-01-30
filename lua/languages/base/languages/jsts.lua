@@ -32,7 +32,6 @@ language_configs["dap"] = function()
             },
         },
     }
-    vim.notify("hh")
     dap.configurations.javascript = {
         {
             type = "pwa-node",
