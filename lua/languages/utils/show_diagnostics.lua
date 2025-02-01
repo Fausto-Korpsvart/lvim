@@ -110,7 +110,7 @@ local floating_severity_highlight_name = {
 }
 
 M.show_line_diagnostics = function()
-    local bufnr = 0;
+    local bufnr = 0
     local line_nr = api.nvim_win_get_cursor(0)[1] - 1
     local lines = {}
     local highlights = {}
@@ -132,18 +132,27 @@ M.show_line_diagnostics = function()
     end
     local popup_bufnr, winnr = open_floating_preview(lines, "plaintext")
     api.nvim_buf_set_var(popup_bufnr, "buftype", "prompt")
+    local ns_id = vim.api.nvim_create_namespace('diagnostics_popup')
     for i, hi in ipairs(highlights) do
         local prefixlen, hiname = unpack(hi)
-        api.nvim_buf_add_highlight(
+        vim.highlight.range(
             popup_bufnr,
-            -1,
-            "Comment",
-            i - 1 + padding.pad_top,
-            padding.pad_left,
-            padding.pad_left + prefixlen
+            ns_id,
+            "DiagnosticSourceInfo",
+            { i - 1 + padding.pad_top, padding.pad_left },
+            { i - 1 + padding.pad_top, padding.pad_left + prefixlen },
+            {}
         )
-        api.nvim_buf_add_highlight(popup_bufnr, -1, hiname, i - 1 + padding.pad_top, prefixlen + padding.pad_left, -1)
+        vim.highlight.range(
+            popup_bufnr,
+            ns_id,
+            hiname,
+            { i - 1 + padding.pad_top, prefixlen + padding.pad_left },
+            { i - 1 + padding.pad_top, -1 },
+            {}
+        )
     end
+
     return popup_bufnr, winnr
 end
 
