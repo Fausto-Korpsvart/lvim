@@ -9,9 +9,7 @@ local M = {}
 local function get_vt()
     local vt
     if _G.LVIM_SETTINGS.virtualdiagnostic then
-        vt = {
-            prefix = icons.common.dot,
-        }
+        vt = true
     else
         vt = false
     end
@@ -19,7 +17,7 @@ local function get_vt()
 end
 
 local config_diagnostic = {
-    virtual_text = get_vt(),
+    virtual_lines = get_vt(),
     update_in_insert = false,
     underline = true,
     severity_sort = true,
@@ -115,7 +113,7 @@ M.init_diagnostics = function()
             end
             local config = vim.diagnostic.config
             config({
-                virtual_text = get_vt(),
+                virtual_lines = get_vt(),
             })
         end)
     end
