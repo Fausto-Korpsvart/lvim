@@ -851,7 +851,7 @@ modules["chrisgrieser/nvim-rip-substitute"] = {
     cmd = "RipSubstitute",
     keys = {
         {
-            "<leader>e",
+            "<leader>rr",
             function()
                 require("rip-substitute").sub()
             end,
