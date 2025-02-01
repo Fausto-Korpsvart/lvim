@@ -8,7 +8,7 @@ config.lvim_colorscheme = function()
         return
     end
     lvim_colorscheme.setup({
-        cache = false,
+        cache = true,
         transparent = false,
         dim_active = true,
         styles = {

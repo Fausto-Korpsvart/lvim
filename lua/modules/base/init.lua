@@ -188,7 +188,7 @@ modules["stevearc/oil.nvim"] = {
             function()
                 vim.cmd("Oil")
             end,
-            desc = "Mini files",
+            desc = "Oil",
         },
     },
     cmd = "Oil",
