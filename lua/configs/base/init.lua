@@ -7,6 +7,10 @@ local icons = require("configs.base.ui.icons")
 local group = vim.api.nvim_create_augroup("LvimIDE", {
     clear = true,
 })
+local lvim_ui_config = require("modules.base.configs.ui")
+local editor_config = require("modules.base.configs.editor")
+local ui_config = require("modules.base.configs.ui")
+local version_control_config = require("modules.base.configs.version_control")
 
 local configs = {}
 
@@ -15,39 +19,17 @@ configs["base_lvim"] = function()
         local status
         if _G.LVIM_SETTINGS.theme == "lvim-dark" then
             status = "Lvim Dark"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-dark-soft" then
-            status = "Lvim Dark Soft"
+        elseif _G.LVIM_SETTINGS.theme == "lvim-darker" then
+            status = "Lvim Darker"
         elseif _G.LVIM_SETTINGS.theme == "lvim-light" then
             status = "Lvim Light"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-gruvbox-dark" then
-            status = "Lvim Gruvbox Dark"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-gruvbox-dark-soft" then
-            status = "Lvim Gruvbox Dark Soft"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-everforest-dark" then
-            status = "Lvim Everforest Dark"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-everforest-dark-soft" then
-            status = "Lvim Everforest Dark Soft"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-solarized-dark" then
-            status = "Lvim Solarized Dark"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-catppuccin-dark" then
-            status = "Lvim Catppuccin Dark"
-        elseif _G.LVIM_SETTINGS.theme == "lvim-catppuccin-dark-soft" then
-            status = "Lvim Catppuccin Dark Soft"
         end
-        local ui_config = require("lvim-ui-config.config")
+        ui_config = require("lvim-ui-config.config")
         local select = require("lvim-ui-config.select")
-        local notify = require("lvim-ui-config.notify")
         local opts = ui_config.select({
             "Lvim Dark",
-            "Lvim Dark Soft",
+            "Lvim Darker",
             "Lvim Light",
-            "Lvim Everforest Dark",
-            "Lvim Everforest Dark Soft",
-            "Lvim Gruvbox Dark",
-            "Lvim Gruvbox Dark Soft",
-            "Lvim Catppuccin Dark",
-            "Lvim Catppuccin Dark Soft",
-            "Lvim Solarized Dark",
             "Cancel",
         }, { prompt = "Theme (" .. status .. ")" }, {})
         select(opts, function(choice)
@@ -58,15 +40,6 @@ configs["base_lvim"] = function()
                 _G.LVIM_SETTINGS["theme"] = user_choice
                 vim.cmd("colorscheme " .. user_choice)
                 funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-                local lvim_ui_config = require("modules.base.configs.ui")
-                lvim_ui_config.heirline_nvim()
-                lvim_ui_config.nvim_window_picker()
-                lvim_ui_config.neo_tree_nvim()
-                local editor_config = require("modules.base.configs.editor")
-                editor_config.tabby_nvim()
-                local version_control_config = require("modules.base.configs.version_control")
-                version_control_config.lvim_forgit()
-                notify.info("Theme: " .. choice, { title = "LVIM IDE" })
             end
         end)
     end
@@ -76,7 +49,6 @@ configs["base_lvim"] = function()
         if status == "1" then
             status = "1.0"
         end
-        local ui_config = require("lvim-ui-config.config")
         local select = require("lvim-ui-config.select")
         local notify = require("lvim-ui-config.notify")
         local opts = ui_config.select({
@@ -99,12 +71,7 @@ configs["base_lvim"] = function()
                 notify.info("Float height: " .. choice, { title = "LVIM IDE" })
                 _G.LVIM_SETTINGS["floatheight"] = tonumber(user_choice) + 0.0
                 funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
-                local editor_config = require("modules.base.configs.editor")
                 editor_config.fzf_lua()
-                editor_config.telescope_nvim()
-                local lvim_ui_config = require("modules.base.configs.ui")
-                lvim_ui_config.lvim_fm()
-                local version_control_config = require("modules.base.configs.version_control")
                 version_control_config.lvim_forgit()
             end
         end)
@@ -119,6 +86,52 @@ configs["base_lvim"] = function()
     vim.keymap.set("n", "gcd", function()
         vim.cmd("RemoveComments")
     end, { noremap = true, silent = true, desc = "Delete all comments" })
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback = function()
+            local color_base = funcs.get_highlight("Folded")
+            local bg = color_base.bg
+            local bg_dark = funcs.blend(bg, 0.8, "#000000")
+            local gray = funcs.get_highlight("NonText").fg
+            local fg = gray
+            local fg_light = funcs.blend(fg, 0.4, "#FFFFFF")
+            local blue = funcs.get_highlight("Function").fg
+            local green = funcs.get_highlight("String").fg
+            local orange = funcs.get_highlight("Constant").fg
+            local red = funcs.get_highlight("DiagnosticError").fg
+            local cyan = funcs.get_highlight("Special").fg
+            local purple = funcs.get_highlight("Statement").fg
+            local diag_error = funcs.get_highlight("DiagnosticError").fg
+            local diag_warn = funcs.get_highlight("DiagnosticWarn").fg
+            local diag_hint = funcs.get_highlight("DiagnosticHint").fg
+            local diag_info = funcs.get_highlight("DiagnosticInfo").fg
+            _G.LVIM_COLORS = {
+                bg = vim.o.background == "dark" and bg or fg,
+                bg_dark = vim.o.background == "dark" and bg_dark or fg_light,
+                fg = vim.o.background == "dark" and fg or bg,
+                fg_light = vim.o.background == "dark" and fg_light or bg_dark,
+                gray = gray,
+                blue = blue,
+                green = green,
+                red = red,
+                orange = orange,
+                cyan = cyan,
+                purple = purple,
+                diag_error = diag_error,
+                diag_warn = diag_warn,
+                diag_hint = diag_hint,
+                diag_info = diag_info,
+            }
+            vim.api.nvim_set_hl(0, "WinBar", { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.fg })
+            vim.api.nvim_set_hl(0, "WinBarNC", { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.fg })
+            lvim_ui_config.heirline_nvim()
+            lvim_ui_config.nvim_window_picker()
+            editor_config.tabby_nvim()
+            editor_config.neocomposer_nvim()
+            -- ui_config.indent_blankline_nvim()
+            version_control_config.lvim_forgit()
+        end,
+    })
 end
 
 configs["base_options"] = function()
@@ -228,7 +241,7 @@ end
 
 configs["base_which_key"] = function()
     local function lvim_keys_helper()
-        local ui_config = require("lvim-ui-config.config")
+        ui_config = require("lvim-ui-config.config")
         local select = require("lvim-ui-config.select")
         local notify = require("lvim-ui-config.notify")
         local status
@@ -256,7 +269,7 @@ configs["base_which_key"] = function()
     end
     vim.api.nvim_create_user_command("LvimKeysHelper", lvim_keys_helper, {})
     local function lvim_keys_helper_delay()
-        local ui_config = require("lvim-ui-config.config")
+        ui_config = require("lvim-ui-config.config")
         local select = require("lvim-ui-config.select")
         local notify = require("lvim-ui-config.notify")
         local status = _G.LVIM_SETTINGS.keyshelperdelay

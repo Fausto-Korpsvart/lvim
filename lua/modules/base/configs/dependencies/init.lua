@@ -8,15 +8,19 @@ config.lvim_colorscheme = function()
         return
     end
     lvim_colorscheme.setup({
-        sidebars = {
-            "dbee",
-            "qf",
-            "pqf",
-            "alpha",
-            "calendar",
-            "spectre_panel",
-            "neo-tree",
+        cache = false,
+        transparent = false,
+        dim_active = true,
+        styles = {
+            floats = "dark",
+            sidebars = "dark",
         },
+        on_highlights = function(hl, c)
+            hl.FloatBorder = {
+                bg = c.bg_float,
+                fg = c.bg_float,
+            }
+        end,
     })
     vim.cmd("colorscheme " .. _G.LVIM_SETTINGS.theme)
 end

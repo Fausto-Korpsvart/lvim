@@ -141,17 +141,6 @@ config.neotest = function()
     end, {})
 end
 
-config.nvim_lsp_file_operations = function()
-    local lsp_file_operations_status_ok, lsp_file_operations = pcall(require, "lsp-file-operations")
-    if not lsp_file_operations_status_ok then
-        return
-    end
-    lsp_file_operations.setup({
-        debug = false,
-        timeout_ms = 100000,
-    })
-end
-
 config.nvim_rip_substitute = function()
     local nvim_rip_substitute_status_ok, nvim_rip_substitute = pcall(require, "rip-substitute")
     if not nvim_rip_substitute_status_ok then

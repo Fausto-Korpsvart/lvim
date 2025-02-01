@@ -1,4 +1,3 @@
-local funcs = require("core.funcs")
 local icons = require("configs.base.ui.icons")
 
 local config = {}
@@ -16,6 +15,44 @@ config.neogit = function()
             diffview = true,
         },
     })
+end
+
+config.vgit = function()
+    local vgit_status_ok, vgit = pcall(require, "vgit")
+    if not vgit_status_ok then
+        return
+    end
+    vgit.setup({
+        settings = {
+            live_blame = {
+                enabled = false,
+            },
+            live_gutter = {
+                enabled = false,
+            },
+        },
+    })
+    vim.keymap.set("n", "<Leader>gp", function()
+        require("vgit").buffer_hunk_preview()
+    end, { noremap = true, silent = true, desc = "Git hunk preview" })
+    vim.keymap.set("n", "<Leader>gP", function()
+        require("vgit").buffer_history_preview()
+    end, { noremap = true, silent = true, desc = "Git history preview" })
+    vim.keymap.set("n", "<Leader>gd", function()
+        require("vgit").buffer_diff_preview()
+    end, { noremap = true, silent = true, desc = "Git buffer diff preview" })
+    vim.keymap.set("n", "<Leader>gD", function()
+        require("vgit").project_diff_preview()
+    end, { noremap = true, silent = true, desc = "Git project diff preview" })
+    vim.keymap.set("n", "<Leader>gs", function()
+        require("vgit").buffer_hunk_stage()
+    end, { noremap = true, silent = true, desc = "Git buffer hunk stage" })
+    vim.keymap.set("n", "<Leader>gr", function()
+        require("vgit").buffer_hunk_reset()
+    end, { noremap = true, silent = true, desc = "Git buffer hunk reset" })
+    vim.keymap.set("n", "<Leader>gR", function()
+        require("vgit").buffer_reset()
+    end, { noremap = true, silent = true, desc = "Git buffer all hunk reset" })
 end
 
 config.gitsigns_nvim = function()
@@ -42,36 +79,26 @@ config.gitsigns_nvim = function()
         },
         linehl = false,
     })
-    vim.api.nvim_create_user_command("GitSignsPreviewHunk", "lua require('gitsigns').preview_hunk()", {})
-    vim.api.nvim_create_user_command("GitSignsNextHunk", "lua require('gitsigns').next_hunk()", {})
-    vim.api.nvim_create_user_command("GitSignsPrevHunk", "lua require('gitsigns').prev_hunk()", {})
-    vim.api.nvim_create_user_command("GitSignsStageHunk", "lua require('gitsigns').stage_hunk()", {})
-    vim.api.nvim_create_user_command("GitSignsUndoStageHunk", "lua require('gitsigns').undo_stage_hunk()", {})
-    vim.api.nvim_create_user_command("GitSignsResetHunk", "lua require('gitsigns').reset_hunk()", {})
-    vim.api.nvim_create_user_command("GitSignsResetBuffer", "lua require('gitsigns').reset_buffer()", {})
-    vim.api.nvim_create_user_command("GitSignsBlameLine", "lua require('gitsigns').blame_line()", {})
-    vim.api.nvim_create_user_command("GitSignsBlameFull", "lua require('gitsigns').blame_line(full=true)", {})
+    vim.api.nvim_create_user_command("GitSignsPrevHunk", "lua require('gitsigns').nav_hunk('prev')", {})
+    vim.api.nvim_create_user_command("GitSignsNextHunk", "lua require('gitsigns').nav_hunk('next')", {})
     vim.api.nvim_create_user_command("GitSignsToggleLinehl", "lua require('gitsigns').toggle_linehl()", {})
     vim.api.nvim_create_user_command(
         "GitSignsToggleLineBlame",
         "lua require('gitsigns').toggle_current_line_blame()",
         {}
     )
-    vim.keymap.set("n", "<A-]>", function()
-        vim.cmd("GitSignsNextHunk")
-    end, { noremap = true, silent = true, desc = "GitSignsNextHunk" })
-    vim.keymap.set("n", "<A-[>", function()
-        vim.cmd("GitSignsPrevHunk")
-    end, { noremap = true, silent = true, desc = "GitSignsPrevHunk" })
-    vim.keymap.set("n", "<A-;>", function()
-        vim.cmd("GitSignsPreviewHunk")
-    end, { noremap = true, silent = true, desc = "GitSignsPreviewHunk" })
-    vim.keymap.set("n", "<C-c>b", function()
-        vim.cmd("GitSignsToggleLineBlame")
-    end, { noremap = true, silent = true, desc = "GitSignsToggleLineBlame" })
-    vim.keymap.set("n", "<C-c>k", function()
-        vim.cmd("GitSignsBlameLine")
-    end, { noremap = true, silent = true, desc = "GitSignsBlameLine" })
+    vim.keymap.set("n", "<Leader>g]", function()
+        require("gitsigns").nav_hunk("next")
+    end, { noremap = true, silent = true, desc = "Git next hunk" })
+    vim.keymap.set("n", "<Leader>g[", function()
+        require("gitsigns").nav_hunk("prev")
+    end, { noremap = true, silent = true, desc = "Git prev hunk" })
+    vim.keymap.set("n", "<Leader>gh", function()
+        require("gitsigns").toggle_linehl()
+    end, { noremap = true, silent = true, desc = "Git toggle hl" })
+    vim.keymap.set("n", "<Leader>gb", function()
+        require("gitsigns").toggle_current_line_blame()
+    end, { noremap = true, silent = true, desc = "Git toggle line blame" })
 end
 
 config.diffview_nvim = function()
@@ -80,11 +107,6 @@ config.diffview_nvim = function()
         return
     end
     diffview.setup({
-        keymaps = {
-            view = {
-                q = "<cmd>DiffviewClose<CR>",
-            },
-        },
         hooks = {
             diff_buf_read = function(bufnr)
                 vim.schedule(function()
@@ -100,6 +122,15 @@ config.diffview_nvim = function()
             end,
         },
     })
+    vim.keymap.set("n", "<Leader>go", function()
+        vim.cmd("DiffviewFileHistory")
+    end, { noremap = true, silent = true, desc = "Git diffview file history" })
+    vim.keymap.set("n", "<Leader>gO", function()
+        vim.cmd("DiffviewOpen")
+    end, { noremap = true, silent = true, desc = "Git diffview open" })
+    vim.keymap.set("n", "<Leader>gc", function()
+        vim.cmd("DiffviewClose")
+    end, { noremap = true, silent = true, desc = "Git diffview close" })
 end
 
 config.lvim_forgit = function()
@@ -107,8 +138,6 @@ config.lvim_forgit = function()
     if not lvim_forgit_status_ok then
         return
     end
-    local colors = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme]
-    local bg = funcs.darken(colors.bg_01, 0.7, colors.corection)
     lvim_forgit.setup({
         ui = {
             float = {
@@ -121,54 +150,54 @@ config.lvim_forgit = function()
         env = {
             FORGIT_FZF_DEFAULT_OPTS = "--height='100%' --preview-window='right:50%' --reverse --color='"
                 .. "fg:"
-                .. colors.fg_07
+                .. _G.LVIM_COLORS.blue
                 .. ",bg:"
-                .. bg
+                .. _G.LVIM_COLORS.bg_dark
                 .. ",hl:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",fg+:"
-                .. colors.fg_07
+                .. _G.LVIM_COLORS.blue
                 .. ",bg+:"
-                .. bg
+                .. _G.LVIM_COLORS.bg_dark
                 .. ",hl+:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",pointer:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",info:"
-                .. colors.orange_03
+                .. _G.LVIM_COLORS.orange
                 .. ",spinner:"
-                .. colors.orange_03
+                .. _G.LVIM_COLORS.orange
                 .. ",header:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",prompt:"
-                .. colors.green_03
+                .. _G.LVIM_COLORS.green
                 .. ",marker:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. "'",
             COLORS = "fg:"
-                .. colors.fg_07
+                .. _G.LVIM_COLORS.blue
                 .. ",bg:"
-                .. bg
+                .. _G.LVIM_COLORS.bg_dark
                 .. ",hl:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",fg+:"
-                .. colors.fg_07
+                .. _G.LVIM_COLORS.blue
                 .. ",bg+:"
-                .. bg
+                .. _G.LVIM_COLORS.bg_dark
                 .. ",hl+:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",pointer:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",info:"
-                .. colors.orange_03
+                .. _G.LVIM_COLORS.orange
                 .. ",spinner:"
-                .. colors.orange_03
+                .. _G.LVIM_COLORS.orange
                 .. ",header:"
-                .. colors.red_03
+                .. _G.LVIM_COLORS.red
                 .. ",prompt:"
-                .. colors.green_03
+                .. _G.LVIM_COLORS.green
                 .. ",marker:"
-                .. colors.red_03,
+                .. _G.LVIM_COLORS.red,
         },
     })
     vim.keymap.set("n", "<C-c>fg", function()

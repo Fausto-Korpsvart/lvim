@@ -4,7 +4,6 @@ local hl = require("configs.base.ui.highlight")
 local M = {}
 
 M.get_winbar = function()
-    local colors = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme]
     local heirline_conditions = require("heirline.conditions")
     local tabby_filename = require("tabby.filename")
     local space = { provider = " " }
@@ -16,7 +15,7 @@ M.get_winbar = function()
                 return "  " .. string.upper(file_type)
             end
         end,
-        hl = { fg = colors.orange_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.blue, bold = true },
     }
 
     local file_icon_name = {
@@ -26,8 +25,8 @@ M.get_winbar = function()
             end
             local hl_group_1 = "FileTextColor"
             vim.api.nvim_set_hl(0, hl_group_1, {
-                fg = colors.green_01,
-                bg = colors.bg,
+                fg = _G.LVIM_COLORS.red,
+                bg = _G.LVIM_COLORS.bg_dark,
                 bold = true,
             })
             local win_id = vim.api.nvim_get_current_win()
@@ -37,7 +36,7 @@ M.get_winbar = function()
                 local f_icon, f_icon_color =
                     require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
                 local hl_group_2 = "FileIconColor" .. extension
-                vim.api.nvim_set_hl(0, hl_group_2, { fg = f_icon_color, bg = colors.bg })
+                vim.api.nvim_set_hl(0, hl_group_2, { fg = f_icon_color, bg = _G.LVIM_COLORS.bg_dark })
                 if isempty(f_icon) then
                     f_icon = ""
                 end
@@ -55,7 +54,7 @@ M.get_winbar = function()
                     .. "  "
             end
         end,
-        hl = { fg = colors.red_02 },
+        hl = { fg = _G.LVIM_COLORS.red },
     }
 
     local navic = {
@@ -99,7 +98,7 @@ M.get_winbar = function()
                 if #data > 1 and i < #data then
                     table.insert(child, {
                         provider = " " .. icons.common.separator .. " ",
-                        hl = { bg = colors.bg, fg = colors.green_01 },
+                        hl = { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.green },
                     })
                 end
                 table.insert(children, child)
@@ -109,7 +108,7 @@ M.get_winbar = function()
         provider = function(self)
             return self.child:eval()
         end,
-        hl = { bg = colors.bg, fg = colors.fg_05, bold = true },
+        hl = { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.blue, bold = true },
         update = "CursorMoved",
     }
 
@@ -118,7 +117,7 @@ M.get_winbar = function()
             local tname, _ = vim.api.nvim_buf_get_name(0):gsub(".*:", "")
             return icons.common.terminal .. tname
         end,
-        hl = { fg = colors.red_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.red, bold = true },
     }
 
     local winbar = {

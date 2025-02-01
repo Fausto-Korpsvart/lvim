@@ -19,9 +19,34 @@ config.fzf_lua = function()
     if not fzf_lua_status_ok then
         return
     end
+    local img_previewer
+    for _, v in ipairs({
+        { cmd = "ueberzug", args = {} },
+        { cmd = "chafa", args = { "{file}", "--format=symbols" } },
+        { cmd = "viu", args = { "-b" } },
+    }) do
+        if vim.fn.executable(v.cmd) == 1 then
+            img_previewer = vim.list_extend({ v.cmd }, v.args)
+            vim.notify(vim.inspect(img_previewer))
+            break
+        end
+    end
     fzf_lua.setup({
+        fzf_colors = true,
         defaults = {
-            multiline = 2,
+            multiline = 1,
+        },
+        previewers = {
+            builtin = {
+                extensions = {
+                    ["png"] = img_previewer,
+                    ["jpg"] = img_previewer,
+                    ["jpeg"] = img_previewer,
+                    ["gif"] = img_previewer,
+                    ["webp"] = img_previewer,
+                },
+                ueberzug_scaler = "fit_contain",
+            },
         },
         fzf_opts = {
             ["--highlight-line"] = true,
@@ -31,27 +56,13 @@ config.fzf_lua = function()
             ["--info"] = "inline-right",
             ["--ansi"] = true,
         },
-        fzf_colors = {
-            ["fg"] = { "fg", "FzfLuaLine" },
-            ["bg"] = { "bg", "FzfLuaNormal" },
-            ["hl"] = { "fg", "FzfLuaItemKindVariable" },
-            ["fg+"] = { "fg", "FzfLuaLinePlus" },
-            ["bg+"] = { "bg", "FzfLuaNormal" },
-            ["hl+"] = { "fg", "FzfLuaItemKindVariable" },
-            ["info"] = { "fg", "FzfLuaPrompt" },
-            ["prompt"] = { "fg", "FzfLuaPrompt" },
-            ["pointer"] = { "fg", "DiagnosticError" },
-            ["marker"] = { "fg", "DiagnosticError" },
-            ["spinner"] = { "fg", "FzfLuaPrompt" },
-            ["header"] = { "fg", "FzfLuaPrompt" },
-            ["gutter"] = { "bg", "FzfLuaNormal" },
-        },
         winopts = function()
             local win_height = math.ceil(vim.api.nvim_get_option_value("lines", {}) * _G.LVIM_SETTINGS.floatheight)
             local win_width = math.ceil(vim.api.nvim_get_option_value("columns", {}) * 1)
             local col = math.ceil((vim.api.nvim_get_option_value("columns", {}) - win_width) * 1)
             local row = math.ceil((vim.api.nvim_get_option_value("lines", {}) - win_height) * 1 - 3)
             return {
+                previewer = "builtin",
                 title = "FZF LUA",
                 title_pos = "center",
                 width = win_width,
@@ -62,7 +73,7 @@ config.fzf_lua = function()
                 preview = {
                     layout = "horizontal",
                     vertical = "down:45%",
-                    horizontal = "right:50%",
+                    horizontal = "right:60%",
                     border = "noborder",
                 },
             }
@@ -203,18 +214,17 @@ config.neocomposer_nvim = function()
     if not neocomposer_status_ok then
         return
     end
-    local theme = _G.LVIM_SETTINGS.theme
     neocomposer.setup({
         window = {
             width = 120,
             height = 26,
         },
         colors = {
-            bg = _G.LVIM_COLORS["colors"][theme].bg,
-            fg = _G.LVIM_COLORS["colors"][theme].teal_01,
-            red = _G.LVIM_COLORS["colors"][theme].red_02,
-            blue = _G.LVIM_COLORS["colors"][theme].blue_02,
-            green = _G.LVIM_COLORS["colors"][theme].green_02,
+            bg = _G.LVIM_COLORS.bg_dark,
+            fg = _G.LVIM_COLORS.cyan,
+            red = _G.LVIM_COLORS.red,
+            blue = _G.LVIM_COLORS.blue,
+            green = _G.LVIM_COLORS.green,
         },
         keymaps = {
             play_macro = "<Leader>q",
@@ -227,12 +237,12 @@ config.neocomposer_nvim = function()
         },
     })
     vim.api.nvim_set_hl(0, "ComposerBorder", {
-        bg = _G.LVIM_COLORS["colors"][theme].bg,
-        fg = _G.LVIM_COLORS["colors"][theme].bg,
+        bg = _G.LVIM_COLORS.bg_dark,
+        fg = _G.LVIM_COLORS.bg_dark,
     })
     vim.api.nvim_set_hl(0, "ComposerTitle", {
-        bg = _G.LVIM_COLORS["colors"][theme].bg,
-        fg = _G.LVIM_COLORS["colors"][theme].red_02,
+        bg = _G.LVIM_COLORS.bg_dark,
+        fg = _G.LVIM_COLORS.red,
     })
 end
 
@@ -242,7 +252,7 @@ config.nvim_hlslens = function()
         return
     end
     hlslens.setup({
-        nearest_float_when = false,
+        nearest_float_when = true,
         override_lens = function(render, posList, nearest, idx, relIdx)
             local sfw = vim.v.searchforward == 1
             local indicator, text, chunks
@@ -262,31 +272,53 @@ config.nvim_hlslens = function()
                 else
                     text = ("[%d/%d]"):format(idx, cnt)
                 end
-                chunks = { { " ", "Ignore" }, { text, "HlSearchLensNear" } }
+                chunks = { { " " }, { text, "HlSearchLensNear" } }
             else
                 text = ("[%s %d]"):format(indicator, idx)
-                chunks = { { " ", "Ignore" }, { text, "HlSearchLens" } }
+                chunks = { { " " }, { text, "HlSearchLens" } }
             end
             render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
         end,
     })
-    local opts = { noremap = true, silent = true }
-    vim.keymap.set(
-        "n",
-        "n",
-        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        opts
-    )
-    vim.keymap.set(
-        "n",
-        "N",
-        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        opts
-    )
-    vim.keymap.set("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
-    vim.keymap.set("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
-    vim.keymap.set("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], opts)
-    vim.keymap.set("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], opts)
+    local active = false
+    local function normal_feedkeys(keys)
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", true)
+    end
+    vim.keymap.set("n", "n", function()
+        normal_feedkeys(vim.v.count1 .. "n")
+        active = true
+        hlslens.start()
+    end, { silent = true })
+    vim.keymap.set("n", "N", function()
+        active = true
+        normal_feedkeys(vim.v.count1 .. "N")
+        hlslens.start()
+    end, { silent = true })
+    vim.keymap.set("n", "*", function()
+        active = true
+        normal_feedkeys("*")
+        hlslens.start()
+    end, { silent = true })
+    vim.keymap.set("n", "#", function()
+        active = true
+        normal_feedkeys("#")
+        hlslens.start()
+    end, { silent = true })
+    vim.keymap.set("n", "g*", function()
+        active = true
+        normal_feedkeys("g*")
+        hlslens.start()
+    end, { silent = true })
+    vim.keymap.set("n", "g#", function()
+        active = true
+        normal_feedkeys("g#")
+        hlslens.start()
+    end, { silent = true })
+    vim.keymap.set("n", "<Esc>", function()
+        active = false
+        vim.cmd("noh")
+        hlslens.stop()
+    end, { silent = true })
 end
 
 config.nvim_bqf = function()
@@ -385,13 +417,6 @@ config.tabby_nvim = function()
     if not tabby_future_win_name_status_ok then
         return
     end
-    local theme = _G.LVIM_SETTINGS.theme
-    local hl_tabline = {
-        color_01 = _G.LVIM_COLORS["colors"][theme].bg_01,
-        color_02 = _G.LVIM_COLORS["colors"][theme].bg_03,
-        color_03 = _G.LVIM_COLORS["colors"][theme].green_01,
-        color_04 = _G.LVIM_COLORS["colors"][theme].green_02,
-    }
     local get_tab_label = function(tab_number)
         local s, v = pcall(function()
             return vim.api.nvim_eval("ctrlspace#util#Gettabvar(" .. tab_number .. ", 'CtrlSpaceLabel')")
@@ -442,8 +467,8 @@ config.tabby_nvim = function()
                 text = {
                     " " .. icons.common.vim .. " ",
                     hl = {
-                        bg = hl_tabline.color_04,
-                        fg = hl_tabline.color_01,
+                        bg = _G.LVIM_COLORS.green,
+                        fg = _G.LVIM_COLORS.bg_dark,
                         style = "bold",
                     },
                 },
@@ -461,9 +486,9 @@ config.tabby_nvim = function()
             win_name = tabby_future_win_name.get(win_id, { mode = "unique" })
             if not vim.tbl_contains(exclude, ft) then
                 if win_id == top_win then
-                    hl = { bg = hl_tabline.color_03, fg = hl_tabline.color_02, style = "bold" }
+                    hl = { bg = _G.LVIM_COLORS.green, fg = _G.LVIM_COLORS.bg_dark, style = "bold" }
                 else
-                    hl = { bg = hl_tabline.color_02, fg = hl_tabline.color_03, style = "bold" }
+                    hl = { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.green, style = "bold" }
                 end
                 table.insert(comps, {
                     type = "win",
@@ -472,22 +497,22 @@ config.tabby_nvim = function()
                         "  " .. win_name .. "  ",
                         hl = hl,
                     },
-                    right_sep = { "", hl = { bg = hl_tabline.color_01, fg = hl_tabline.color_01 } },
+                    right_sep = { "", hl = { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.bg_dark } },
                 })
             end
         end
         table.insert(comps, {
             type = "text",
             text = { "%=" },
-            hl = { bg = hl_tabline.color_01, fg = hl_tabline.color_01 },
+            hl = { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.bg_dark },
         })
         for _, tab_id in ipairs(tabs) do
             local tab_number = vim.api.nvim_tabpage_get_number(tab_id)
             name_of_buf = get_tab_label(tab_number)
             if tab_id == current_tab then
-                hl = { bg = hl_tabline.color_03, fg = hl_tabline.color_02, style = "bold" }
+                hl = { bg = _G.LVIM_COLORS.green, fg = _G.LVIM_COLORS.bg_dark, style = "bold" }
             else
-                hl = { bg = hl_tabline.color_02, fg = hl_tabline.color_03, style = "bold" }
+                hl = { bg = _G.LVIM_COLORS.bg_dark, fg = _G.LVIM_COLORS.green, style = "bold" }
             end
             table.insert(comps, {
                 type = "tab",
@@ -738,39 +763,30 @@ config.code_runner_nvim = function()
         filetype_path = global.lvim_path .. "/.configs/code_runner/files.json",
         project_path = global.lvim_path .. "/.configs/code_runner/projects.json",
         mode = "float",
-        -- Focus on runner window(only works on toggle, term and tab mode)
         focus = true,
-        -- startinsert (see ':h inserting-ex')
         startinsert = true,
     })
 end
 
-config.nvim_spectre = function()
-    local spectre_status_ok, spectre = pcall(require, "spectre")
-    if not spectre_status_ok then
+config.grug_far = function()
+    local grug_far_status_ok, grug_far = pcall(require, "grug-far")
+    if not grug_far_status_ok then
         return
     end
-    spectre.setup()
-    vim.api.nvim_create_user_command("Spectre", "lua require('spectre').open()", {})
-    vim.api.nvim_create_user_command("SpectreToggleLine", "lua require('spectre').toggle_line()", {})
-    vim.api.nvim_create_user_command("SpectreSelectEntry", "lua require('spectre.actions').select_entry()", {})
-    vim.api.nvim_create_user_command(
-        "SpectreRunCurrentReplace",
-        "lua require('spectre.actions').run_current_replace()",
-        {}
-    )
-    vim.api.nvim_create_user_command("SpectreRunReplace", "lua require('spectre.actions').run_replace()", {})
-    vim.api.nvim_create_user_command("SpectreSendToQF", "lua require('spectre.actions').send_to_qf()", {})
-    vim.api.nvim_create_user_command("SpectreReplaceCommand", "lua require('spectre.actions').replace_cmd()", {})
-    vim.api.nvim_create_user_command("SpectreToggleLiveUpdate", "lua require('spectre').toggle_live_update()", {})
-    vim.api.nvim_create_user_command("SpectreChangeView", "lua require('spectre').change_view()", {})
-    vim.api.nvim_create_user_command("SpectreResumeLastSearch", "lua require('spectre').resume_last_search()", {})
-    vim.api.nvim_create_user_command("SpectreIgnoreCase", "lua require('spectre').change_options('ignore-case')", {})
-    vim.api.nvim_create_user_command("SpectreHidden", "lua require('spectre').change_options('hidden')", {})
-    vim.api.nvim_create_user_command("SpectreShowOptions", "lua require('spectre').show_options()", {})
-    vim.keymap.set("n", "<A-s>", function()
-        vim.cmd("Spectre")
-    end, { noremap = true, silent = true, desc = "Spectre" })
+    grug_far.setup({
+        keymaps = {
+            replace = { n = "<localleader>er" },
+            qflist = { n = "<localleader>eq" },
+            syncLocations = { n = "<localleader>es" },
+            syncLine = { n = "<localleader>el" },
+            close = { n = "<localleader>ec" },
+            historyOpen = { n = "<localleader>et" },
+            historyAdd = { n = "<localleader>ea" },
+            refresh = { n = "<localleader>ef" },
+            gotoLocation = { n = "<enter>" },
+            pickHistoryEntry = { n = "<enter>" },
+        },
+    })
 end
 
 config.replacer_nvim = function()
@@ -927,25 +943,26 @@ config.todo_comments_nvim = function()
     end
     todo_comments.setup({
         keywords = {
-            FIX = { icon = icons.common.fix, color = "error", alt = { "FIX", "FIXME", "BUG" } },
-            TODO = { icon = icons.common.todo, color = "info", alt = { "TODO" } },
-            HACK = { icon = icons.common.hack, color = "error", alt = { "HACK" } },
-            WARN = { icon = icons.common.warning, color = "warning", alt = { "WARNING" } },
-            PERF = { icon = icons.common.performance, color = "warning", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-            NOTE = { icon = icons.common.note, color = "hint", alt = { "INFO" } },
-            TEST = { icon = icons.common.test, color = "test", alt = { "TEST", "TESTING", "PASSED", "FAILED" } },
+            FIX = { icon = icons.common.fix, color = _G.LVIM_COLORS.diag_error, alt = { "FIX", "FIXME", "BUG" } },
+            TODO = { icon = icons.common.todo, color = _G.LVIM_COLORS.diag_info, alt = { "TODO" } },
+            HACK = { icon = icons.common.hack, color = _G.LVIM_COLORS.diag_error, alt = { "HACK" } },
+            WARN = { icon = icons.common.warning, color = _G.LVIM_COLORS.diag_warn, alt = { "WARNING" } },
+            PERF = {
+                icon = icons.common.performance,
+                color = _G.LVIM_COLORS.diag_warn,
+                alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" },
+            },
+            NOTE = { icon = icons.common.note, color = _G.LVIM_COLORS.diag_info, alt = { "INFO" } },
+            TEST = {
+                icon = icons.common.test,
+                color = _G.LVIM_COLORS.diag_hint,
+                alt = { "TEST", "TESTING", "PASSED", "FAILED" },
+            },
         },
         highlight = {
             before = "fg",
             keyword = "fg",
             after = "fg",
-        },
-        colors = {
-            error = { "ToDoError" },
-            warning = { "ToDoWarning" },
-            info = { "ToDoInfo" },
-            hint = { "ToDoHint" },
-            test = { "ToDoTest" },
         },
     })
 end

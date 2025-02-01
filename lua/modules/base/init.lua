@@ -180,10 +180,22 @@ modules["nvim-neo-tree/neo-tree.nvim"] = {
     config = ui_config.neo_tree_nvim,
 }
 
-modules["elihunter173/dirbuf.nvim"] = {
-    commit = funcs.get_commit("dirbuf.nvim", plugins_snapshot),
-    cmd = "Dirbuf",
-    config = ui_config.dirbuf_nvim,
+modules["stevearc/oil.nvim"] = {
+    commit = funcs.get_commit("oil.nvim", plugins_snapshot),
+    keys = {
+        {
+            "<Leader>I",
+            function()
+                vim.cmd("Oil")
+            end,
+            desc = "Mini files",
+        },
+    },
+    cmd = "Oil",
+    dependencies = {
+        "nvim-tree/nvim-web-devicons",
+    },
+    config = ui_config.oil_nvim,
 }
 
 -- modules["nvimtools/hydra.nvim"] = {
@@ -533,14 +545,6 @@ modules["nvim-treesitter/nvim-treesitter-context"] = {
     config = editor_config.nvim_treesitter_context,
 }
 
--- modules["chrisgrieser/nvim-various-textobjs"] = {
---     commit = funcs.get_commit("nvim-various-textobjs", plugins_snapshot),
---     event = {
---         "BufRead",
---     },
---     config = editor_config.nvim_various_textobjs,
--- }
-
 modules["rest-nvim/rest.nvim"] = {
     commit = funcs.get_commit("rest.nvim", plugins_snapshot),
     ft = "http",
@@ -643,16 +647,16 @@ modules["CRAG666/code_runner.nvim"] = {
     config = editor_config.code_runner_nvim,
 }
 
-modules["windwp/nvim-spectre"] = {
-    commit = funcs.get_commit("nvim-spectre", plugins_snapshot),
-    event = {
-        "BufRead",
+modules["MagicDuck/grug-far.nvim"] = {
+    commit = funcs.get_commit("grug-far.nvim", plugins_snapshot),
+    keys = {
+        {
+            "<A-s>",
+            ":GrugFar<CR>",
+            desc = "GrugFar",
+        },
     },
-    dependencies = {
-        "nvim-lua/popup.nvim",
-        "nvim-lua/plenary.nvim",
-    },
-    config = editor_config.nvim_spectre,
+    config = editor_config.grug_far,
 }
 
 modules["gabrielpoca/replacer.nvim"] = {
@@ -752,9 +756,20 @@ modules["NeogitOrg/neogit"] = {
     },
     cmd = "Neogit",
     keys = {
-        { "<A-n>", "<Cmd>Neogit<CR>", desc = "Neogit" },
+        { "<Leader>gn", "<Cmd>Neogit<CR>", desc = "Neogit" },
     },
     config = version_control_config.neogit,
+}
+
+modules["tanvirtin/vgit.nvim"] = {
+    branch = "v1.0.x",
+    commit = funcs.get_commit("vgit.nvim", plugins_snapshot),
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-tree/nvim-web-devicons",
+    },
+    event = "VimEnter",
+    config = version_control_config.vgit,
 }
 
 modules["lewis6991/gitsigns.nvim"] = {
@@ -830,18 +845,6 @@ modules["nvim-neotest/neotest"] = {
         "sidlatau/neotest-dart",
     },
     config = languages_config.neotest,
-}
-
-modules["antosha417/nvim-lsp-file-operations"] = {
-    commit = funcs.get_commit("nvim-lsp-file-operations", plugins_snapshot),
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-neo-tree/neo-tree.nvim",
-    },
-    event = {
-        "BufRead",
-    },
-    config = languages_config.nvim_lsp_file_operations,
 }
 
 modules["chrisgrieser/nvim-rip-substitute"] = {

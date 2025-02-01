@@ -1,28 +1,4 @@
-_G.fold_text = function()
-    local result = parse_line(vim.v.foldstart)
-    if not result then
-        return vim.fn.foldtext()
-    end
-    local folded = {
-        { " ─┤ ", "FoldedIcon" },
-        { "+" .. vim.v.foldend - vim.v.foldstart .. " lines", "FoldedText" },
-        { " ├─ ", "FoldedIcon" },
-    }
-    for _, item in ipairs(folded) do
-        table.insert(result, item)
-    end
-    local result2 = parse_line(vim.v.foldend)
-    if result2 then
-        local first = result2[1]
-        result2[1] = { vim.trim(first[1]), first[2] }
-        for _, item in ipairs(result2) do
-            table.insert(result, item)
-        end
-    end
-    return result
-end
-
-parse_line = function(linenr)
+local parse_line = function(linenr)
     local bufnr = vim.api.nvim_get_current_buf()
     local line = vim.api.nvim_buf_get_lines(bufnr, linenr - 1, linenr, false)[1]
     if not line then
@@ -80,6 +56,30 @@ parse_line = function(linenr)
             end, result[i][2])
             result[i] = { result[i][1], result[i][2] }
             i = i + 1
+        end
+    end
+    return result
+end
+
+_G.fold_text = function()
+    local result = parse_line(vim.v.foldstart)
+    if not result then
+        return vim.fn.foldtext()
+    end
+    local folded = {
+        { " ─┤ ", "FoldedIcon" },
+        { "+" .. vim.v.foldend - vim.v.foldstart .. " lines", "FoldedText" },
+        { " ├─ ", "FoldedIcon" },
+    }
+    for _, item in ipairs(folded) do
+        table.insert(result, item)
+    end
+    local result2 = parse_line(vim.v.foldend)
+    if result2 then
+        local first = result2[1]
+        result2[1] = { vim.trim(first[1]), first[2] }
+        for _, item in ipairs(result2) do
+            table.insert(result, item)
         end
     end
     return result

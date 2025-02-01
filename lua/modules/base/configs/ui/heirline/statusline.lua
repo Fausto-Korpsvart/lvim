@@ -8,7 +8,6 @@ M.get_statusline = function()
     local funcs = require("core.funcs")
     local heirline_conditions = require("heirline.conditions")
     local heirline_utils = require("heirline.utils")
-    local colors = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme]
     local space = { provider = " " }
     local align = { provider = "%=" }
 
@@ -19,7 +18,7 @@ M.get_statusline = function()
                 return "  " .. string.upper(file_type)
             end
         end,
-        hl = { fg = colors.orange_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.green, bold = true },
     }
     local vi_mode = {
         init = function(self)
@@ -70,19 +69,19 @@ M.get_statusline = function()
                 t = "T",
             },
             mode_colors = {
-                n = colors.green_02,
-                i = colors.red_02,
-                v = colors.orange_02,
-                V = colors.orange_02,
-                ["\22"] = colors.orange_02,
-                c = colors.teal_01,
-                s = colors.teal_01,
-                S = colors.teal_01,
-                ["\19"] = colors.teal_01,
-                R = colors.cyan_01,
-                r = colors.cyan_01,
-                ["!"] = colors.cyan_01,
-                t = colors.blue_01,
+                n = _G.LVIM_COLORS.green,
+                i = _G.LVIM_COLORS.red,
+                v = _G.LVIM_COLORS.orange,
+                V = _G.LVIM_COLORS.orange,
+                ["\22"] = _G.LVIM_COLORS.orange,
+                c = _G.LVIM_COLORS.purple,
+                s = _G.LVIM_COLORS.purple,
+                S = _G.LVIM_COLORS.purple,
+                ["\19"] = _G.LVIM_COLORS.purple,
+                R = _G.LVIM_COLORS.cyan,
+                r = _G.LVIM_COLORS.cyan,
+                ["!"] = _G.LVIM_COLORS.cyan,
+                t = _G.LVIM_COLORS.blue,
             },
         },
         provider = function(self)
@@ -90,7 +89,11 @@ M.get_statusline = function()
         end,
         hl = function(self)
             _G.LVIM_MODE = self.mode:sub(1, 1)
-            return { bg = self.mode_colors[self.mode:sub(1, 1)], fg = colors.bg_01, bold = true }
+            return {
+                bg = self.mode_colors[self.mode:sub(1, 1)],
+                fg = vim.o.background == "dark" and _G.LVIM_COLORS.bg or _G.LVIM_COLORS.fg,
+                bold = true,
+            }
         end,
         update = {
             "ModeChanged",
@@ -115,7 +118,7 @@ M.get_statusline = function()
             local trail = cwd:sub(-1) == "/" and "" or "/"
             return icon .. cwd .. trail
         end,
-        hl = { fg = colors.blue_01, bold = true },
+        hl = { fg = _G.LVIM_COLORS.blue, bold = true },
         on_click = {
             callback = function()
                 vim.cmd("Neotree position=left")
@@ -168,7 +171,7 @@ M.get_statusline = function()
             local file_size = require("core.funcs").file_size(fsize)
             return " " .. file_size
         end,
-        hl = { fg = colors.blue_01 },
+        hl = { fg = _G.LVIM_COLORS.blue },
     }
     local file_readonly = {
         {
@@ -177,7 +180,7 @@ M.get_statusline = function()
                     return " " .. icons.common.lock
                 end
             end,
-            hl = { fg = colors.red_01 },
+            hl = { fg = _G.LVIM_COLORS.red },
         },
     }
     local file_modified = {
@@ -187,7 +190,7 @@ M.get_statusline = function()
                     return " " .. icons.common.save
                 end
             end,
-            hl = { fg = colors.red_01 },
+            hl = { fg = _G.LVIM_COLORS.red },
         },
     }
     file_name_block = heirline_utils.insert(
@@ -208,7 +211,7 @@ M.get_statusline = function()
                 or self.status_dict.removed ~= 0
                 or self.status_dict.changed ~= 0
         end,
-        hl = { fg = colors.orange_02 },
+        hl = { fg = _G.LVIM_COLORS.orange },
         {
             provider = function(self)
                 return " " .. icons.common.git .. self.status_dict.head .. " "
@@ -220,21 +223,21 @@ M.get_statusline = function()
                 local count = self.status_dict.added or 0
                 return count > 0 and (" " .. icons.git_status.added .. count)
             end,
-            hl = { fg = colors.green_01 },
+            hl = { fg = _G.LVIM_COLORS.green },
         },
         {
             provider = function(self)
                 local count = self.status_dict.removed or 0
                 return count > 0 and (" " .. icons.git_status.deleted .. count)
             end,
-            hl = { fg = colors.red_02 },
+            hl = { fg = _G.LVIM_COLORS.red },
         },
         {
             provider = function(self)
                 local count = self.status_dict.changed or 0
                 return count > 0 and (" " .. icons.git_status.modified .. count)
             end,
-            hl = { fg = colors.orange_02 },
+            hl = { fg = _G.LVIM_COLORS.orange },
         },
         on_click = {
             callback = function()
@@ -290,25 +293,25 @@ M.get_statusline = function()
             provider = function(self)
                 return self.errors > 0 and (self.error_icon .. self.errors .. " ")
             end,
-            hl = { fg = colors.red_02 },
+            hl = { fg = _G.LVIM_COLORS.diag_error },
         },
         {
             provider = function(self)
                 return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
             end,
-            hl = { fg = colors.orange_02 },
+            hl = { fg = _G.LVIM_COLORS.diag_warn },
         },
         {
             provider = function(self)
                 return self.info > 0 and (self.info_icon .. self.info .. " ")
             end,
-            hl = { fg = colors.teal_01 },
+            hl = { fg = _G.LVIM_COLORS.diag_hint },
         },
         {
             provider = function(self)
                 return self.hints > 0 and (self.hint_icon .. self.hints .. " ")
             end,
-            hl = { fg = colors.teal_01 },
+            hl = { fg = _G.LVIM_COLORS.diag_info },
         },
         on_click = {
             callback = function()
@@ -364,7 +367,7 @@ M.get_statusline = function()
             end
             return icons.common.lsp .. p_lsp .. p_linters .. p_formatters
         end,
-        hl = { fg = colors.blue_01, bold = true },
+        hl = { fg = _G.LVIM_COLORS.blue, bold = true },
         on_click = {
             callback = function()
                 vim.defer_fn(function()
@@ -381,7 +384,7 @@ M.get_statusline = function()
                 return " " .. enc:upper()
             end
         end,
-        hl = { fg = colors.orange_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.orange, bold = true },
     }
     local file_format = {
         provider = function()
@@ -395,7 +398,7 @@ M.get_statusline = function()
                 return " " .. symbols[format]
             end
         end,
-        hl = { fg = colors.orange_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.orange, bold = true },
     }
     local spell = {
         condition = require("lvim-linguistics.status").spell_has,
@@ -403,7 +406,7 @@ M.get_statusline = function()
             local status = require("lvim-linguistics.status").spell_get()
             return " SPELL: " .. status
         end,
-        hl = { fg = colors.green_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.green, bold = true },
     }
     local statistic = {
         provider = function()
@@ -414,11 +417,11 @@ M.get_statusline = function()
                 return " " .. (wc.words or 0)
             end
         end,
-        hl = { fg = colors.teal_01, bold = true },
+        hl = { fg = _G.LVIM_COLORS.cyan, bold = true },
     }
     local ruler = {
         provider = " %7(%l/%3L%):%2c %P",
-        hl = { fg = colors.red_02, bold = true },
+        hl = { fg = _G.LVIM_COLORS.red, bold = true },
     }
     local scroll_bar = {
         provider = function()
@@ -429,7 +432,7 @@ M.get_statusline = function()
             local index = math.ceil(line_ratio * #chars)
             return "  " .. chars[index]
         end,
-        hl = { fg = colors.red_02 },
+        hl = { fg = _G.LVIM_COLORS.red },
     }
 
     local statusline = {
@@ -437,13 +440,13 @@ M.get_statusline = function()
         hl = function()
             if heirline_conditions.is_active() then
                 return {
-                    bg = colors.bg,
-                    fg = colors.green_01,
+                    bg = _G.LVIM_COLORS.bg_dark,
+                    fg = _G.LVIM_COLORS.green,
                 }
             else
                 return {
-                    bg = colors.bg,
-                    fg = colors.green_01,
+                    bg = _G.LVIM_COLORS.bg_dark,
+                    fg = _G.LVIM_COLORS.green,
                 }
             end
         end,

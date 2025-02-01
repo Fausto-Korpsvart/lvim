@@ -24,7 +24,6 @@ config.blink_cmp = function()
                     and node ~= nil
                     and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type())
                 )
-
             return not disabled
         end,
         snippets = {

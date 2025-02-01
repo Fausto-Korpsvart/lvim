@@ -1,12 +1,7 @@
 local global = require("core.global")
-local funcs = require("core.funcs")
 local icons = require("configs.base.ui.icons")
 
 local config = {}
-
-config.nvim_web_devicons = function()
-    require("nvim-web-devicons").setup()
-end
 
 config.noice_nvim = function()
     local noice_status_ok, noice = pcall(require, "noice")
@@ -274,7 +269,7 @@ config.noice_nvim = function()
                 backend = "mini",
                 relative = "editor",
                 align = "message-right",
-                timeout = 2000,
+                timeout = 5000,
                 reverse = false,
                 position = {
                     row = -2,
@@ -651,6 +646,10 @@ config.snacks_nvim = function()
                     wrap = true,
                 },
             },
+            scratch = {
+                wo = { winhighlight = "NormalFloat:NormalFloat" },
+                border = { " ", " ", " ", " ", " ", " ", " ", " " },
+            },
         },
     })
     _G.dd = function(...)
@@ -796,6 +795,14 @@ config.nvim_window_picker = function()
     end
     window_picker.setup({
         hint = "statusline-winbar",
+        picker_config = {
+            statusline_winbar_picker = {
+                selection_display = function(char, windowid)
+                    return "%=" .. char .. "%="
+                end,
+                use_winbar = "always",
+            },
+        },
         show_prompt = false,
         filter_rules = {
             autoselect_one = false,
@@ -808,25 +815,25 @@ config.nvim_window_picker = function()
         highlights = {
             statusline = {
                 focused = {
-                    fg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].red_03,
-                    bg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].bg,
+                    fg = _G.LVIM_COLORS.red,
+                    bg = _G.LVIM_COLORS.bg_dark,
                     bold = true,
                 },
                 unfocused = {
-                    fg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].bg,
-                    bg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].red_03,
+                    fg = _G.LVIM_COLORS.bg,
+                    bg = _G.LVIM_COLORS.red,
                     bold = true,
                 },
             },
             winbar = {
                 focused = {
-                    fg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].red_03,
-                    bg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].bg,
+                    fg = _G.LVIM_COLORS.red,
+                    bg = _G.LVIM_COLORS.bg_dark,
                     bold = true,
                 },
                 unfocused = {
-                    fg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].bg,
-                    bg = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme].red_03,
+                    fg = _G.LVIM_COLORS.bg,
+                    bg = _G.LVIM_COLORS.red,
                     bold = true,
                 },
             },
@@ -924,6 +931,9 @@ config.which_key_nvim = function()
                 { "<auto>", mode = "nixsotc" },
                 { "m", mode = { "n" } },
             },
+            win = {
+                border = { " ", " ", " ", " ", " ", " ", " ", " " },
+            },
             icons = {
                 rules = false,
                 mappings = false,
@@ -940,7 +950,7 @@ config.mini_cursorword = function()
         return
     end
     mini_cursorword.setup({
-        delay = 10,
+        delay = 0,
     })
 end
 
@@ -1079,24 +1089,24 @@ config.neo_tree_nvim = function()
     })
 end
 
-config.dirbuf_nvim = function()
-    local dirbuf_status_ok, dirbuf = pcall(require, "dirbuf")
-    if not dirbuf_status_ok then
+config.oil_nvim = function()
+    local oil_status_ok, oil = pcall(require, "oil")
+    if not oil_status_ok then
         return
     end
-    dirbuf.setup({})
+    oil.setup()
 end
 
-config.hydra_nvim = function()
-    local global = require("core.global")
-    local all_hydras = global.modules_path .. "/base/configs/ui/hydra/"
-    local path_list = vim.split(vim.fn.glob(all_hydras .. "*.lua", true), "\n")
-    for _, path in ipairs(path_list) do
-        local name = vim.fn.fnamemodify(path, ":t:r")
-        local f = "modules.base.configs.ui.hydra." .. name
-        require(f)
-    end
-end
+-- config.hydra_nvim = function()
+--     local global = require("core.global")
+--     local all_hydras = global.modules_path .. "/base/configs/ui/hydra/"
+--     local path_list = vim.split(vim.fn.glob(all_hydras .. "*.lua", true), "\n")
+--     for _, path in ipairs(path_list) do
+--         local name = vim.fn.fnamemodify(path, ":t:r")
+--         local f = "modules.base.configs.ui.hydra." .. name
+--         require(f)
+--     end
+-- end
 
 config.heirline_nvim = function()
     local statusline = require("modules.base.configs.ui.heirline.statusline").get_statusline()

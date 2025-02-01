@@ -1,10 +1,9 @@
 local M = {}
 
 M.get_statuscolumn = function()
-    local colors = _G.LVIM_COLORS["colors"][_G.LVIM_SETTINGS.theme]
     local icons = require("configs.base.ui.icons")
     local conditions = require("heirline.conditions")
-    local gitsigns = require("gitsigns")
+    local vgit = require("vgit")
     local buf_types = require("modules.base.configs.ui.heirline.buf_types")
     local file_types = require("modules.base.configs.ui.heirline.file_types")
     local space = { provider = " " }
@@ -13,9 +12,9 @@ M.get_statuscolumn = function()
     for i, v in ipairs(file_types) do
         file_types_statuscolumn[i] = v
     end
-    table.insert(file_types_statuscolumn, "fzf")
     table.insert(file_types_statuscolumn, "org")
 
+    table.insert(file_types_statuscolumn, "fzf")
     local static = {
         get_extmarks_signs = function(_, bufnr, lnum)
             local signs = {}
@@ -89,7 +88,8 @@ M.get_statuscolumn = function()
             )
             for _, extmark in pairs(extmarks) do
                 if
-                    extmark[4].sign_hl_group == "GitSignsAdd"
+                    extmark[4].sign_hl_group == "GitSignsAddLn"
+                    or extmark[4].sign_hl_group == "GitSignsAdd"
                     or extmark[4].sign_hl_group == "GitSignsChange"
                     or extmark[4].sign_hl_group == "GitSignsDelete"
                     or extmark[4].sign_hl_group == "GitSignsTopDelete"
@@ -153,7 +153,7 @@ M.get_statuscolumn = function()
             end,
             GitSigns = function(_, _)
                 vim.defer_fn(function()
-                    gitsigns.preview_hunk()
+                    vgit.buffer_hunk_preview()
                 end, 100)
             end,
         },
@@ -261,7 +261,6 @@ M.get_statuscolumn = function()
                 return not conditions.is_git_repo() or vim.v.virtnum ~= 0
             end,
             provider = icons.common.vline,
-            hl = { fg = colors.bg_04 },
         },
         {
             condition = function()

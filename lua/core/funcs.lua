@@ -389,59 +389,39 @@ M.quit = function()
     end
 end
 
-M.hexToRgb = function(c)
+M.get_highlight = function(hl_group)
+    local hl_details = vim.api.nvim_get_hl(0, { name = hl_group })
+
+    local bg_color = nil
+    local fg_color = nil
+
+    if hl_details.bg then
+        bg_color = string.format("#%06x", hl_details.bg)
+    end
+
+    if hl_details.fg then
+        fg_color = string.format("#%06x", hl_details.fg)
+    end
+
+    return { bg = bg_color, fg = fg_color }
+end
+
+local function rgb(c)
     c = string.lower(c)
     return { tonumber(c:sub(2, 3), 16), tonumber(c:sub(4, 5), 16), tonumber(c:sub(6, 7), 16) }
 end
 
-M.blend = function(foreground, background, alpha)
+M.blend = function(foreground, alpha, background)
     alpha = type(alpha) == "string" and (tonumber(alpha, 16) / 0xff) or alpha
-    local bg = M.hexToRgb(background)
-    local fg = M.hexToRgb(foreground)
+    local bg = rgb(background)
+    local fg = rgb(foreground)
+
     local blendChannel = function(i)
         local ret = (alpha * fg[i] + ((1 - alpha) * bg[i]))
         return math.floor(math.min(math.max(0, ret), 255) + 0.5)
     end
+
     return string.format("#%02x%02x%02x", blendChannel(1), blendChannel(2), blendChannel(3))
-end
-
-M.darken = function(hex, amount, bg)
-    return M.blend(hex, bg or M.bg, amount)
-end
-
-M.lighten = function(hex, amount, fg)
-    return M.blend(hex, fg or M.fg, amount)
-end
-
-local function pattern_list_matches(str, pattern_list)
-    for _, pattern in ipairs(pattern_list) do
-        if str:find(pattern) then
-            return true
-        end
-    end
-    return false
-end
-
-local buf_matchers = {
-    filetype = function(bufnr)
-        return vim.bo[bufnr].filetype
-    end,
-    buftype = function(bufnr)
-        return vim.bo[bufnr].buftype
-    end,
-    bufname = function(bufnr)
-        return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
-    end,
-}
-
-M.buffer_matches = function(patterns, bufnr)
-    bufnr = bufnr or 0
-    for kind, pattern_list in pairs(patterns) do
-        if pattern_list_matches(buf_matchers[kind](bufnr), pattern_list) then
-            return true
-        end
-    end
-    return false
 end
 
 M.tm_autocmd = function(action)
