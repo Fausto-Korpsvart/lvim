@@ -32,6 +32,12 @@ config.vgit = function()
             },
         },
     })
+    vim.keymap.set("n", "<A-]>", function()
+        vgit.hunk_down()
+    end, { noremap = true, silent = true, desc = "Git hunk next" })
+    vim.keymap.set("n", "<A-[>", function()
+        vgit.hunk_up()
+    end, { noremap = true, silent = true, desc = "Git hunk prev" })
     vim.keymap.set("n", "<Leader>gp", function()
         require("vgit").buffer_hunk_preview()
     end, { noremap = true, silent = true, desc = "Git hunk preview" })
@@ -116,10 +122,12 @@ config.diffview_nvim = function()
                         vim.opt_local.relativenumber = false
                         vim.opt_local.cursorcolumn = false
                         vim.opt_local.colorcolumn = "0"
-                        require("indent_blankline.commands").disable()
                     end)
                 end)
             end,
+        },
+        view = {
+            ["<C-q>"] = "<Cmd>DiffviewClose<CR>",
         },
     })
     vim.keymap.set("n", "<Leader>go", function()
@@ -128,8 +136,9 @@ config.diffview_nvim = function()
     vim.keymap.set("n", "<Leader>gO", function()
         vim.cmd("DiffviewOpen")
     end, { noremap = true, silent = true, desc = "Git diffview open" })
-    vim.keymap.set("n", "<Leader>gc", function()
+    vim.keymap.set("n", "<C-q>", function()
         vim.cmd("DiffviewClose")
+        vim.cmd("CloseFloatWindows")
     end, { noremap = true, silent = true, desc = "Git diffview close" })
 end
 
