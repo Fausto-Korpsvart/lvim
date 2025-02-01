@@ -262,7 +262,13 @@ config.lazydev_nvim = function()
     if not lazydev_status_ok then
         return
     end
-    lazydev.setup()
+    lazydev.setup({
+        library = {
+            { path = "/usr/share/nvim/runtime/lua" },
+            { path = "/usr/local/share/nvim/runtime/lua" },
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+    })
 end
 
 config.flutter_tools_nvim = function()
