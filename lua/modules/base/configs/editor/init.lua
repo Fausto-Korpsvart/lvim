@@ -280,42 +280,34 @@ config.nvim_hlslens = function()
             render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
         end,
     })
-    local active = false
     local function normal_feedkeys(keys)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", true)
     end
     vim.keymap.set("n", "n", function()
         normal_feedkeys(vim.v.count1 .. "n")
-        active = true
         hlslens.start()
     end, { silent = true })
     vim.keymap.set("n", "N", function()
-        active = true
         normal_feedkeys(vim.v.count1 .. "N")
         hlslens.start()
     end, { silent = true })
     vim.keymap.set("n", "*", function()
-        active = true
         normal_feedkeys("*")
         hlslens.start()
     end, { silent = true })
     vim.keymap.set("n", "#", function()
-        active = true
         normal_feedkeys("#")
         hlslens.start()
     end, { silent = true })
     vim.keymap.set("n", "g*", function()
-        active = true
         normal_feedkeys("g*")
         hlslens.start()
     end, { silent = true })
     vim.keymap.set("n", "g#", function()
-        active = true
         normal_feedkeys("g#")
         hlslens.start()
     end, { silent = true })
     vim.keymap.set("n", "<Esc>", function()
-        active = false
         vim.cmd("noh")
         hlslens.stop()
     end, { silent = true })
