@@ -6,18 +6,12 @@ local icons = require("configs.base.ui.icons")
 
 local M = {}
 
-local function get_vt()
-    local vt
-    if _G.LVIM_SETTINGS.virtualdiagnostic then
-        vt = true
-    else
-        vt = false
-    end
-    return vt
-end
+local virtualdiagnostic = _G.LVIM_SETTINGS.virtualdiagnostic
+local is_empty = not virtualdiagnostic or next(virtualdiagnostic) == nil
 
 local config_diagnostic = {
-    virtual_lines = get_vt(),
+    virtual_text = (not is_empty and virtualdiagnostic.text) and { prefix = icons.common.dot } or false,
+    virtual_lines = not is_empty and virtualdiagnostic.lines or false,
     update_in_insert = false,
     underline = true,
     severity_sort = true,
@@ -92,28 +86,54 @@ M.init_diagnostics = function()
     vim.api.nvim_create_user_command("LvimInlayHint", lvim_inlay_hint, {})
     vim.diagnostic.config(config_diagnostic)
     local function lvim_virtual_diagnostic()
+        virtualdiagnostic = _G.LVIM_SETTINGS.virtualdiagnostic
         local status
-        if _G.LVIM_SETTINGS.virtualdiagnostic == true then
-            status = "Enabled"
+        if not virtualdiagnostic or next(virtualdiagnostic) == nil then
+            status = "Disable"
+        elseif virtualdiagnostic.lines == true and virtualdiagnostic.text == true then
+            status = "Text and Lines"
+        elseif virtualdiagnostic.text then
+            status = "Only Text"
+        elseif virtualdiagnostic.lines then
+            status = "Only Lines"
         else
-            status = "Disabled"
+            status = "Disable"
         end
         local opts = ui_config.select({
-            "Enable",
+            "Text And Lines",
+            "Only Text",
+            "Only Lines",
             "Disable",
             "Cancel",
         }, { prompt = "VirtualDiagnostic (" .. status .. ")" }, {})
         select(opts, function(choice)
-            if choice == "Enable" then
-                _G.LVIM_SETTINGS["virtualdiagnostic"] = true
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
+            if choice == "Text And Lines" then
+                _G.LVIM_SETTINGS["virtualdiagnostic"] = {
+                    text = true,
+                    lines = true,
+                }
+            elseif choice == "Only Text" then
+                _G.LVIM_SETTINGS["virtualdiagnostic"] = {
+                    text = true,
+                    lines = false,
+                }
+            elseif choice == "Only Lines" then
+                _G.LVIM_SETTINGS["virtualdiagnostic"] = {
+                    text = false,
+                    lines = true,
+                }
             elseif choice == "Disable" then
-                _G.LVIM_SETTINGS["virtualdiagnostic"] = false
-                funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
+                _G.LVIM_SETTINGS["virtualdiagnostic"] = {
+                    text = false,
+                    lines = false,
+                }
             end
+            funcs.write_file(global.lvim_path .. "/.configs/lvim/config.json", _G.LVIM_SETTINGS)
+            virtualdiagnostic = _G.LVIM_SETTINGS.virtualdiagnostic
             local config = vim.diagnostic.config
             config({
-                virtual_lines = get_vt(),
+                virtual_text = (not is_empty and virtualdiagnostic.text) and { prefix = icons.common.dot } or false,
+                virtual_lines = not is_empty and virtualdiagnostic.lines or false,
             })
         end)
     end
