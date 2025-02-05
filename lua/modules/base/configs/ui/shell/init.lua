@@ -1,15 +1,12 @@
 local lvim_shell = require("lvim-shell")
-local config = {
-    mappings = {
-        split = "<C-x>",
-        vsplit = "<C-v>",
-        tabedit = "<C-t>",
-        edit = "<C-e>",
-        close = "<C-q>",
-    },
-}
+local config = {}
 
 local M = {}
+
+M.Neomutt = function(dir)
+    dir = dir or "."
+    lvim_shell.float("TERM=kitty-direct neomutt", "<CR>", config)
+end
 
 M.Ranger = function(dir)
     dir = dir or "."
@@ -21,12 +18,12 @@ M.Vifm = function(dir)
     lvim_shell.float("vifm --choose-files /tmp/lvim-shell " .. dir, "l", config)
 end
 
-M.Lazygit = function(dir)
+M.LazyGit = function(dir)
     dir = dir or "."
-    lvim_shell.float("lazygit -w " .. dir, "<CR>", config)
+    lvim_shell.float("lazygit -w " .. dir, "<CR>", nil)
 end
 
-M.Lazydocker = function()
+M.LazyDocker = function()
     lvim_shell.float("lazydocker", "<CR>", config)
 end
 
