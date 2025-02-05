@@ -20,6 +20,7 @@ end
 
 M.LazyGit = function(dir)
     dir = dir or "."
+    os.execute("printf '\\e]4;241;%s\\a' \"$(xrdb -query | awk '/\\*color3:/ {print $2}')\"")
     lvim_shell.float("lazygit -w " .. dir, "<CR>", nil)
 end
 
