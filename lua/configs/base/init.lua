@@ -314,6 +314,7 @@ configs["base_ctrlspace_pre_config"] = function()
     vim.g.CtrlSpaceSearchTiming = 10
     vim.g.CtrlSpaceEnableFilesCache = 1
     vim.g.CtrlSpaceSymbols = icons.ctrlspace
+    vim.g.CtrlSpaceWorkspaceFile = global.lvim_path .. "/.cache/nvim/ctrlspace_workspaces"
 end
 
 configs["base_ask_packages"] = function()
