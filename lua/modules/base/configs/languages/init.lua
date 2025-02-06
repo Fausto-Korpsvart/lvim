@@ -350,7 +350,6 @@ config.nvim_lightbulb = function()
         virtual_text = {
             text = " " .. icons.common.light_bulb .. " ",
             enabled = true,
-            hl = "LBVirtualText",
         },
         autocmd = {
             enabled = true,
