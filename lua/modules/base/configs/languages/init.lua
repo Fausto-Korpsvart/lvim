@@ -689,6 +689,14 @@ config.markview_nvim = function()
     })
 end
 
+config.helpview_nvim = function()
+    local helpview_status_ok, helpview = pcall(require, "helpview")
+    if not helpview_status_ok then
+        return
+    end
+    helpview.setup()
+end
+
 config.mkdnflow_nvim = function()
     local mkdnflow_nvim_status_ok, mkdnflow_nvim = pcall(require, "mkdnflow")
     if not mkdnflow_nvim_status_ok then

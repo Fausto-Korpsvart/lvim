@@ -1059,6 +1059,10 @@ modules["OXY2DEV/markview.nvim"] = {
     commit = funcs.get_commit("markview-nvim", plugins_snapshot),
     config = languages_config.markview_nvim,
 }
+modules["OXY2DEV/helpview.nvim"] = {
+    commit = funcs.get_commit("markview-nvim", plugins_snapshot),
+    config = languages_config.helpview_nvim,
+}
 
 modules["jakewvincent/mkdnflow.nvim"] = {
     commit = funcs.get_commit("mkdnflow-nvim", plugins_snapshot),
