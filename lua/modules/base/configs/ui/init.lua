@@ -797,7 +797,7 @@ config.nvim_window_picker = function()
         hint = "statusline-winbar",
         picker_config = {
             statusline_winbar_picker = {
-                selection_display = function(char, windowid)
+                selection_display = function(char, _)
                     return "%=" .. char .. "%="
                 end,
                 use_winbar = "always",
@@ -1140,7 +1140,7 @@ config.heirline_nvim = function()
 end
 
 config.lvim_shell = function()
-    local file_managers = { "Ranger", "Vifm" }
+    local file_managers = { "Yazi", "Vifm" }
     local executable = vim.fn.executable
     for _, fm in ipairs(file_managers) do
         if executable(vim.fn.tolower(fm)) == 1 then
@@ -1168,12 +1168,9 @@ config.lvim_shell = function()
     vim.keymap.set("n", "<Leader>sd", function()
         shells.LazyDocker()
     end, { noremap = true, silent = true, desc = "LazyDocker" })
-    vim.keymap.set("n", "<Leader>sr", function()
-        shells.Ranger()
-    end, { noremap = true, silent = true, desc = "Ranger" })
-    vim.keymap.set("n", "<Leader>sv", function()
-        shells.Vifm()
-    end, { noremap = true, silent = true, desc = "Vifm" })
+    vim.keymap.set("n", "<Leader>sy", function()
+        shells.Yazi()
+    end, { noremap = true, silent = true, desc = "Yazi" })
     vim.keymap.set("n", "<Leader>sm", function()
         shells.Neomutt()
     end, { noremap = true, silent = true, desc = "Neomutt" })
