@@ -283,8 +283,8 @@ config.flutter_tools_nvim = function()
             notification_style = "plugin",
         },
         closing_tags = {
-            prefix = " " .. icons.common.separator .. " ",
-            highlight = "LspInlayHint",
+            prefix = icons.common.separator .. " ",
+            highlight = "FlutterInlineHint",
         },
         lsp = {
             auto_attach = true,
@@ -296,7 +296,19 @@ config.flutter_tools_nvim = function()
                 navic.attach(client, bufnr)
             end,
             autostart = true,
-            capabilities = setup_diagnostics.get_capabilities(),
+            capabilities = {
+                textDocument = {
+                    formatting = {
+                        dynamicRegistration = false,
+                    },
+                    codeAction = {
+                        dynamicRegistration = false,
+                    },
+                    hover = {
+                        dynamicRegistration = false,
+                    },
+                },
+            },
             settings = {
                 renameFilesWithClasses = "prompt",
             },
