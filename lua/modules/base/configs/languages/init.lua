@@ -665,9 +665,9 @@ config.pubspec_assist_nvim = function()
     end
     pubspec_assist.setup({
         highlights = {
-            up_to_date = "PackageInfoUpToDateVersion",
-            outdated = "PackageInfoOutdatedVersion",
-            unknown = "Include",
+            up_to_date = "PubspecDependencyUpToDate",
+            outdated = "PubspecDependencyOutdated",
+            unknown = "PubspecDependencyUnknown",
         },
     })
 end
