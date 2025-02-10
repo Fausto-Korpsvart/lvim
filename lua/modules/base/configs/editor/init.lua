@@ -27,7 +27,6 @@ config.fzf_lua = function()
     }) do
         if vim.fn.executable(v.cmd) == 1 then
             img_previewer = vim.list_extend({ v.cmd }, v.args)
-            vim.notify(vim.inspect(img_previewer))
             break
         end
     end
