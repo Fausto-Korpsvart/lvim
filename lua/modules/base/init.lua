@@ -198,6 +198,22 @@ modules["stevearc/oil.nvim"] = {
     config = ui_config.oil_nvim,
 }
 
+modules["lvim-tech/lvim-fm"] = {
+    commit = funcs.get_commit("lvim-fm", plugins_snapshot),
+    cmd = "LvimFileManager",
+    keys = {
+        {
+            "<Leader>=",
+            function()
+                vim.cmd("LvimFileManager")
+            end,
+            desc = "LvimFileManager",
+        },
+    },
+    dependencies = { "lvim-tech/lvim-shell" },
+    config = ui_config.lvim_fm,
+}
+
 -- modules["nvimtools/hydra.nvim"] = {
 --     commit = funcs.get_commit("hydra.nvim", plugins_snapshot),
 --     config = ui_config.hydra_nvim,

@@ -495,9 +495,10 @@ config.snacks_nvim = function()
 ]],
                 },
                 { icon = " ", key = "<Leader><Leader>b", desc = "Projects", action = ":CtrlSpace b" },
-                { icon = " ", key = "<Leader>f", desc = "Find File", action = ":FzfLua files" },
-                { icon = " ", key = "<Leader>n", desc = "New File", action = ":ene | startinsert" },
-                { icon = " ", key = "<Leader>w", desc = "Find Text", action = ":FzfLua live_grep" },
+                { icon = " ", key = "<Leader>=", desc = "Fzf File Manager", action = ":LvimFileManager" },
+                { icon = " ", key = "<Leader>f", desc = "Find File", action = ":FzfLua files" },
+                { icon = " ", key = "<Leader>n", desc = "New File", action = ":ene | startinsert" },
+                { icon = " ", key = "<Leader>w", desc = "Find Text", action = ":FzfLua live_grep" },
                 { icon = " ", key = "<Leader>o", desc = "Recent Files", action = ":FzfLua oldfiles" },
                 {
                     icon = " ",
@@ -1095,6 +1096,14 @@ config.oil_nvim = function()
         return
     end
     oil.setup()
+end
+
+config.lvim_fm = function()
+    local lvim_fm_status_ok, lvim_fm = pcall(require, "lvim-fm")
+    if not lvim_fm_status_ok then
+        return
+    end
+    lvim_fm.setup()
 end
 
 -- config.hydra_nvim = function()
