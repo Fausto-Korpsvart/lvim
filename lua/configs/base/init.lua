@@ -23,6 +23,8 @@ configs["base_lvim"] = function()
             status = "Lvim Darker"
         elseif _G.LVIM_SETTINGS.theme == "lvim-light" then
             status = "Lvim Light"
+        elseif _G.LVIM_SETTINGS.theme == "lvim-kanagawa" then
+            status = "Lvim Kanagawa"
         end
         ui_config = require("lvim-ui-config.config")
         local select = require("lvim-ui-config.select")
@@ -30,6 +32,7 @@ configs["base_lvim"] = function()
             "Lvim Dark",
             "Lvim Darker",
             "Lvim Light",
+            "Lvim Kanagawa",
             "Cancel",
         }, { prompt = "Theme (" .. status .. ")" }, {})
         select(opts, function(choice)

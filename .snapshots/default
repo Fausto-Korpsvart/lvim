@@ -3,6 +3,8 @@
   "LuaSnip": { "branch": "master", "commit": "c9b9a22904c97d0eb69ccb9bab76037838326817" },
   "Navigator.nvim": { "branch": "master", "commit": "91d86506ac2a039504d5205d32a1d4bc7aa57072" },
   "NeoComposer.nvim": { "branch": "main", "commit": "5095b6ebcdf0697cfa50a802770b25657f2e9b81" },
+  "blink-cmp-rg.nvim": { "branch": "main", "commit": "722d8ab5d29369d604133064816657203cf24540" },
+  "blink-emoji.nvim": { "branch": "master", "commit": "a77aebc092ebece1eed108f301452ae774d6b67a" },
   "blink.cmp": { "branch": "main", "commit": "f22ca35d06b2210ebc84280be94caa11cf2ffe9f" },
   "calendar-vim": { "branch": "master", "commit": "a7e73e02c92566bf427b2a1d6a61a8f23542cc21" },
   "ccc.nvim": { "branch": "main", "commit": "b57cbaf8db3ac43c56c9e2c7f3812944638260ed" },
