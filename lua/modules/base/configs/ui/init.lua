@@ -465,13 +465,62 @@ config.noice_nvim = function()
 end
 
 config.snacks_nvim = function()
+    local function patch_snacks_dashboard()
+        local group_states = {}
+        local orig_del_augroup = vim.api.nvim_del_augroup_by_id
+        _G.__safe_del_augroup = function(id)
+            if not group_states[id] then
+                group_states[id] = true
+                pcall(orig_del_augroup, id)
+            end
+        end
+        vim.api.nvim_del_augroup_by_id = _G.__safe_del_augroup
+        local dashboard = require("snacks.dashboard")
+        if dashboard then
+            local orig_open = dashboard.open
+            dashboard.open = function(opts)
+                local instance = orig_open(opts)
+                if instance and instance.augroup then
+                    group_states[instance.augroup] = false
+                    pcall(function()
+                        for _, cmd in
+                            ipairs(vim.api.nvim_get_autocmds({
+                                group = instance.augroup,
+                                event = { "BufWipeout", "BufDelete" },
+                            }))
+                        do
+                            pcall(vim.api.nvim_del_autocmd, cmd.id)
+                        end
+                        vim.api.nvim_create_autocmd({ "BufWipeout", "BufDelete" }, {
+                            group = instance.augroup,
+                            buffer = instance.buf,
+                            callback = function()
+                                if type(instance.fire) == "function" then
+                                    pcall(function()
+                                        instance:fire("Closed")
+                                    end)
+                                end
+                                _G.__safe_del_augroup(instance.augroup)
+                            end,
+                        })
+                    end)
+                end
+                return instance
+            end
+        end
+    end
+
+    patch_snacks_dashboard()
+
     local snacks_status_ok, snacks = pcall(require, "snacks")
     if not snacks_status_ok then
         return
     end
+
     snacks.setup({
         scroll = { enabled = true },
         animate = { enabled = true },
+        image = { enables = true },
         dashboard = {
             enabled = true,
             sections = {
