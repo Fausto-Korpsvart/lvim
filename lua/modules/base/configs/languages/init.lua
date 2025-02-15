@@ -479,6 +479,14 @@ config.nvim_navbuddy = function()
     end, { noremap = true, silent = true, desc = "Navbuddy" })
 end
 
+config.namu_nvim = function()
+    local namu_status_ok, namu = pcall(require, "namu")
+    if not namu_status_ok then
+        return
+    end
+    namu.setup()
+end
+
 config.outline_nvim = function()
     local outline_status_ok, outline = pcall(require, "outline")
     if not outline_status_ok then

@@ -990,6 +990,23 @@ modules["SmiteshP/nvim-navbuddy"] = {
     config = languages_config.nvim_navbuddy,
 }
 
+modules["bassamsdata/namu.nvim"] = {
+    commit = funcs.get_commit("namu.nvim", plugins_snapshot),
+    keys = {
+        {
+            "<Leader>ns",
+            function()
+                local namu = require("namu.namu_symbols")
+                namu.show()
+            end,
+            desc = "Namu symbols",
+        },
+    },
+    config = function()
+        require("namu").setup()
+    end,
+}
+
 modules["hedyhli/outline.nvim"] = {
     commit = funcs.get_commit("outline.nvim", plugins_snapshot),
     event = {
