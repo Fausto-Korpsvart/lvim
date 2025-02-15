@@ -307,6 +307,9 @@ config.flutter_tools_nvim = function()
                     hover = {
                         dynamicRegistration = false,
                     },
+                    rename = {
+                        dynamicRegistration = false,
+                    },
                 },
             },
             settings = {
