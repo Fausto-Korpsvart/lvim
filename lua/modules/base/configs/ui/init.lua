@@ -497,7 +497,7 @@ config.snacks_nvim = function()
                 { icon = " ", key = "<Leader><Leader>b", desc = "Projects", action = ":CtrlSpace b" },
                 { icon = " ", key = "<Leader>=", desc = "Fzf File Manager", action = ":LvimFileManager" },
                 { icon = " ", key = "<Leader>f", desc = "Find File", action = ":FzfLua files" },
-                { icon = " ", key = "<Leader>n", desc = "New File", action = ":ene | startinsert" },
+                { icon = " ", key = "<Leader>nn", desc = "New File", action = ":ene | startinsert" },
                 { icon = " ", key = "<Leader>w", desc = "Find Text", action = ":FzfLua live_grep" },
                 { icon = " ", key = "<Leader>o", desc = "Recent Files", action = ":FzfLua oldfiles" },
                 {
