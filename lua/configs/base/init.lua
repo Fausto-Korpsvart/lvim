@@ -131,7 +131,6 @@ configs["base_lvim"] = function()
             lvim_ui_config.nvim_window_picker()
             editor_config.tabby_nvim()
             editor_config.neocomposer_nvim()
-            -- ui_config.indent_blankline_nvim()
             version_control_config.lvim_forgit()
         end,
     })
