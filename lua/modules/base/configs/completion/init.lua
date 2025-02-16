@@ -43,16 +43,6 @@ config.blink_cmp = function()
         },
         sources = {
             default = default_sources,
-            cmdline = function()
-                local type = vim.fn.getcmdtype()
-                if type == "/" or type == "?" then
-                    return { "buffer" }
-                end
-                if type == ":" then
-                    return { "cmdline", "path" }
-                end
-                return {}
-            end,
             providers = {
                 lsp = {
                     name = "lsp",
@@ -236,7 +226,9 @@ config.blink_cmp = function()
             ["<C-l>"] = { "scroll_documentation_up", "fallback" },
             ["<C-d>"] = { "scroll_documentation_down", "fallback" },
             ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-            cmdline = {
+        },
+        cmdline = {
+            keymap = {
                 ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
                 ["<C-e>"] = { "hide", "fallback" },
                 ["<CR>"] = { "accept", "fallback" },
@@ -249,6 +241,14 @@ config.blink_cmp = function()
                 ["<C-h>"] = { "scroll_documentation_down", "fallback" },
                 ["<C-l>"] = { "scroll_documentation_up", "fallback" },
             },
+            sources = function()
+                local type = vim.fn.getcmdtype()
+                if type == "/" or type == "?" then
+                    return { "buffer" }
+                else
+                    return { "cmdline", "path" }
+                end
+            end,
         },
     })
 end
