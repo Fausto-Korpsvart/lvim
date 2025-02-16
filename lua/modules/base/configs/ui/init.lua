@@ -1144,7 +1144,9 @@ config.oil_nvim = function()
     if not oil_status_ok then
         return
     end
-    oil.setup()
+    oil.setup({
+        default_file_explorer = true,
+    })
 end
 
 config.lvim_fm = function()
@@ -1152,7 +1154,36 @@ config.lvim_fm = function()
     if not lvim_fm_status_ok then
         return
     end
-    lvim_fm.setup()
+    lvim_fm.setup({
+        env = {
+            COLORS = "fg:"
+                .. _G.LVIM_COLORS.blue
+                .. ",bg:"
+                .. _G.LVIM_COLORS.bg_float
+                .. ",hl:"
+                .. _G.LVIM_COLORS.red
+                .. ",fg+:"
+                .. _G.LVIM_COLORS.blue
+                .. ",bg+:"
+                .. _G.LVIM_COLORS.bg_float
+                .. ",hl+:"
+                .. _G.LVIM_COLORS.red
+                .. ",pointer:"
+                .. _G.LVIM_COLORS.red
+                .. ",info:"
+                .. _G.LVIM_COLORS.orange
+                .. ",gutter:"
+                .. _G.LVIM_COLORS.bg_float
+                .. ",spinner:"
+                .. _G.LVIM_COLORS.orange
+                .. ",header:"
+                .. _G.LVIM_COLORS.red
+                .. ",prompt:"
+                .. _G.LVIM_COLORS.green
+                .. ",marker:"
+                .. _G.LVIM_COLORS.red
+        },
+    })
 end
 
 -- config.hydra_nvim = function()

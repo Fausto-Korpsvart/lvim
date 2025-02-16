@@ -162,13 +162,13 @@ config.lvim_forgit = function()
                 .. "fg:"
                 .. _G.LVIM_COLORS.blue
                 .. ",bg:"
-                .. _G.LVIM_COLORS.bg_dark
+                .. _G.LVIM_COLORS.bg_float
                 .. ",hl:"
                 .. _G.LVIM_COLORS.red
                 .. ",fg+:"
                 .. _G.LVIM_COLORS.blue
                 .. ",bg+:"
-                .. _G.LVIM_COLORS.bg_dark
+                .. _G.LVIM_COLORS.bg_float
                 .. ",hl+:"
                 .. _G.LVIM_COLORS.red
                 .. ",pointer:"

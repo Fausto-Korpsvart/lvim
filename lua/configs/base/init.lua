@@ -95,6 +95,7 @@ configs["base_lvim"] = function()
             local color_base = funcs.get_highlight("Folded")
             local bg = color_base.bg
             local bg_dark = funcs.blend(bg, 0.8, "#000000")
+            local bg_float = funcs.get_highlight("NormalFloat").bg
             local gray = funcs.get_highlight("NonText").fg
             local fg = gray
             local fg_light = funcs.blend(fg, 0.4, "#FFFFFF")
@@ -111,6 +112,7 @@ configs["base_lvim"] = function()
             _G.LVIM_COLORS = {
                 bg = vim.o.background == "dark" and bg or fg,
                 bg_dark = vim.o.background == "dark" and bg_dark or fg_light,
+                bg_float = bg_float,
                 fg = vim.o.background == "dark" and fg or bg,
                 fg_light = vim.o.background == "dark" and fg_light or bg_dark,
                 gray = gray,
